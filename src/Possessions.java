@@ -7,7 +7,9 @@ public class Possessions extends Card{
 
 	@Override
 	public void playCard(Player pl) {
-		// TODO Auto-generated method stub
+		Deck hand = pl.getHand();
+		Deck holdingPen = pl.getHoldingPen();
+		//Move the card from the hand to the holding pen.
 		
 	}
 
