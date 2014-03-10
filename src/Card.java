@@ -1,6 +1,10 @@
 import java.awt.image.BufferedImage;
 
-
+/**
+ * 
+ * @author Rebecca Thomas, Conor Brennan, Billy Leete
+ *
+ */
 public abstract class Card {
 	String title;
 	BufferedImage picture;
@@ -38,5 +42,6 @@ public abstract class Card {
 		ID = iD;
 	}
 	
+	public abstract void playCard(Player pl, Board b);
 	
 }
