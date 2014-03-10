@@ -60,5 +60,13 @@ public class Deck {
 		}//end for
 	}//class drawCard
 	
+	/**
+	 * adds card to a deck
+	 * @param card - card to be added
+	 */
+	public void addCard(Card card){
+		deck.add(card);
+	}
+	
 	
 }
