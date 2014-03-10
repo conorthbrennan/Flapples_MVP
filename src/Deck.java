@@ -1,8 +1,16 @@
 import java.util.ArrayList;
 
-
-public abstract class Deck {
+/**
+ * 
+ * @author Conor Brennan, Becky Thomas, Billy Leete
+ *
+ */
+public class Deck {
 	private ArrayList<Card> deck = new ArrayList<Card>();
+	
+	public ArrayList<Card> getDeck(){
+		return deck;
+	}
 	
 	/**
 	 * shuffles the deck
@@ -45,7 +53,20 @@ public abstract class Deck {
 	 * Takes a card from a deck and places it in another
 	 */
 	public void drawCard(Deck receiver, int num){
-		
-		
+		ArrayList<Card> receiverDeck = receiver.getDeck();//gets the deck list from the receiving deck
+		for (int i = 0; i < num; i++) {
+			Card drawn = deck.remove(0);//takes a card from the deck
+			receiverDeck.add(drawn);//puts card in receiving deck
+		}//end for
+	}//class drawCard
+	
+	/**
+	 * adds card to a deck
+	 * @param card - card to be added
+	 */
+	public void addCard(Card card){
+		deck.add(card);
 	}
+	
 }
+

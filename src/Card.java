@@ -42,6 +42,6 @@ public abstract class Card {
 		ID = iD;
 	}
 	
-	public abstract void playCard(Player pl);
+	public abstract void playCard(Player pl, Board b);
 	
 }
