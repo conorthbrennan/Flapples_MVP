@@ -45,7 +45,7 @@ public abstract class Deck {
 	 * Takes a card from a deck and places it in another
 	 */
 	public void drawCard(Deck reciever){
-		//no
+		
 		
 	}
 }
