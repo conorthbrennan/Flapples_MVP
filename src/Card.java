@@ -6,7 +6,7 @@ public abstract class Card {
 	BufferedImage picture;
 	String description;
 	int place, ID;
-	
+	//yes
 	public String getTitle() {
 		return title;
 	}
