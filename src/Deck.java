@@ -40,4 +40,12 @@ public abstract class Deck {
 			System.out.println(card.getTitle());//gets and prints the card's title
 		}//end for
 	}//class lookAt
+	
+	/**
+	 * Takes a card from a deck and places it in another
+	 */
+	public void drawCard(Deck reciever){
+		
+		
+	}
 }
