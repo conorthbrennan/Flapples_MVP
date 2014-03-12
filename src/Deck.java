@@ -116,8 +116,12 @@ public class Deck {
 		return card;//returns the card
 	}//class search
 	
+	/**
+	 * counts the number of cards in the deck
+	 * @return the number of cards in the deck
+	 */
 	public int count(){
-		return deck.size();
+		return deck.size();//returns the number of cards in the deck
 	}
 	
 	
