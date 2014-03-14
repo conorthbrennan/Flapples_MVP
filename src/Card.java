@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
  *
  */
 public abstract class Card {
-	String title;
-	BufferedImage picture;
-	String description;
-	int place, ID;
+	String title;//the cards title
+	BufferedImage picture;//the picture of the card
+	String description;//a short description of the card
+	int place, ID;//a unique Id for the card and a designation of it's place on the board
 	
 	public String getTitle() {
 		return title;
@@ -42,6 +42,11 @@ public abstract class Card {
 		ID = iD;
 	}
 	
+	/**
+	 * 
+	 * @param pl - the player 
+	 * @param b
+	 */
 	public abstract void playCard(Player pl, Board b);
 	
 }
