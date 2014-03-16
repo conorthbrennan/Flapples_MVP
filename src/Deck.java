@@ -5,10 +5,25 @@ import java.util.ArrayList;
  * @author Conor Brennan, Becky Thomas, Billy Leete
  *
  */
-public class Deck {
-	private ArrayList<Card> deck = new ArrayList<Card>();
+public class Deck implements GameObject {
+	GameObject owner;	// because Deck's are used in many circumstances.
+	private ArrayList<Card> deck = new ArrayList<Card>();	// 'Deck' auto creates an empty list
 	
-	public ArrayList<Card> getDeck(){
+	/**
+	 * Specify whose Deck!
+	 * @param creator
+	 */
+	public Deck(GameObject creator) {
+		owner = creator;
+	}
+	public Game getGame() {
+		if (owner instanceof Game)
+			return (Game)owner;
+		else
+			return owner.getGame();
+	}
+	
+	public ArrayList<Card> getDeck(){	// intended to be used by sub-classes?
 		return deck;
 	}
 	
@@ -52,7 +67,8 @@ public class Deck {
 	/**
 	 * Takes a card from a deck and places it in another
 	 */
-	public void drawCard(Deck receiver, int num){
+	public void drawCard(Deck receiver, int num)	// [wgl] Hey! we don't need iteration here, do we?
+	{		// [wgl] can you withdraw a *specific* card? Like, by its 'place' or 'ID'?
 		ArrayList<Card> receiverDeck = receiver.getDeck();//gets the deck list from the receiving deck
 		for (int i = 0; i < num; i++) {
 			Card drawn = deck.remove(0);//takes a card from the deck

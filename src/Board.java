@@ -5,9 +5,18 @@ import java.util.ArrayList;
  * @author Rebecca Thomas
  *
  */
+// 3-16 - Board is not abstract. it should have a constructor.
 public class Board {
+	private Game g;
 	private ArrayList<Player> players;
 	private Deck goals, rules, discard, deckdeck;
+	
+	public Board(Game g0, int numPlayers) {
+		g = g0;
+		players = new ArrayList<Player>();
+	}
+	
+	public Game getGame() { return g; }
 	
 	public Deck getDeckDeck(){
 		return deckdeck;

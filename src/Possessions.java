@@ -3,7 +3,9 @@
  * @author Rebecca Thomas
  *
  */
-public class Possessions extends Card{
+public class Possessions extends Card {
+	// --- ALSO MAYBE SOME KIND OF EXTRA IDENTIFYING DATA-CONTENT.
+	//todo- add constructor.
 
 	@Override
 	public void playCard(Player pl, Board b) {

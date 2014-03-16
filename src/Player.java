@@ -3,10 +3,12 @@
  * @author Rebecca Thomas
  *
  */
-public class Player {
-	
+public class Player implements GameObject {
+	private Game g;	// all players are held in the Board's list. They are level-1 Game Entities.
 	private String name;
 	private Deck hand, holdingPen;
+	
+	public Game getGame() { return g; }
 	
 	public Deck getHand(){
 		return hand;
