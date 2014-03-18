@@ -9,22 +9,21 @@ public class Goal extends Card{
 	// has to reference specific Possessions objects
 	// has to have a method that interfaces with Game's evaluateGoalMatching method
 	
-	public ArrayList<Possessions> necCardsToWin;
+	private ArrayList<Possessions> necCardsToWin;
 	
 	public Goal(Game game, ArrayList<Possessions> winCards) {
 		super();//sets up blank card
 		necCardsToWin=winCards;
 		
-		//setGame(game);//super.g = game;
 		super.g = game;
 		
 		// set up configuration
 	}
 	@Override
 	public void playCard(Player pl, Board b) {
-		//this.location.removeCard(this.ID); 		// how to implement this paradigm?
+		this.location.removeCard(this);; 		// how to implement this paradigm?
 		this.g.handleGoal(this);
-		//this.location = this.g.getBoard().getGoals;
+		this.location = this.g.getBoard().getGoals();
 	}
 	
 	/**

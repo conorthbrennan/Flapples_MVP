@@ -34,7 +34,7 @@ public class Game implements GameObject
 		Deck rulebook = gameboard.getRules();
 		// deal with stuff now...
 		// ... so, dispense with old goal.
-		//gameboard.goals.addCard(arr); // but it's private. We need more methods, here..
+		gameboard.getGoals().addCard(arr);
 		// remove old goals, add new card, and also direct other traffic.
 		
 	}
@@ -59,7 +59,7 @@ public class Game implements GameObject
 		}
 		
 		if(hasAnyoneWon){
-			//stuff
+			// celebrate the win; end the game.
 		}
 	
 	}
@@ -70,6 +70,12 @@ public class Game implements GameObject
 		Scanner user_input = new Scanner( System.in );
 		String ans = user_input.next( );
 		return ans;
+	}
+	
+	
+	// MAIN METHOD - TESTING STUFF OUT
+	public static void main(String args[]) {
+		
 	}
 	
 }

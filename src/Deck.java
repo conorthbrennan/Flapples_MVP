@@ -24,9 +24,9 @@ public class Deck implements GameObject {
 			return owner.getGame();
 	}
 	
-	//public ArrayList<Card> getDeck(){	// intended to be used by sub-classes?
-		//return deck;
-	//}
+	public ArrayList<Card> getDeck(){	// for its sub-classes..(?)
+		return deck;
+	}
 	
 	/**
 	 * shuffles the deck
