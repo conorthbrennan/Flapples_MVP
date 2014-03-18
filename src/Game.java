@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -25,8 +26,8 @@ public class Game implements GameObject
 	}
 	
 	/** ***GOALIE***
-	 * 
-	 * @param arr
+	 * Handles goals
+	 * @param arr the goal in question
 	 */
 	public void handleGoal(Goal arr) {
 		// look up rules
@@ -38,8 +39,22 @@ public class Game implements GameObject
 		
 	}
 	
+	/**
+	 * This checks whether a player has satisfied the goal
+	 */
 	public void evaluateGoalMatching() {
 		// ??? a method used in gameplay
+		//go through each player and check their holding pens against the win conditions of the current goals
+		Deck gls = gameboard.getGoals();
+		ArrayList<Player> plrs= gameboard.getPlayers();
+		for(Player pl : plrs){
+			//for(Goal gl:gls.getDeck()){
+				Deck hp = pl.getHoldingPen();
+				//stuff
+			//}
+			
+		}
+	
 	}
 	
 	// utility methods (to be changed according to circumstance

@@ -1,12 +1,13 @@
 /**
  * 
- * @author Rebecca Thomas
+ * @author Rebecca Thomas, Billy Leete,Conor Brennan
  *
  */
 public class Player implements GameObject {
 	private Game g;	// all players are held in the Board's list. They are level-1 Game Entities.
 	private String name;
 	private Deck hand, holdingPen;
+	private int numPts = 0;
 	
 	public Game getGame() { return g; }
 	
@@ -34,6 +35,14 @@ public class Player implements GameObject {
 		name = n;
 	}
 	
+	public void setPts(int n){
+		numPts=n;
+	}
+	
+	public int getPts(){
+		return numPts;
+	}
+	
 	/**
 	 * This adds the card to the receiving deck of cards. 
 	 * This might be the hand or the deck.
@@ -41,7 +50,7 @@ public class Player implements GameObject {
 	 * @param receiver
 	 */
 	public void addCard(Card card, Deck receiver){
-		//receiver.addCard(card);
+		receiver.addCard(card);
 	}
 	
 }

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Rebecca Thomas
+ * @author Rebecca Thomas,Billy Leete,Conor Brennan
  *
  */
 // 3-16 - Board is not abstract. it should have a constructor.
