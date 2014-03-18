@@ -14,11 +14,7 @@ public abstract class Card implements GameObject {
 	Deck location;
 	//yes
 	public Game getGame() { return g; }
-	
-	public void setGame(Game game){
-		g = game;
-	}
-	
+		
 	public String getTitle() {
 		return title;
 	}

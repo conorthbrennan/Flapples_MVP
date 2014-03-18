@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Deck implements GameObject {
 	GameObject owner;	// because Deck's are used in many circumstances.
-	private ArrayList<Card> deck = new ArrayList<Card>();	// 'Deck' auto creates an empty list
+	public ArrayList<Card> deck = new ArrayList<Card>();	// 'Deck' auto creates an empty list
 	
 	/**
 	 * Specify whose Deck!
@@ -24,9 +24,9 @@ public class Deck implements GameObject {
 			return owner.getGame();
 	}
 	
-	public ArrayList<Card> getDeck(){	// intended to be used by sub-classes?
-		return deck;
-	}
+	//public ArrayList<Card> getDeck(){	// intended to be used by sub-classes?
+		//return deck;
+	//}
 	
 	/**
 	 * shuffles the deck

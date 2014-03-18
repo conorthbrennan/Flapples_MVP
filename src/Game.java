@@ -12,7 +12,7 @@ public class Game implements GameObject
 	
 	
 	// fields that a Game has (and .get methods)
-	private Board gameboard;
+	public Board gameboard;
 	public Board getBoard() { return gameboard;	}
 	
 	
@@ -47,12 +47,19 @@ public class Game implements GameObject
 		//go through each player and check their holding pens against the win conditions of the current goals
 		Deck gls = gameboard.getGoals();
 		ArrayList<Player> plrs= gameboard.getPlayers();
+		boolean hasAnyoneWon = false;
 		for(Player pl : plrs){
-			//for(Goal gl:gls.getDeck()){
+			for(Card gl:gls.deck){
+				Goal goal = (Goal) gl;
 				Deck hp = pl.getHoldingPen();
-				//stuff
-			//}
-			
+				boolean won = goal.hasWon(hp);
+				if(won)
+					hasAnyoneWon = true;	
+			}
+		}
+		
+		if(hasAnyoneWon){
+			//stuff
 		}
 	
 	}
