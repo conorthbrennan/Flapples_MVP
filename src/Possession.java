@@ -1,0 +1,25 @@
+import java.awt.image.BufferedImage;
+
+/**
+ * Possessions: A type of card that you can play into your holding pen.
+ * @author Rebecca Thomas, Billy Leete, Conor Brennan
+ *
+ */
+public class Possession extends Card {
+	// --- ALSO MAYBE SOME KIND OF EXTRA IDENTIFYING DATA-CONTENT.
+
+	@Override
+	public void playCard(Player pl, Board b) {
+		Deck hand = pl.getHand();
+		Deck holdingPen = pl.getHoldingPen();
+		//Move the card from the hand to the holding pen.
+		hand.removeCard(this);
+		holdingPen.addCard(this);
+	}
+	
+	public Possession(String titl, BufferedImage pic, String descrip, int id){
+		super(titl, pic, descrip, id);
+		
+	}
+
+}

@@ -9,9 +9,9 @@ public class Goal extends Card{
 	// has to reference specific Possessions objects
 	// has to have a method that interfaces with Game's evaluateGoalMatching method
 	
-	public ArrayList<Possessions> necCardsToWin;
+	public ArrayList<Possession> necCardsToWin;
 	
-	public Goal(Game game, ArrayList<Possessions> winCards) {
+	public Goal(Game game, ArrayList<Possession> winCards) {
 		super();//sets up blank card
 		necCardsToWin=winCards;
 		
