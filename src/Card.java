@@ -5,11 +5,16 @@ import java.awt.image.BufferedImage;
  * @author Rebecca Thomas, Conor Brennan, Billy Leete
  *
  */
-public abstract class Card {
+public abstract class Card implements GameObject {
+	Game g;
 	String title;//the cards title
 	BufferedImage picture;//the picture of the card
 	String description;//a short description of the card
 	int place, ID;//a unique Id for the card and a designation of it's place on the board
+	Deck location;
+	//yes
+	
+	public Game getGame() { return g; }
 	
 	public String getTitle() {
 		return title;
@@ -42,11 +47,6 @@ public abstract class Card {
 		ID = iD;
 	}
 	
-	/**
-	 * 
-	 * @param pl - the player 
-	 * @param b
-	 */
 	public abstract void playCard(Player pl, Board b);
 	
 }
