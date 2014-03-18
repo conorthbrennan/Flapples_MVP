@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * 
- * @author Billy Leete
+ * The game. It controls things.
+ * @author Billy Leete, Rebecca Thomas, Conor Brennan
  *
  */
 public class Game implements GameObject

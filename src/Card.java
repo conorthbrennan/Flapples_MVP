@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * 
+ * The basic abstract class for Card.
  * @author Rebecca Thomas, Conor Brennan, Billy Leete
  *
  */

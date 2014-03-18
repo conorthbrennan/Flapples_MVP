@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * 
+ * A card that involves a goal.
  * @author Rebecca Thomas, Billy Leete,Conor Brennan
  *
  */

@@ -2,7 +2,7 @@ import java.awt.image.BufferedImage;
 
 
 /**
- * 
+ * A card that changes the rules of the game.
  * @author Becky Thomas,Conor Brennan, Billy Leete
  *
  */

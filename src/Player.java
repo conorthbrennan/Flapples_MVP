@@ -1,5 +1,5 @@
 /**
- * 
+ * A Player.
  * @author Rebecca Thomas, Billy Leete,Conor Brennan
  *
  */

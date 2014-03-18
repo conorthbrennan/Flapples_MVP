@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * Assets: A type of card.
+ * Possessions: A type of card that you can play into your holding pen.
  * @author Rebecca Thomas, Billy Leete, Conor Brennan
  *
  */

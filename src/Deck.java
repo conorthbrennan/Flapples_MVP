@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * 
+ * A list of cards that could be the unread cards set, the hands,the holding pens, the goal set, the rule set, and the discard pile. 
  * @author Conor Brennan, Becky Thomas, Billy Leete
  *
  */

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * 
+ * The board.
  * @author Rebecca Thomas,Billy Leete,Conor Brennan
  *
  */
