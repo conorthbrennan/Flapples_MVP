@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * 
+ * The basic abstract class for Card.
  * @author Rebecca Thomas, Conor Brennan, Billy Leete
  *
  */
@@ -15,7 +15,7 @@ public abstract class Card implements GameObject {
 	//yes
 	
 	public Game getGame() { return g; }
-	
+		
 	public String getTitle() {
 		return title;
 	}
@@ -49,4 +49,21 @@ public abstract class Card implements GameObject {
 	
 	public abstract void playCard(Player pl, Board b);
 	
+	public Card(String titl, BufferedImage pic, String descrip, int id)
+	{
+		title = titl;
+		picture = pic;
+		description =descrip;
+		place = 0;//aka the main deck
+		ID =id;
+		
+	}
+
+	public Card() {
+		//blankety blank card
+		title="Errorzzz";
+		description = "The blank card";
+		place = 0;
+		
+	}
 }

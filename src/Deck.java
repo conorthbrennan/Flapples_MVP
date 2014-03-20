@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 /**
- * 
+ * A list of cards that could be the unread cards set, the hands,the holding pens, the goal set, the rule set, and the discard pile. 
  * @author Conor Brennan, Becky Thomas, Billy Leete
  *
  */
 public class Deck implements GameObject {
 	GameObject owner;	// because Deck's are used in many circumstances.
-	private ArrayList<Card> deck = new ArrayList<Card>();	// 'Deck' auto creates an empty list
+	public ArrayList<Card> deck = new ArrayList<Card>();	// 'Deck' auto creates an empty list
 	
 	/**
 	 * Specify whose Deck!

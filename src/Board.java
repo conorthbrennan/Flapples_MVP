@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 /**
- * 
- * @author Rebecca Thomas
+ * The board.
+ * @author Rebecca Thomas,Billy Leete,Conor Brennan
  *
  */
 public class Board {
