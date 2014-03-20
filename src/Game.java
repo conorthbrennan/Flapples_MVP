@@ -1,6 +1,9 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.Scanner;
  * @author Billy Leete, Rebecca Thomas, Conor Brennan
  *
  */
-public class Game extends Canvas implements GameObject, Runnable
+public class Game extends Canvas implements GameObject, Runnable, KeyListener
 {	// The Game should be the centralized controller.
 	// it DOES things, it receives messages, has many roles.
 	
@@ -115,7 +118,7 @@ public class Game extends Canvas implements GameObject, Runnable
 		myFrame.setBackground(Color.white);
 		 
 		myFrame.add(game);
-		//game.addKeyListener(game);
+		game.addKeyListener(game);
 		//Make sure program ends when window is closed
 		WindowAdapter d=new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
@@ -130,5 +133,37 @@ public class Game extends Canvas implements GameObject, Runnable
 	
 		
 	}
+
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		
+		
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		
+		
+	}
 	
+	/**
+	 * 
+	 * @param g - the graphics
+	 */
+	public void nextTurn(Graphics g){
+		paint(g);
+	}
+	
+	public void paint(Graphics g){
+		
+	}
 }
