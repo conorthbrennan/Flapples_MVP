@@ -17,8 +17,8 @@ public class Possession extends Card {
 		holdingPen.addCard(this);
 	}
 	
-	public Possession(String titl, BufferedImage pic, String descrip, int id){
-		super(titl, pic, descrip, id);
+	public Possession(String titl, BufferedImage pic, String descrip, int id, Deck locate){
+		super(titl, pic, descrip, id, locate);
 		
 	}
 

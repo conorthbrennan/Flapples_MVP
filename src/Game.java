@@ -17,7 +17,7 @@ public class Game extends Canvas implements GameObject, Runnable
 	
 	
 	// fields that a Game has (and .get methods)
-	private Thread thisThread;
+	private Thread thisThread;//bleepbloop
 	
 	public Board gameboard;
 	public Board getBoard() { return gameboard;	}

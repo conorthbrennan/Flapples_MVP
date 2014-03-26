@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
  */
 public class RuleCard extends Card{
 
-	public RuleCard(String titl, BufferedImage pic, String descrip, int id) {
-		super(titl, pic, descrip, id);
+	public RuleCard(String titl, BufferedImage pic, String descrip, int id, Deck locate) {
+		super(titl, pic, descrip, id, locate);
 	}
 
 	@Override

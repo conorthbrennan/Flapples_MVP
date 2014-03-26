@@ -7,15 +7,18 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Card implements GameObject {
 	Game g;
-	String title;//the cards title
-	BufferedImage picture;//the picture of the card
+	private String title;//the cards title
+	private BufferedImage picture;//the picture of the card
 	String description;//a short description of the card
-	int place, ID;//a unique Id for the card and a designation of it's place on the board
-	Deck location;
-	//yes
+	int ID;//a unique Id for the card
+	Deck location;//a designation of it's place on the board
+	
 	
 	public Game getGame() { return g; }
-		
+		/**
+		 * 
+		 * @return the cards title
+		 */
 	public String getTitle() {
 		return title;
 	}
@@ -34,12 +37,6 @@ public abstract class Card implements GameObject {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getPlace() {
-		return place;
-	}
-	public void setPlace(int place) {
-		this.place = place;
-	}
 	public int getID() {
 		return ID;
 	}
@@ -49,12 +46,12 @@ public abstract class Card implements GameObject {
 	
 	public abstract void playCard(Player pl, Board b);
 	
-	public Card(String titl, BufferedImage pic, String descrip, int id)
+	public Card(String titl, BufferedImage pic, String descrip, int id, Deck locate)
 	{
 		title = titl;
 		picture = pic;
 		description =descrip;
-		place = 0;//aka the main deck
+		location = locate;
 		ID =id;
 		
 	}
@@ -63,7 +60,6 @@ public abstract class Card implements GameObject {
 		//blankety blank card
 		title="Errorzzz";
 		description = "The blank card";
-		place = 0;
 		
 	}
 }
