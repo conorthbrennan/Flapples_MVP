@@ -12,8 +12,9 @@ public class Goal extends Card{
 	
 	public ArrayList<Possession> necCardsToWin;
 	
-	public Goal(Game game, ArrayList<Possession> winCards) {
+	public Goal(Game game, String titl, ArrayList<Possession> winCards) {
 		super();//sets up blank card
+		this.setTitle(titl);
 		necCardsToWin=winCards;
 		
 		//setGame(game);//super.g = game;

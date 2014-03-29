@@ -17,6 +17,14 @@ public class Possession extends Card {
 		holdingPen.addCard(this);
 	}
 	
+	/**
+	 * 
+	 * @param titl the title
+	 * @param pic the icon of the possession
+	 * @param descrip the description of the possession
+	 * @param id the id number of the card
+	 * @param locate the deck location of the card
+	 */
 	public Possession(String titl, BufferedImage pic, String descrip, int id, Deck locate){
 		super(titl, pic, descrip, id, locate);
 		
