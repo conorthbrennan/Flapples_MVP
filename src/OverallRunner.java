@@ -1,15 +1,18 @@
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 public class OverallRunner
@@ -25,12 +28,20 @@ public class OverallRunner
 		//all sorts of stuff here
 		//each player should get 3 cards to start off with
 		
+			
+		Board exampleBoard = new Board(g,1);
+		drawEverything(new Player("Bob"),exampleBoard);
 		
-		//I shall use JPanes and JFrames to display everything. 
-		//This will need to take in which Player is going in order to work properly.
-		drawEverything();
-
-
+		//ArrayList<Player> plrs = g.gameboard.getPlayers();
+	
+		/*boolean won = false;//THIS SHOULD BE CHANGED
+		while(!won)
+		{
+			for(Player pl : plrs){
+				drawEverything(pl);
+				//game play here
+			}
+		}*/
 
 	}
 	
@@ -47,7 +58,7 @@ public class OverallRunner
 	/**
 	 * This draws everything.
 	 */
-	private static void drawEverything() {
+	private static void drawEverything(Player p, Board b) {
 		//set the look and feel
 		try{
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -64,8 +75,8 @@ public class OverallRunner
 		BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 		uberpane.setLayout(box);
 
-		JPanel playerInfoRow = setUpPlayerInfoRow();//This will hold the player's name at the top of the screen.
-		JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+		JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+		JPanel goalsRow = setUpGoalsRow(b);//This will hold the goals in the second row.
 		JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
 		JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
 		JPanel holdingPenRow = setUpHoldingPenRow();//This will be the player's holding pen in the fifth row.
@@ -74,10 +85,10 @@ public class OverallRunner
 		//Add all the items to the pane
 		uberpane.add(playerInfoRow);
 		uberpane.add(goalsRow);
-		uberpane.add(rulesRow);
-		uberpane.add(discardRow);
-		uberpane.add(holdingPenRow);
-		uberpane.add(handRow);
+		//uberpane.add(rulesRow);
+		//uberpane.add(discardRow);
+		//uberpane.add(holdingPenRow);
+		//uberpane.add(handRow);
 		
 		testframe.pack();
 		testframe.setVisible(true);
@@ -140,13 +151,36 @@ public class OverallRunner
 		// TODO Auto-generated method stub
 		return null;
 	}
-	private static JPanel setUpGoalsRow() {
-		// TODO Auto-generated method stub
-		return null;
+	private static JPanel setUpGoalsRow(Board b) {
+		JPanel goalsRow = new JPanel();
+		
+		JTextArea blob = new JTextArea();
+		String str= "";
+		
+		Deck goals = b.getGoals();
+		ArrayList<Card> cards = goals.deck;
+		for(Card gl: cards)
+		{
+			str += gl.getTitle() + '\n';
+		}
+		
+		blob.setText(str);
+		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
+		goalsRow.add(blob);
+		
+		return goalsRow;
 	}
-	private static JPanel setUpPlayerInfoRow() {
-		// TODO Auto-generated method stub
-		return null;
+	private static JPanel setUpPlayerInfoRow(Player p) {
+		JPanel plInfo = new JPanel();
+	
+		JTextArea blob = new JTextArea();
+		String str= "Player: " + p.getName();
+		blob.setText(str);
+		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
+		
+		plInfo.add(blob);
+		
+		return plInfo;
 	}
 
 }

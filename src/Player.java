@@ -9,6 +9,10 @@ public class Player implements GameObject {
 	private Deck hand, holdingPen;
 	private int numPts = 0;
 	
+	public Player(String n){
+		name = n;
+	}
+	
 	public Game getGame() { return g; }
 	
 	public Deck getHand(){
