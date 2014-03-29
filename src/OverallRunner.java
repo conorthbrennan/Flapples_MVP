@@ -150,46 +150,6 @@ public class OverallRunner
 		testframe.setVisible(true);
 		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		
-/*		JButton top = new JButton("Top");
-		JButton bot = new JButton("Bottom");
-
-		ActionListener alist = new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("You clicked the " + e.getActionCommand());
-
-			}
-		};
-
-		top.addActionListener(alist);
-		bot.addActionListener(alist);
-
-		MouseListener mlist1 = new MouseAdapter(){
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-				System.out.println("YOU went over TOP" );
-
-			}			
-		};
-
-		MouseListener mlist2 = new MouseAdapter(){
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-				System.out.println("YOU went over BOTTOM");
-
-			}			
-		};
-
-		top.setToolTipText("THIS IS THE TOP");
-		bot.setToolTipText("THIS IS THE BOTTOM");
-
-		top.addMouseListener(mlist1);
-		bot.addMouseListener(mlist2);
-*/
-		
 	}
 	private static JPanel setUpHandRow(Player p) {
 		JPanel handRow = new JPanel();
