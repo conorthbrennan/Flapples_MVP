@@ -12,15 +12,18 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+
 public class OverallRunner
 {
 
+	private static BufferedImage img;
 	public static void main(String [] args)
 	{
 		Game g = new Game();
@@ -32,7 +35,6 @@ public class OverallRunner
 		//all sorts of stuff here
 		//each player should get 3 cards to start off with
 		
-		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("exampleCardIcon.png"));
 			
@@ -198,6 +200,8 @@ public class OverallRunner
 		for(Card cd: cards)//for each card
 		{
 			JButton b = new JButton(cd.getTitle());
+			
+			b.setIcon(new ImageIcon(img));
 			b = addListeners(b);
 			handRow.add(b);
 		}
