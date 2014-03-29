@@ -1,5 +1,10 @@
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -49,11 +55,33 @@ public class OverallRunner
 		ArrayList<Possession> reqdCards = new ArrayList<Possession>();
 		reqdCards.add(apple);
 		reqdCards.add(banana);
-		Goal ootootoot = new Goal(g,"ootootoot", reqdCards);
+		Goal ootootoot = new Goal(g,"ootootoot",img,"Have: Apple and Banana",3,goals,reqdCards);
 		goals.addCard(ootootoot);
+		
+		goals.addCard(banana);//WRONGWRONGWRWONGOWNGONWONGOWNGOWNGOGWNGWO
+		
+		//Let's make the rules
+		Deck rules = new Deck(g);
+		RuleCard draw2 = new RuleCard("Draw 2",img,"Draw 2 Cards",4,rules);
+		rules.addCard(draw2);
+		
+		rules.addCard(banana);//WRONG WRONG WRONG WRONG
+		
+		//Let's make the discard pile
+		Deck discard = new Deck(g);
+		discard.addCard(draw2);//WRONGWRONGWRNGWONGWOENGOEWNEOGNOEWGNEWON
+		discard.addCard(banana);//WRONWORNWOENROWENROWENR
+		
+		//Let's make the holding pen
+		Deck hp = new Deck(g);
+		hp.addCard(banana);//WERONEWORNWENFWEINFIWENFLIWEF
+		hp.addCard(apple);//WRONWEORMEWORwWEORNEWONRW
 		
 		//Let's actually set everything
 		exampleBoard.goals = goals;
+		exampleBoard.rules = rules;
+		exampleBoard.discard = discard;
+		examplePlayer.setHoldingPen(hp);
 		examplePlayer.setHand(hand);
 		
 		drawEverything(examplePlayer,exampleBoard);
@@ -103,18 +131,18 @@ public class OverallRunner
 
 		JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
 		JPanel goalsRow = setUpGoalsRow(b);//This will hold the goals in the second row.
-		JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-		JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-		JPanel holdingPenRow = setUpHoldingPenRow();//This will be the player's holding pen in the fifth row.
-		JPanel handRow = setUpHandRow();//This will hold the player's hand.
+		JPanel rulesRow = setUpRulesRow(b);//This will hold the rules in the third row.
+		JPanel discardRow = setUpDiscardPileRow(b);//This will hold the discard pile in the fourth row.
+		JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+		JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
 		
 		//Add all the items to the pane
 		uberpane.add(playerInfoRow);
 		uberpane.add(goalsRow);
-		//uberpane.add(rulesRow);
-		//uberpane.add(discardRow);
-		//uberpane.add(holdingPenRow);
-		//uberpane.add(handRow);
+		uberpane.add(rulesRow);
+		uberpane.add(discardRow);
+		uberpane.add(holdingPenRow);
+		uberpane.add(handRow);
 		
 		testframe.pack();
 		testframe.setVisible(true);
@@ -161,39 +189,66 @@ public class OverallRunner
 */
 		
 	}
-	private static JPanel setUpHandRow() {
-		// TODO Auto-generated method stub
-		return null;
+	private static JPanel setUpHandRow(Player p) {
+		JPanel handRow = new JPanel();
+		//THIS SHALL BE A ROW OF BUTTONS
+		
+		Deck hand = p.getHand();
+		ArrayList<Card> cards = hand.deck;//Get list of cards from the deck given
+		for(Card cd: cards)//for each card
+		{
+			JButton b = new JButton(cd.getTitle());
+			b = addListeners(b);
+			handRow.add(b);
+		}
+	
+		return handRow;
 	}
-	private static JPanel setUpHoldingPenRow() {
-		// TODO Auto-generated method stub
-		return null;
+	private static JButton addListeners(JButton b) {
+		//The ActionListener for all the buttons:
+		//To be used to make sure the buttons could work:
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.getActionCommand());
+
+			}
+		};
+		
+		b.addActionListener(alist);
+		return b;
 	}
-	private static JPanel setUpDiscardPileRow() {
-		// TODO Auto-generated method stub
-		return null;
+
+	private static JPanel setUpHoldingPenRow(Player p) {
+		JPanel hpRow = new JPanel();
+		String str = "Holding Pen: \n";
+		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
+		JTextArea blob = listTitles(hp,str);
+		hpRow.add(blob);//add the text to the panel
+		return hpRow;
 	}
-	private static JPanel setUpRulesRow() {
-		// TODO Auto-generated method stub
-		return null;
+	private static JPanel setUpDiscardPileRow(Board b) {
+		JPanel discardRow = new JPanel();
+		String str = "Discard Pile: \n";
+		Deck discards = b.getDiscards();//Get the deck of all the discards from the board.
+		JTextArea blob = listTitles(discards,str);
+		discardRow.add(blob);//add the text to the panel
+		return discardRow;
+	}
+	private static JPanel setUpRulesRow(Board b) {
+		JPanel rulesRow = new JPanel();
+		String str = "Rules: \n";
+		Deck rules = b.getRules();//Get the deck of all the rules from the board.
+		JTextArea blob = listTitles(rules,str);
+		rulesRow.add(blob);//add the text to the panel
+		return rulesRow;
 	}
 	private static JPanel setUpGoalsRow(Board b) {
 		JPanel goalsRow = new JPanel();
-		
-		JTextArea blob = new JTextArea();
-		String str= "";
-		
-		Deck goals = b.getGoals();
-		ArrayList<Card> cards = goals.deck;
-		for(Card gl: cards)
-		{
-			str += gl.getTitle() + '\n';
-		}
-		
-		blob.setText(str);
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
-		goalsRow.add(blob);
-		
+		String str= "Goals: \n";
+		Deck goals = b.getGoals();//Get the deck of all the goals from the board.
+		JTextArea blob = listTitles(goals,str);
+		goalsRow.add(blob);//add the text to the panel
 		return goalsRow;
 	}
 	private static JPanel setUpPlayerInfoRow(Player p) {
@@ -201,12 +256,34 @@ public class OverallRunner
 	
 		JTextArea blob = new JTextArea();
 		String str= "Player: " + p.getName();
+		//I might add more player info later!
 		blob.setText(str);
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
 		
 		plInfo.add(blob);
 		
 		return plInfo;
+	}
+	
+	/**
+	 * Gets all the titles from a Deck and makes a JTextArea out of it. 
+	 * @param d the Deck you want the titles of
+	 * @param str the starting string for the text area
+	 * @return the text area with all the titles
+	 */
+	private static JTextArea listTitles(Deck d, String str){
+		JTextArea blob = new JTextArea();
+
+		ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
+		for(Card cd: cards)//for each card
+		{
+			str += cd.getTitle() + '\n';//add its title to the string str
+		}
+		
+		blob.setText(str);//set the text of the textArea to str
+		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));//make the TextArea big enough to read
+		
+		return blob;
 	}
 
 }

@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -12,12 +13,11 @@ public class Goal extends Card{
 	
 	public ArrayList<Possession> necCardsToWin;
 	
-	public Goal(Game game, String titl, ArrayList<Possession> winCards) {
-		super();//sets up blank card
-		this.setTitle(titl);
+	public Goal(Game game, String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<Possession> winCards) {
+		super(titl, pic, descrip, id, locate);
+	
 		necCardsToWin=winCards;
 		
-		//setGame(game);//super.g = game;
 		super.g = game;
 		
 		// set up configuration
