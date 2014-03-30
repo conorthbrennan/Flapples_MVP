@@ -24,6 +24,8 @@ public class OverallRunner
 {
 
 	private static BufferedImage img;
+	private static JFrame overallFrame;
+	
 	public static void main(String [] args)
 	{
 		Game g = new Game();
@@ -56,7 +58,9 @@ public class OverallRunner
 				System.out.println(cd.getTitle());
 			}
 		}
-	
+		
+		//Make sure to initialize the original frame
+		overallFrame = new JFrame("Flapples");
 		drawEverything(plrs.get(0),exampleBoard);
 		
 		//System.out.println("" + drawpile.count());
@@ -116,7 +120,7 @@ public class OverallRunner
 	}
 
 	/**
-	 * This draws everything.
+	 * This does the graphical interface.
 	 */
 	private static void drawEverything(Player p, Board b) {
 		//set the look and feel
@@ -128,9 +132,9 @@ public class OverallRunner
 			System.out.println("I laugh at your misery!");
 		}
 
-		JFrame testframe = new JFrame("Flapples");
-		Container uberpane = testframe.getContentPane();
-
+		Container uberpane = overallFrame.getContentPane();
+		uberpane.removeAll();
+		
 		//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
 		BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 		uberpane.setLayout(box);
@@ -140,7 +144,7 @@ public class OverallRunner
 		JPanel rulesRow = setUpRulesRow(b);//This will hold the rules in the third row.
 		JPanel discardRow = setUpDiscardPileRow(b);//This will hold the discard pile in the fourth row.
 		JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-		JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+		JPanel handRow = setUpHandRow(p,b);//This will hold the player's hand.
 		
 		//Add all the items to the pane
 		uberpane.add(playerInfoRow);
@@ -150,12 +154,12 @@ public class OverallRunner
 		uberpane.add(holdingPenRow);
 		uberpane.add(handRow);
 		
-		testframe.pack();
-		testframe.setVisible(true);
-		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		overallFrame.pack();
+		overallFrame.setVisible(true);
+		overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
-	private static JPanel setUpHandRow(Player p) {
+	private static JPanel setUpHandRow(Player p,Board brd) {
 		JPanel handRow = new JPanel();
 		//THIS SHALL BE A ROW OF BUTTONS
 		
@@ -166,9 +170,9 @@ public class OverallRunner
 			for(Card cd: cards)//for each card
 			{
 				JButton b = new JButton(cd.getTitle());
-				
+				b.setText(cd.getTitle() + ": " + cd.getDescription());
 				b.setIcon(new ImageIcon(cd.getPicture()));
-				b = addListeners(b);
+				b = addListeners(b,cd,p,brd);
 				handRow.add(b);
 			}
 		}
@@ -177,18 +181,28 @@ public class OverallRunner
 			blob.setText("The hand is null");
 			handRow.add(blob);
 		}
-		System.out.println("happening");
 	
 		return handRow;
 	}
-	private static JButton addListeners(JButton b) {
+	/**
+	 * This adds the proper action listener to each JButton representing a card.
+	 * @param b The JButton that represents this card.
+	 * @param cd The actual card
+	 * @param p The player playing the card
+	 * @param brd The board at that moment
+	 * @return Returns the JButton that represents the card.
+	 */
+	private static JButton addListeners(JButton b,final Card cd, final Player p, final Board brd) {
 		//The ActionListener for all the buttons:
 		//To be used to make sure the buttons could work:
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
-
+				//THIS SHOULD PROLLY ACTUALLY PLAY THE CARD INSTEAD......
+				cd.playCard(p, brd);
+				//REDRAW EVERYTHING!
+				drawEverything(p, brd);
 			}
 		};
 		
