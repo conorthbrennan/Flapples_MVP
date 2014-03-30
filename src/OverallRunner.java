@@ -23,18 +23,11 @@ public class OverallRunner
 	public static void main(String [] args)
 	{
 		g = new Game();
-		StandardDeck sd = new StandardDeck(g);
-		//CONOR WRITE THIS CODE FOR ME!
-		//STANDARD DECK, I WANT TO BE LIKE sd.getCard("Banana") and get that card
-		
-		//all sorts of stuff here
 		
 		Board exampleBoard = g.gameboard;
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
 		
 		ArrayList<Player> plrs = exampleBoard.players;
-		
-		//System.out.println("" + drawpile.count());
 		
 		//Give each player three cards.
 		for(int i = 0; i < 3; i++)
@@ -51,15 +44,6 @@ public class OverallRunner
 		handleTurnChange(plrs.get(0));
 		drawEverything(plrs.get(0),exampleBoard);
 		//As the end turn button gets pressed, the turns commence.
-		
-		//for the purposes of seeing what's really in peoples' hands
-		/*for(Player pl: plrs)
-		{
-			System.out.println(pl.name);
-			for(Card cd: pl.hand.deck){
-				System.out.println(cd.getTitle());
-			}
-		}*/
 
 	}
 
@@ -153,18 +137,26 @@ public class OverallRunner
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("You played the " + cd.getTitle() + " card!");
-				//THIS SHOULD PROLLY ACTUALLY PLAY THE CARD INSTEAD......
-				cd.playCard(p, g.gameboard);
-				//REDRAW EVERYTHING!
-				drawEverything(p, g.gameboard);
+				if(canPlay(p))
+				{
+					System.out.println("You played the " + cd.getTitle() + " card!");
+					cd.playCard(p, g.gameboard);
+					p.numPlaysSoFar +=1;
+					//REDRAW EVERYTHING!
+					drawEverything(p, g.gameboard);
+				}
+				else
+				{
+					System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
+				}
+				
 			}
 		};
 		
 		b.addActionListener(alist);
 		return b;
 	}
-	
+
 	/**
 	 * This sets up the JPanel about the Player's Holding Pen. Each card is represented by its title.
 	 * @param p The Player
@@ -256,11 +248,20 @@ public class OverallRunner
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("You ended your turn.");
-				//Redraw everything:
-				Player nextPlayer = getNextPlayer(currentPlayer);
-				handleTurnChange(nextPlayer);
-				drawEverything(nextPlayer,g.gameboard);
+				
+				if(canEnd(currentPlayer))
+				{
+					System.out.println("You ended your turn.");
+					//Redraw everything:
+					Player nextPlayer = getNextPlayer(currentPlayer);
+					handleTurnChange(nextPlayer);
+					drawEverything(nextPlayer,g.gameboard);
+				}
+				else
+				{
+					System.out.println("You haven't played enough cards to end your turn.");
+				}	
+				
 			}
 		};
 		
@@ -313,6 +314,11 @@ public class OverallRunner
 		return blob;
 	}
 	
+	/**
+	 * This determines what needs to be done before the next Player is allowed to play any cards.
+	 * Right now that is limited to drawing cards beforehand. And also, reseting numPlaysSoFar.
+	 * @param nextPlayer
+	 */
 	private static void handleTurnChange(Player nextPlayer) {
 		
 		//Drawing cards
@@ -320,6 +326,7 @@ public class OverallRunner
 		//If there isn't one in play, it defaults to Draw 1.
 		Deck dRules = g.gameboard.rules;
 
+		nextPlayer.numPlaysSoFar = 0;
 		/* If the deck of rules contains the "Draw 2" card, which has id 4, 
 		 * then draw 2 cards
 		 * */
@@ -358,5 +365,78 @@ public class OverallRunner
 		}
 			
 	}
+	
+	/**
+	 * This determines whether or not you can play another card
+	 * @param p The Player
+	 * @return whether you can play another card
+	 */
+	private static boolean canPlay(Player p) {
+		Deck dRules = g.gameboard.rules;
+		
+		/*
+		 * If the deck of rules contains the "Play 2" card, which had id 5,
+		 * then play 2 cards.
+		 */
+		if(dRules.search(5) != null)
+		{
+			if(p.numPlaysSoFar < 2)
+			{
+				//you can play another card, if you've only played one or zero cards
+				return true;
+			}
+			else
+			{
+				//you can't play another card
+				return false;
+			}
+		}
+		else
+		{
+			//default to "Play 1"
+			if(p.numPlaysSoFar ==0)
+				return true;
+			else
+				return false;
+		}
 
+	}
+
+	/**
+	 * This determines whether or not you can end your turn
+	 * @param p The Player
+	 * @return whether you can end your turn
+	 */
+	private static boolean canEnd(Player p) {
+		Deck dRules = g.gameboard.rules;
+		
+		//NOT DONE PROPER YET!!!!!DFGJSDKLRFGJSDLKJFSLDKJFKLSDFJLKSDJFLKSDJFLKDSFKLJ
+		
+		/*
+		 * If the deck of rules contains the "Play 2" card, which had id 5,
+		 * then you must have played 2 cards.
+		 */
+		if(dRules.search(5) != null)
+		{
+			if(p.numPlaysSoFar < 2)
+			{
+				//you need to play more cards
+				return false;
+			}
+			else
+			{
+				//you can end your turn
+				return true;
+			}
+		}
+		else
+		{
+			//default to "Play 1"
+			if(p.numPlaysSoFar ==0)
+				return false;
+			else
+				return true;
+		}
+
+	}
 }

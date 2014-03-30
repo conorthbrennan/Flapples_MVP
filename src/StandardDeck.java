@@ -38,8 +38,12 @@ public class StandardDeck extends Deck{
 			//RuleCard draw2 = new RuleCard("Draw 2",ImageIO.read(new File("draw2.png")),"Draw 2 Cards",4,this);
 			RuleCard draw2 = new RuleCard("Draw 2",img,"Draw 2 Cards",4,this);
 			deck.add(draw2);
+			//RuleCard play2 = new RuleCard("Play 2",ImageIO.read(new File("play2.png")),"Play 2 Cards",5,this);
+			RuleCard play2 = new RuleCard("Play 2",img,"Play 2 Cards",5,this);
+			deck.add(play2);
 			
-			//temporary extra cards so I can give each player 3 cardsfor testing:
+			
+			//temporary extra cards so I can give each player 3 cards for testing:
 			deck.add(apple);
 			deck.add(apple);
 			deck.add(apple);

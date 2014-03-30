@@ -8,6 +8,7 @@ public class Player implements GameObject {
 	public String name;
 	public Deck hand, holdingPen;
 	public int numPts = 0;
+	public int numPlaysSoFar = 0;
 	
 	public Player(String n){
 		name = n;
