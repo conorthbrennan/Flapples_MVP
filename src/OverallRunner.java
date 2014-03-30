@@ -20,6 +20,7 @@ public class OverallRunner
 	private static int plIndex;
 	private static Game g;
 	private static boolean discarding;
+	private static String message;
 	
 	public static void main(String [] args)
 	{
@@ -152,7 +153,8 @@ public class OverallRunner
 				{
 					if(canPlay(p))
 					{
-						System.out.println("You played the " + cd.getTitle() + " card!");
+						//System.out.println("You played the " + cd.getTitle() + " card!");
+						message = "You played the " + cd.getTitle() + " card!";
 						cd.playCard(p, g.gameboard);
 						p.numPlaysSoFar +=1;
 						//REDRAW EVERYTHING!
@@ -160,7 +162,9 @@ public class OverallRunner
 					}
 					else
 					{
-						System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
+						//System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
+						message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
+						drawEverything(p,g.gameboard);
 					}
 				}
 				else//you are discarding
@@ -168,7 +172,8 @@ public class OverallRunner
 					cd.location.removeCard(cd);
 					g.gameboard.addCard(cd, g.gameboard.discard);
 					cd.location = g.gameboard.discard;
-					System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
+					//System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
+					message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
 					discarding = false;
 					drawEverything(p,g.gameboard);
 				}
@@ -283,9 +288,13 @@ public class OverallRunner
 		JButton endTurn = endTurnButton(p);
 		JButton discard = discardButton(p);
 		
+		JTextArea messages = new JTextArea();
+		messages.setText(message);
+		
 		plInfo.add(blob);
 		plInfo.add(endTurn);
 		plInfo.add(discard);
+		plInfo.add(messages);
 		return plInfo;
 	}
 	
@@ -322,6 +331,7 @@ public class OverallRunner
 				{
 					//Redraw everything:
 					Player nextPlayer = getNextPlayer(currentPlayer);
+					message = "Now it is " + nextPlayer.name + "'s turn.";
 					handleTurnChange(nextPlayer);
 					drawEverything(nextPlayer,g.gameboard);
 				}	
@@ -487,27 +497,32 @@ public class OverallRunner
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
-			System.out.println("You haven't played enough cards.");
+			//System.out.println("You haven't played enough cards.");
+			message = "You haven't played enough cards.";
+			drawEverything(p,g.gameboard);
 			return false;
 		}
 		else
 		{
 			if(p.hand.count() > maxHand)
 			{
-				System.out.println("You have too many cards in your hand.");
+				//System.out.println("You have too many cards in your hand.");
+				message = "You have too many cards in your hand.";
+				drawEverything(p,g.gameboard);
 				return false;
 			}
 			else
 			{
 				if(p.holdingPen.count()>maxPoss)
 				{
-					System.out.println("You have too many cards in your holding pen.");
+					//System.out.println("You have too many cards in your holding pen.");
+					message = "You have too many cards in your holding pen.";
+					drawEverything(p,g.gameboard);
 					return false;
 				}
 				else
 				{
-					System.out.println("You ended your turn.");
-					return true;	
+					return true;
 				}
 			}
 		}
