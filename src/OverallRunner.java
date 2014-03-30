@@ -1,5 +1,6 @@
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class OverallRunner
 		overallFrame = new JFrame("Flapples");
 		plIndex =0;
 		
+		//Make sure the first player draws the right number of cards:
+		handleTurnChange(plrs.get(0));
 		drawEverything(plrs.get(0),exampleBoard);
 		//As the end turn button gets pressed, the turns commence.
 		
@@ -80,12 +83,12 @@ public class OverallRunner
 		BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 		uberpane.setLayout(box);
 
-		JPanel playerInfoRow = setUpPlayerInfoRow(p,b);//This will hold the player's name at the top of the screen.
-		JPanel goalsRow = setUpGoalsRow(b);//This will hold the goals in the second row.
-		JPanel rulesRow = setUpRulesRow(b);//This will hold the rules in the third row.
-		JPanel discardRow = setUpDiscardPileRow(b);//This will hold the discard pile in the fourth row.
+		JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+		JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+		JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+		JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
 		JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-		JPanel handRow = setUpHandRow(p,b);//This will hold the player's hand.
+		JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
 		
 		//Add all the items to the pane
 		uberpane.add(playerInfoRow);
@@ -107,9 +110,12 @@ public class OverallRunner
 	 * @param brd The Board
 	 * @return The JPanel of JButtons describing the PLayer's hand.
 	 */
-	private static JPanel setUpHandRow(Player p,Board brd) {
+	private static JPanel setUpHandRow(Player p) {
 		JPanel handRow = new JPanel();
-		//THIS SHALL BE A ROW OF BUTTONS
+		//THIS SHALL BE A GRID OF BUTTONS
+		
+		GridLayout grid = new GridLayout(0,3);//any number of rows with 3 cards
+		handRow.setLayout(grid);
 		
 		Deck hand = p.getHand();
 		if(hand!= null)
@@ -120,7 +126,7 @@ public class OverallRunner
 				JButton b = new JButton(cd.getTitle());
 				b.setText(cd.getTitle() + ": " + cd.getDescription());
 				b.setIcon(new ImageIcon(cd.getPicture()));
-				b = addListeners(b,cd,p,brd);
+				b = addListeners(b,cd,p);
 				handRow.add(b);
 			}
 		}
@@ -132,6 +138,7 @@ public class OverallRunner
 	
 		return handRow;
 	}
+	
 	/**
 	 * This adds the proper action listener to each JButton representing a card.
 	 * @param b The JButton that represents this card.
@@ -140,7 +147,7 @@ public class OverallRunner
 	 * @param brd The board at that moment
 	 * @return Returns the JButton that represents the card.
 	 */
-	private static JButton addListeners(JButton b,final Card cd, final Player p, final Board brd) {
+	private static JButton addListeners(JButton b,final Card cd, final Player p) {
 		//The ActionListener for all the buttons:
 		//To be used to make sure the buttons could work:
 		ActionListener alist = new ActionListener(){
@@ -148,9 +155,9 @@ public class OverallRunner
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("You played the " + cd.getTitle() + " card!");
 				//THIS SHOULD PROLLY ACTUALLY PLAY THE CARD INSTEAD......
-				cd.playCard(p, brd);
+				cd.playCard(p, g.gameboard);
 				//REDRAW EVERYTHING!
-				drawEverything(p, brd);
+				drawEverything(p, g.gameboard);
 			}
 		};
 		
@@ -177,10 +184,10 @@ public class OverallRunner
 	 * @param b The Board
 	 * @return The JPanel with the JTextArea of cards' titles
 	 */
-	private static JPanel setUpDiscardPileRow(Board b) {
+	private static JPanel setUpDiscardPileRow() {
 		JPanel discardRow = new JPanel();
 		String str = "Discard Pile: \n";
-		Deck discards = b.getDiscards();//Get the deck of all the discards from the board.
+		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
 		JTextArea blob = listTitles(discards,str);
 		discardRow.add(blob);//add the text to the panel
 		return discardRow;
@@ -191,10 +198,10 @@ public class OverallRunner
 	 * @param b The Board
 	 * @return The JPanel with the JTextArea of cards' titles.
 	 */
-	private static JPanel setUpRulesRow(Board b) {
+	private static JPanel setUpRulesRow() {
 		JPanel rulesRow = new JPanel();
 		String str = "Rules: \n";
-		Deck rules = b.getRules();//Get the deck of all the rules from the board.
+		Deck rules = g.gameboard.getRules();//Get the deck of all the rules from the board.
 		JTextArea blob = listTitles(rules,str);
 		rulesRow.add(blob);//add the text to the panel
 		return rulesRow;
@@ -205,10 +212,10 @@ public class OverallRunner
 	 * @param b The Board
 	 * @return The JPanel with JTextArea which has the titles of all its cards
 	 */
-	private static JPanel setUpGoalsRow(Board b) {
+	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
 		String str= "Goals: \n";
-		Deck goals = b.getGoals();//Get the deck of all the goals from the board.
+		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
 		JTextArea blob = listTitles(goals,str);
 		goalsRow.add(blob);//add the text to the panel
 		return goalsRow;
@@ -220,7 +227,7 @@ public class OverallRunner
 	 * @param brd The Board
 	 * @return The JPanel which has the JTextField of the Player's name and the end turn JButton
 	 */
-	private static JPanel setUpPlayerInfoRow(Player p, Board brd) {
+	private static JPanel setUpPlayerInfoRow(Player p) {
 		JPanel plInfo = new JPanel();
 	
 		JTextField blob = new JTextField();
@@ -229,7 +236,7 @@ public class OverallRunner
 		blob.setText(str);
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
 		
-		JButton endTurn = endTurnButton(p,brd);
+		JButton endTurn = endTurnButton(p);
 		
 		plInfo.add(blob);
 		plInfo.add(endTurn);
@@ -243,7 +250,7 @@ public class OverallRunner
 	 * @param brd The board as it is.
 	 * @return The JButton, which will end your turn if you click it.
 	 */
-	private static JButton endTurnButton(final Player currentPlayer, final Board brd) {
+	private static JButton endTurnButton(final Player currentPlayer) {
 		JButton endTurn = new JButton("End Your Turn.");
 
 		ActionListener alist = new ActionListener(){
@@ -252,8 +259,8 @@ public class OverallRunner
 				System.out.println("You ended your turn.");
 				//Redraw everything:
 				Player nextPlayer = getNextPlayer(currentPlayer);
-				handleTurnChange(nextPlayer,brd);
-				drawEverything(nextPlayer,brd);
+				handleTurnChange(nextPlayer);
+				drawEverything(nextPlayer,g.gameboard);
 			}
 		};
 		
@@ -306,11 +313,50 @@ public class OverallRunner
 		return blob;
 	}
 	
-	private static void handleTurnChange(Player nextPlayer, Board brd) {
+	private static void handleTurnChange(Player nextPlayer) {
+		
+		//Drawing cards
 		//This should give the player the number of cards as specified by the "Draw X" card in play.
 		//If there isn't one in play, it defaults to Draw 1.
+		Deck dRules = g.gameboard.rules;
+
+		/* If the deck of rules contains the "Draw 2" card, which has id 4, 
+		 * then draw 2 cards
+		 * */
+		if(dRules.search(4)!=null)
+		{
+			//Add two cards from the draw pile to the next player's hand
+			checkDrawPile(2);
+			g.gameboard.drawPile.drawCard(nextPlayer.hand, 2);
+		}
+		else
+		{
+			checkDrawPile(1);
+			g.gameboard.drawPile.drawCard(nextPlayer.hand, 1);
+		}
 		
+	}
+
+	/**
+	 * This checks whether or not there are enough cards in the draw pile to be drawn.
+	 * If not, then the discard pile will be shuffled and used for the draw pile.
+	 * @param drawNum the number of cards to draw
+	 */
+	private static void checkDrawPile(int drawNum) {
+		if(g.gameboard.drawPile.count() < drawNum)
+		{
+			//Add the shuffled discard pile to the drawpile:
+			g.gameboard.discard.shuffle();
+			g.gameboard.discard.drawCard(g.gameboard.drawPile, g.gameboard.discard.count());
+		}
 		
+		if(g.gameboard.drawPile.count() < drawNum)
+		{
+			//LOL. There aren't enough cards in the draw pile and the discard pile combined to draw enough cards.
+			//Have fun with errors!!
+			System.out.println("The standard deck hasn't been filled with cards yet, so screw you!");
+		}
+			
 	}
 
 }
