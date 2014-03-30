@@ -27,10 +27,9 @@ public class OverallRunner
 	public static void main(String [] args)
 	{
 		Game g = new Game();
-		//StandardDeck sd = new StandardDeck();
-		Deck sd = new Deck(g);
-		sd = setUpStandardDeck(sd);//CONOR WRITE THIS CODE FOR ME!
-		//THERE SHOULD BE A NEW CLASS, STANDARD DECK, SO THAT I CAN BE LIKE sd.getCard("Banana") and get that card
+		StandardDeck sd = new StandardDeck(g);
+		//CONOR WRITE THIS CODE FOR ME!
+		//STANDARD DECK, I WANT TO BE LIKE sd.getCard("Banana") and get that card
 		
 		//all sorts of stuff here
 		//each player should get 3 cards to start off with
@@ -99,16 +98,6 @@ public class OverallRunner
 			}
 		}*/
 
-	}
-	
-	/**
-	 * This makes the incoming deck the original set of cards.
-	 * @param sd
-	 * @return the initial deck of cards.
-	 */
-	private static Deck setUpStandardDeck(Deck sd) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**
