@@ -75,47 +75,6 @@ public class OverallRunner
 				//game play here
 			}
 		}*/
-		
-		/*//Let's make the player's hand the apple and the banana
-		Deck hand = new Deck(g);
-		Possession apple = new Possession("Apple",img,"It's an apple. Pretty self-explanatory.",1,hand);
-		Possession banana = new Possession("Banana",img,"bananananana",2,hand);
-		hand.addCard(apple);
-		hand.addCard(banana);
-		
-		//Let's make the goal(s) the ootootoot card
-		Deck goals = new Deck(g);
-		ArrayList<Possession> reqdCards = new ArrayList<Possession>();
-		reqdCards.add(apple);
-		reqdCards.add(banana);
-		Goal ootootoot = new Goal(g,"ootootoot",img,"Have: Apple and Banana",3,goals,reqdCards);
-		goals.addCard(ootootoot);
-		
-		goals.addCard(banana);//WRONGWRONGWRWONGOWNGONWONGOWNGOWNGOGWNGWO
-		
-		//Let's make the rules
-		Deck rules = new Deck(g);
-		RuleCard draw2 = new RuleCard("Draw 2",img,"Draw 2 Cards",4,rules);
-		rules.addCard(draw2);
-		
-		rules.addCard(banana);//WRONG WRONG WRONG WRONG
-		
-		//Let's make the discard pile
-		Deck discard = new Deck(g);
-		discard.addCard(draw2);//WRONGWRONGWRNGWONGWOENGOEWNEOGNOEWGNEWON
-		discard.addCard(banana);//WRONWORNWOENROWENROWENR
-		
-		//Let's make the holding pen
-		Deck hp = new Deck(g);
-		hp.addCard(banana);//WERONEWORNWENFWEINFIWENFLIWEF
-		hp.addCard(apple);//WRONWEORMEWORwWEORNEWONRW
-		
-		//Let's actually set everything
-		exampleBoard.goals = goals;
-		exampleBoard.rules = rules;
-		exampleBoard.discard = discard;
-		examplePlayer.setHoldingPen(hp);
-		examplePlayer.setHand(hand);*/
 
 	}
 
@@ -198,7 +157,7 @@ public class OverallRunner
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(e.getActionCommand());
+				System.out.println("You played the " + cd.getTitle() + " card!");
 				//THIS SHOULD PROLLY ACTUALLY PLAY THE CARD INSTEAD......
 				cd.playCard(p, brd);
 				//REDRAW EVERYTHING!
