@@ -3,13 +3,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 
@@ -100,6 +100,13 @@ public class OverallRunner
 		overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
+	
+	/**
+	 * This sets up the JPanel dealing with the Player's hand. Each card is a JButton that can be played.
+	 * @param p The Player
+	 * @param brd The Board
+	 * @return The JPanel of JButtons describing the PLayer's hand.
+	 */
 	private static JPanel setUpHandRow(Player p,Board brd) {
 		JPanel handRow = new JPanel();
 		//THIS SHALL BE A ROW OF BUTTONS
@@ -150,6 +157,12 @@ public class OverallRunner
 		b.addActionListener(alist);
 		return b;
 	}
+	
+	/**
+	 * This sets up the JPanel about the Player's Holding Pen. Each card is represented by its title.
+	 * @param p The Player
+	 * @return the JPanel with the JTextArea of the cards' titles.
+	 */
 	private static JPanel setUpHoldingPenRow(Player p) {
 		JPanel hpRow = new JPanel();
 		String str = "Holding Pen: \n";
@@ -158,6 +171,12 @@ public class OverallRunner
 		hpRow.add(blob);//add the text to the panel
 		return hpRow;
 	}
+	
+	/**
+	 * This sets up the JPanel about the Discard Pile. Each card is represented by its title.
+	 * @param b The Board
+	 * @return The JPanel with the JTextArea of cards' titles
+	 */
 	private static JPanel setUpDiscardPileRow(Board b) {
 		JPanel discardRow = new JPanel();
 		String str = "Discard Pile: \n";
@@ -166,6 +185,12 @@ public class OverallRunner
 		discardRow.add(blob);//add the text to the panel
 		return discardRow;
 	}
+	
+	/**
+	 * This sets up the JPanel about the Rules in play. Each card is represented by its title.
+	 * @param b The Board
+	 * @return The JPanel with the JTextArea of cards' titles.
+	 */
 	private static JPanel setUpRulesRow(Board b) {
 		JPanel rulesRow = new JPanel();
 		String str = "Rules: \n";
@@ -174,6 +199,12 @@ public class OverallRunner
 		rulesRow.add(blob);//add the text to the panel
 		return rulesRow;
 	}
+	
+	/**
+	 * This sets up the JPanel about the Goals in play. Each card is represented by its title.
+	 * @param b The Board
+	 * @return The JPanel with JTextArea which has the titles of all its cards
+	 */
 	private static JPanel setUpGoalsRow(Board b) {
 		JPanel goalsRow = new JPanel();
 		String str= "Goals: \n";
@@ -182,10 +213,17 @@ public class OverallRunner
 		goalsRow.add(blob);//add the text to the panel
 		return goalsRow;
 	}
+	
+	/**
+	 * This sets up the JPanel that has the current Player's name and the JButton to end your turn.
+	 * @param p The Player
+	 * @param brd The Board
+	 * @return The JPanel which has the JTextField of the Player's name and the end turn JButton
+	 */
 	private static JPanel setUpPlayerInfoRow(Player p, Board brd) {
 		JPanel plInfo = new JPanel();
 	
-		JTextArea blob = new JTextArea();
+		JTextField blob = new JTextField();
 		String str= "Player: " + p.getName();
 		//I might add more player info later!
 		blob.setText(str);
@@ -214,6 +252,7 @@ public class OverallRunner
 				System.out.println("You ended your turn.");
 				//Redraw everything:
 				Player nextPlayer = getNextPlayer(currentPlayer);
+				handleTurnChange(nextPlayer,brd);
 				drawEverything(nextPlayer,brd);
 			}
 		};
@@ -223,6 +262,11 @@ public class OverallRunner
 		return endTurn;
 	}
 
+	/**
+	 * Takes the current Player and returns the next Player
+	 * @param currentPlayer the current Player
+	 * @return the next Player
+	 */
 	private static Player getNextPlayer(Player currentPlayer) {
 		ArrayList<Player> plrs = g.gameboard.players;
 		
@@ -260,6 +304,13 @@ public class OverallRunner
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 3));//make the TextArea big enough to read
 		
 		return blob;
+	}
+	
+	private static void handleTurnChange(Player nextPlayer, Board brd) {
+		//This should give the player the number of cards as specified by the "Draw X" card in play.
+		//If there isn't one in play, it defaults to Draw 1.
+		
+		
 	}
 
 }
