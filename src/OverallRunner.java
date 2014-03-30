@@ -27,34 +27,41 @@ public class OverallRunner
 	public static void main(String [] args)
 	{
 		Game g = new Game();
+		
 		StandardDeck sd = new StandardDeck(g);
 		//CONOR WRITE THIS CODE FOR ME!
 		//STANDARD DECK, I WANT TO BE LIKE sd.getCard("Banana") and get that card
 		
 		//all sorts of stuff here
-		//each player should get 3 cards to start off with
 		
 		Board exampleBoard = g.gameboard;
-		Player examplePlayer = g.gameboard.players.get(0);
+		//When making the board, all the decks get initialized (including the drawpile and players' hands and hps)
 		
-		drawEverything(examplePlayer,exampleBoard);
-	
+		ArrayList<Player> plrs = exampleBoard.players;
 		
-		Deck drawpile = new StandardDeck(g);//The draw pile starts out as a standard deck, but isn't sd.
-		drawpile.shuffle();//Shuffle the drawpile
-		ArrayList<Player> plrs = g.gameboard.players;
+		//System.out.println("" + drawpile.count());
 		
 		//Give each player three cards.
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 3; i++)
 			for(Player pl : plrs)
 			{
-				pl.hand = new Deck(g);
-				drawpile.drawCard(pl.getHand(), 1);
+				exampleBoard.drawPile.drawCard(pl.getHand(), 1);
 			}
 				
+		//for the purposes of seeing what's really in peoples' hands
+		for(Player pl: plrs)
+		{
+			System.out.println(pl.name);
+			for(Card cd: pl.hand.deck){
+				System.out.println(cd.getTitle());
+			}
+		}
+	
+		drawEverything(plrs.get(0),exampleBoard);
 		
-		
-		
+		//System.out.println("" + drawpile.count());
+		//System.out.println("plr0 " + plrs.get(0).hand.count());
+		//System.out.println("plr1 " + plrs.get(1).hand.count());
 		
 		/*boolean won = false;//THIS SHOULD BE CHANGED
 		while(!won)
@@ -65,16 +72,7 @@ public class OverallRunner
 			}
 		}*/
 		
-		
-		
-		/*try {
-			img = ImageIO.read(new File("exampleCardIcon.png"));
-			
-		} catch (IOException e1) {
-			System.out.println("WHERE IS/ARE YOUR FILE(S)?");			
-		}
-		
-		//Let's make the player's hand the apple and the banana
+		/*//Let's make the player's hand the apple and the banana
 		Deck hand = new Deck(g);
 		Possession apple = new Possession("Apple",img,"It's an apple. Pretty self-explanatory.",1,hand);
 		Possession banana = new Possession("Banana",img,"bananananana",2,hand);
@@ -169,11 +167,17 @@ public class OverallRunner
 			{
 				JButton b = new JButton(cd.getTitle());
 				
-				b.setIcon(new ImageIcon(img));
+				b.setIcon(new ImageIcon(cd.getPicture()));
 				b = addListeners(b);
 				handRow.add(b);
 			}
 		}
+		else{
+			JTextArea blob = new JTextArea();
+			blob.setText("The hand is null");
+			handRow.add(blob);
+		}
+		System.out.println("happening");
 	
 		return handRow;
 	}
@@ -254,15 +258,14 @@ public class OverallRunner
 			{
 				str += cd.getTitle() + '\n';//add its title to the string str
 			}
-			
-			blob.setText(str);//set the text of the textArea to str
 		}
 		else
 		{
-			str+= "<NA>";
+			str+= "<null>";
 		}
 		
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));//make the TextArea big enough to read
+		blob.setText(str);//set the text of the textArea to str
+		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 3));//make the TextArea big enough to read
 		
 		return blob;
 	}

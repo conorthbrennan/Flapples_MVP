@@ -39,6 +39,17 @@ public class StandardDeck extends Deck{
 			RuleCard draw2 = new RuleCard("Draw 2",img,"Draw 2 Cards",4,this);
 			deck.add(draw2);
 			
+			//temporary extra cards so I can give each player 3 cardsfor testing:
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			deck.add(apple);
+			
 		} catch (IOException e1) {
 			System.out.println("WHERE IS/ARE YOUR FILE(S)?");			
 		}

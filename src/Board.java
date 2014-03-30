@@ -15,7 +15,18 @@ public class Board {
 		players = new ArrayList<Player>();
 		for (int i=0;i<num;i++) {
 			players.add(new Player(g.prompt("name of player "+ (i+1) )) );
+			//initialize hand and holding pen
+			players.get(i).hand = new Deck(g);
+			players.get(i).holdingPen = new Deck(g);
 		}
+		//initialize some of the decks:
+		goals = new Deck(g);
+		rules = new Deck(g);
+		discard = new Deck(g);
+		
+		//Shuffle the drawPile
+		drawPile = new StandardDeck(g);
+		drawPile.shuffle();
 	}
 	
 	public Deck getDrawPile(){
