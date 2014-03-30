@@ -38,7 +38,7 @@ public class Game extends Canvas implements GameObject, Runnable
 	/** ***GOALIE***
 	 * Handles goals
 	 * @param arr the goal in question
-	 */
+	 *//*
 	public void handleGoal(Goal arr) {
 		// look up rules
 		Deck rulebook = gameboard.getRules();
@@ -48,7 +48,7 @@ public class Game extends Canvas implements GameObject, Runnable
 		evaluateGoalMatching();
 		//and also direct other traffic.
 		
-	}
+	}*/
 	
 	/**
 	 * This checks whether a player has satisfied the goal

@@ -35,7 +35,7 @@ public class Goal extends Card{
 		this.location = this.g.getBoard().getGoals();
 		
 		//handle the goal
-		this.g.handleGoal(this);
+		g.evaluateGoalMatching();
 	}
 	
 	/**

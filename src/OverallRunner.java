@@ -19,6 +19,7 @@ public class OverallRunner
 	private static JFrame overallFrame;
 	private static int plIndex;
 	private static Game g;
+	private static boolean discarding;
 	
 	public static void main(String [] args)
 	{
@@ -142,22 +143,34 @@ public class OverallRunner
 	 * @return Returns the JButton that represents the card.
 	 */
 	private static JButton addListeners(JButton b,final Card cd, final Player p) {
-		//The ActionListener for all the buttons:
+		//The ActionListener for all the JButtons representing cards in the hand:
 		//To be used to make sure the buttons could work:
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(canPlay(p))
+				if(!discarding)
 				{
-					System.out.println("You played the " + cd.getTitle() + " card!");
-					cd.playCard(p, g.gameboard);
-					p.numPlaysSoFar +=1;
-					//REDRAW EVERYTHING!
-					drawEverything(p, g.gameboard);
+					if(canPlay(p))
+					{
+						System.out.println("You played the " + cd.getTitle() + " card!");
+						cd.playCard(p, g.gameboard);
+						p.numPlaysSoFar +=1;
+						//REDRAW EVERYTHING!
+						drawEverything(p, g.gameboard);
+					}
+					else
+					{
+						System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
+					}
 				}
-				else
+				else//you are discarding
 				{
-					System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
+					cd.location.removeCard(cd);
+					g.gameboard.addCard(cd, g.gameboard.discard);
+					cd.location = g.gameboard.discard;
+					System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
+					discarding = false;
+					drawEverything(p,g.gameboard);
 				}
 				
 			}
@@ -176,8 +189,37 @@ public class OverallRunner
 		JPanel hpRow = new JPanel();
 		String str = "Holding Pen: \n";
 		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
-		JTextArea blob = listTitles(hp,str);
-		hpRow.add(blob);//add the text to the panel
+		
+		if(!discarding)
+		{
+			JTextArea blob = listTitles(hp,str);
+			hpRow.add(blob);//add the text to the panel
+		}
+		else
+		{
+			//ROW OF BUTTONS WHEN DISCARDING
+			GridLayout grid = new GridLayout(0,3);//any number of rows with 3 cards
+			hpRow.setLayout(grid);
+			
+			if(hp!= null)
+			{
+				ArrayList<Card> cards = hp.deck;//Get list of cards from the deck given
+				for(Card cd: cards)//for each card
+				{
+					JButton b = new JButton(cd.getTitle());
+					b.setText(cd.getTitle() + ": " + cd.getDescription());
+					b.setIcon(new ImageIcon(cd.getPicture()));
+					b = addListeners(b,cd,p);
+					hpRow.add(b);
+				}
+			}
+			else{
+				JTextArea blob = new JTextArea();
+				blob.setText("The holding pen is null");
+				hpRow.add(blob);
+			}
+		}
+		
 		return hpRow;
 	}
 	
@@ -239,13 +281,30 @@ public class OverallRunner
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
 		
 		JButton endTurn = endTurnButton(p);
+		JButton discard = discardButton(p);
 		
 		plInfo.add(blob);
 		plInfo.add(endTurn);
-		
+		plInfo.add(discard);
 		return plInfo;
 	}
 	
+	private static JButton discardButton(Player p) {
+		JButton discard = new JButton("Discard a card");
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				discarding = true;
+				
+			}
+		};
+		
+		discard.addActionListener(alist);
+		
+		return discard;
+	}
+	
+
 	/**
 	 * Make the JButton that ends your turn
 	 * @param nextPlayer The next person to play.
@@ -261,15 +320,10 @@ public class OverallRunner
 				
 				if(canEnd(currentPlayer))
 				{
-					System.out.println("You ended your turn.");
 					//Redraw everything:
 					Player nextPlayer = getNextPlayer(currentPlayer);
 					handleTurnChange(nextPlayer);
 					drawEverything(nextPlayer,g.gameboard);
-				}
-				else
-				{
-					System.out.println("You haven't played enough cards to end your turn.");
 				}	
 				
 			}
@@ -420,7 +474,6 @@ public class OverallRunner
 		return -1;
 	}
 	
-	
 
 	/**
 	 * This determines whether or not you can end your turn
@@ -428,13 +481,35 @@ public class OverallRunner
 	 * @return whether you can end your turn
 	 */
 	private static boolean canEnd(Player p) {
-		int n = determineNumber(1);
-		if(p.numPlaysSoFar < n)
-			return false;
-		else
-			return true;
-		//NOT DONE PROPER YET!!!!!
-		//It needs to include whether you have discarded enough cards to be within the possession and hand limits (if there are any).
+		int numPlaysNeeded = determineNumber(1);
+		int maxPoss = determineNumber(3);
+		int maxHand = determineNumber(4);
 		
-	}
+		if(p.numPlaysSoFar < numPlaysNeeded)
+		{
+			System.out.println("You haven't played enough cards.");
+			return false;
+		}
+		else
+		{
+			if(p.hand.count() > maxHand)
+			{
+				System.out.println("You have too many cards in your hand.");
+				return false;
+			}
+			else
+			{
+				if(p.holdingPen.count()>maxPoss)
+				{
+					System.out.println("You have too many cards in your holding pen.");
+					return false;
+				}
+				else
+				{
+					System.out.println("You ended your turn.");
+					return true;	
+				}
+			}
+		}
+	}//end canEnd()
 }
