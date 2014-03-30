@@ -42,8 +42,8 @@ public class OverallRunner
 			System.out.println("WHERE IS/ARE YOUR FILE(S)?");			
 		}
 		
-		Board exampleBoard = new Board(g,1);
-		Player examplePlayer = new Player("Bob");
+		Board exampleBoard = g.gameboard;
+		Player examplePlayer = g.gameboard.players.get(0);
 		
 		//Let's make the player's hand the apple and the banana
 		Deck hand = new Deck(g);

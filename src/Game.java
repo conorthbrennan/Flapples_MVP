@@ -44,7 +44,8 @@ public class Game extends Canvas implements GameObject, Runnable
 		Deck rulebook = gameboard.getRules();
 		// deal with stuff now...
 		// ... so, dispense with old goal.
-		//gameboard.goals.addCard(arr); // but it's private. We need more methods, here..
+		gameboard.goals.drawCard(gameboard.discard, 1);
+		gameboard.goals.addCard(arr);
 		// remove old goals, add new card, and also direct other traffic.
 		
 	}
