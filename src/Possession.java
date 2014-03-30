@@ -15,6 +15,7 @@ public class Possession extends Card {
 		//Move the card from the hand to the holding pen.
 		hand.removeCard(this);
 		holdingPen.addCard(this);
+		this.location = pl.holdingPen;
 	}
 	
 	/**

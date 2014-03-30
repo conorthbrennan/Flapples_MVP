@@ -24,8 +24,7 @@ public class Goal extends Card{
 	}
 	@Override
 	public void playCard(Player pl, Board b) {
-		
-		//this.location.removeCard(this.ID); 		// how to implement this paradigm?
+		pl.hand.removeCard(this);
 		this.g.handleGoal(this);
 		this.location = this.g.getBoard().getGoals();
 	}

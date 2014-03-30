@@ -16,6 +16,7 @@ public class RuleCard extends Card{
 	public void playCard(Player pl, Board b) {
 		pl.getHand().removeCard(this);
 		b.getRules().addCard(this);
+		this.location = b.rules;
 	}
 
 }
