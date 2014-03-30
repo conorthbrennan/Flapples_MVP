@@ -4,10 +4,10 @@
  *
  */
 public class Player implements GameObject {
-	private Game g;	// all players are held in the Board's list. They are level-1 Game Entities.
-	private String name;
-	private Deck hand, holdingPen;
-	private int numPts = 0;
+	public Game g;	// all players are held in the Board's list. They are level-1 Game Entities.
+	public String name;
+	public Deck hand, holdingPen;
+	public int numPts = 0;
 	
 	public Player(String n){
 		name = n;

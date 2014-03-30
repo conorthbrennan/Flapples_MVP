@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Board {
 	public ArrayList<Player> players;
-	public Deck goals, rules, discard, deckdeck;
+	public Deck goals, rules, discard, drawPile;
 	public Game g;
 	
 	public Board(Game game, int num){//game needed a constructor like this but I don't know what to fill it with
@@ -18,8 +18,8 @@ public class Board {
 		}
 	}
 	
-	public Deck getDeckDeck(){
-		return deckdeck;
+	public Deck getDrawPile(){
+		return drawPile;
 	}
 	
 	public ArrayList<Player> getPlayers(){

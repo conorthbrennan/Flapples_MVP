@@ -34,15 +34,45 @@ public class OverallRunner
 		//all sorts of stuff here
 		//each player should get 3 cards to start off with
 		
-		try {
+		Board exampleBoard = g.gameboard;
+		Player examplePlayer = g.gameboard.players.get(0);
+		
+		drawEverything(examplePlayer,exampleBoard);
+	
+		
+		Deck drawpile = new StandardDeck(g);//The draw pile starts out as a standard deck, but isn't sd.
+		drawpile.shuffle();//Shuffle the drawpile
+		ArrayList<Player> plrs = g.gameboard.players;
+		
+		//Give each player three cards.
+		for(int i = 0; i < 4; i++)
+			for(Player pl : plrs)
+			{
+				pl.hand = new Deck(g);
+				drawpile.drawCard(pl.getHand(), 1);
+			}
+				
+		
+		
+		
+		
+		/*boolean won = false;//THIS SHOULD BE CHANGED
+		while(!won)
+		{
+			for(Player pl : plrs){
+				drawEverything(pl,g.gameboard);
+				//game play here
+			}
+		}*/
+		
+		
+		
+		/*try {
 			img = ImageIO.read(new File("exampleCardIcon.png"));
 			
 		} catch (IOException e1) {
 			System.out.println("WHERE IS/ARE YOUR FILE(S)?");			
 		}
-		
-		Board exampleBoard = g.gameboard;
-		Player examplePlayer = g.gameboard.players.get(0);
 		
 		//Let's make the player's hand the apple and the banana
 		Deck hand = new Deck(g);
@@ -83,20 +113,7 @@ public class OverallRunner
 		exampleBoard.rules = rules;
 		exampleBoard.discard = discard;
 		examplePlayer.setHoldingPen(hp);
-		examplePlayer.setHand(hand);
-		
-		drawEverything(examplePlayer,exampleBoard);
-		
-		//ArrayList<Player> plrs = g.gameboard.getPlayers();
-	
-		/*boolean won = false;//THIS SHOULD BE CHANGED
-		while(!won)
-		{
-			for(Player pl : plrs){
-				drawEverything(pl);
-				//game play here
-			}
-		}*/
+		examplePlayer.setHand(hand);*/
 
 	}
 
@@ -145,14 +162,17 @@ public class OverallRunner
 		//THIS SHALL BE A ROW OF BUTTONS
 		
 		Deck hand = p.getHand();
-		ArrayList<Card> cards = hand.deck;//Get list of cards from the deck given
-		for(Card cd: cards)//for each card
+		if(hand!= null)
 		{
-			JButton b = new JButton(cd.getTitle());
-			
-			b.setIcon(new ImageIcon(img));
-			b = addListeners(b);
-			handRow.add(b);
+			ArrayList<Card> cards = hand.deck;//Get list of cards from the deck given
+			for(Card cd: cards)//for each card
+			{
+				JButton b = new JButton(cd.getTitle());
+				
+				b.setIcon(new ImageIcon(img));
+				b = addListeners(b);
+				handRow.add(b);
+			}
 		}
 	
 		return handRow;
@@ -227,13 +247,21 @@ public class OverallRunner
 	private static JTextArea listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
 
-		ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
-		for(Card cd: cards)//for each card
+		if(d != null && d.deck != null)
 		{
-			str += cd.getTitle() + '\n';//add its title to the string str
+			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
+			for(Card cd: cards)//for each card
+			{
+				str += cd.getTitle() + '\n';//add its title to the string str
+			}
+			
+			blob.setText(str);//set the text of the textArea to str
+		}
+		else
+		{
+			str+= "<NA>";
 		}
 		
-		blob.setText(str);//set the text of the textArea to str
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));//make the TextArea big enough to read
 		
 		return blob;
