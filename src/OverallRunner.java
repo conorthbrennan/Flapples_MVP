@@ -410,7 +410,8 @@ public class OverallRunner
 	private static boolean canEnd(Player p) {
 		Deck dRules = g.gameboard.rules;
 		
-		//NOT DONE PROPER YET!!!!!DFGJSDKLRFGJSDLKJFSLDKJFKLSDFJLKSDJFLKSDJFLKDSFKLJ
+		//NOT DONE PROPER YET!!!!!
+		//It needs to include whether you have discarded enough cards to be within the possession and hand limits (if there are any).
 		
 		/*
 		 * If the deck of rules contains the "Play 2" card, which had id 5,

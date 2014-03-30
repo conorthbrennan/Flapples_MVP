@@ -36,10 +36,10 @@ public class StandardDeck extends Deck{
 			
 			//Rules
 			//RuleCard draw2 = new RuleCard("Draw 2",ImageIO.read(new File("draw2.png")),"Draw 2 Cards",4,this);
-			RuleCard draw2 = new RuleCard("Draw 2",img,"Draw 2 Cards",4,this);
+			RuleCard draw2 = new RuleCard("Draw 2",img,"Draw 2 Cards",4,this,2);
 			deck.add(draw2);
 			//RuleCard play2 = new RuleCard("Play 2",ImageIO.read(new File("play2.png")),"Play 2 Cards",5,this);
-			RuleCard play2 = new RuleCard("Play 2",img,"Play 2 Cards",5,this);
+			RuleCard play2 = new RuleCard("Play 2",img,"Play 2 Cards",5,this,1);
 			deck.add(play2);
 			
 			
