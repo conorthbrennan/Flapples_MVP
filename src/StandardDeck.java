@@ -42,6 +42,14 @@ public class StandardDeck extends Deck{
 			RuleCard play2 = new RuleCard("Play 2",img,"Play 2 Cards",5,this,1,2);
 			deck.add(play2);
 			
+			RuleCard handLimit4 = new RuleCard("Hand Limit 4",img,"4 cards at most in your hand.",6,this,4,4);
+			deck.add(handLimit4);
+			
+			RuleCard possLimit4 = new RuleCard("Holding Pen Limit 4",img,"4 cards at most in your holding pen.",7,this,3,4);
+			deck.add(possLimit4);
+			
+			RuleCard possLimit2 = new RuleCard("Holding Pen Limit 2",img,"2 cards at most in your holding pen.",8,this,3,2);
+			deck.add(possLimit2);
 			
 			//temporary extra cards so I can give each player 3 cards for testing:
 			deck.add(apple);

@@ -1,9 +1,11 @@
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -214,6 +216,7 @@ public class OverallRunner
 					JButton b = new JButton(cd.getTitle());
 					b.setText(cd.getTitle() + ": " + cd.getDescription());
 					b.setIcon(new ImageIcon(cd.getPicture()));
+					b.setBackground(Color.PINK);
 					b = addListeners(b,cd,p);
 					hpRow.add(b);
 				}
@@ -298,16 +301,20 @@ public class OverallRunner
 		return plInfo;
 	}
 	
-	private static JButton discardButton(Player p) {
+	/**
+	 * Make the JButton that will let you discard other cards
+	 * @param p The Player
+	 * @return the JButton that lets you discard cards
+	 */
+	private static JButton discardButton(final Player p) {
 		JButton discard = new JButton("Discard a card");
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				discarding = true;
-				
+				drawEverything(p, g.gameboard);
 			}
 		};
-		
 		discard.addActionListener(alist);
 		
 		return discard;
