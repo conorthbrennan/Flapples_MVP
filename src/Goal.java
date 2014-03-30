@@ -25,8 +25,17 @@ public class Goal extends Card{
 	@Override
 	public void playCard(Player pl, Board b) {
 		pl.hand.removeCard(this);
-		this.g.handleGoal(this);
+		
+		//Dispense with old goal:
+		if(b.goals.count() >= 1)//if there is a goal:
+				b.goals.drawCard(b.discard, 1);//move the old goal to the discard pile
+		b.goals.addCard(this);//add new goal
+		
+		//change the location of this goal:
 		this.location = this.g.getBoard().getGoals();
+		
+		//handle the goal
+		this.g.handleGoal(this);
 	}
 	
 	/**

@@ -51,6 +51,7 @@ public class OverallRunner
 	 * This does the graphical interface.
 	 */
 	private static void drawEverything(Player p, Board b) {
+		
 		//set the look and feel
 		try{
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -63,28 +64,37 @@ public class OverallRunner
 		Container uberpane = overallFrame.getContentPane();
 		uberpane.removeAll();
 		
-		//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
-		BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
-		uberpane.setLayout(box);
+		if(!g.evaluateGoalMatching())
+		{
+			//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+			BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
+			uberpane.setLayout(box);
 
-		JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-		JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
-		JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-		JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-		JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-		JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
-		
-		//Add all the items to the pane
-		uberpane.add(playerInfoRow);
-		uberpane.add(goalsRow);
-		uberpane.add(rulesRow);
-		uberpane.add(discardRow);
-		uberpane.add(holdingPenRow);
-		uberpane.add(handRow);
-		
-		overallFrame.pack();
-		overallFrame.setVisible(true);
-		overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+			JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+			JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+			JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
+			JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+			JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+			
+			//Add all the items to the pane
+			uberpane.add(playerInfoRow);
+			uberpane.add(goalsRow);
+			uberpane.add(rulesRow);
+			uberpane.add(discardRow);
+			uberpane.add(holdingPenRow);
+			uberpane.add(handRow);
+			
+			overallFrame.pack();
+			overallFrame.setVisible(true);
+			overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
+		else
+		{
+			JTextArea youWon = new JTextArea();
+			youWon.setText("THE GAME HAS BEEN WON!!!!!");
+			uberpane.add(youWon);
+		}
 		
 	}
 	
