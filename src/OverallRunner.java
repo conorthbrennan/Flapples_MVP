@@ -372,35 +372,45 @@ public class OverallRunner
 	 * @return whether you can play another card
 	 */
 	private static boolean canPlay(Player p) {
-		Deck dRules = g.gameboard.rules;
-		
-		/*
-		 * If the deck of rules contains the "Play 2" card, which had id 5,
-		 * then play 2 cards.
-		 */
-		if(dRules.search(5) != null)
-		{
-			if(p.numPlaysSoFar < 2)
-			{
-				//you can play another card, if you've only played one or zero cards
-				return true;
-			}
-			else
-			{
-				//you can't play another card
-				return false;
-			}
-		}
+		int n = determineNumber(1);
+		if(p.numPlaysSoFar < n)
+			return true;
 		else
-		{
-			//default to "Play 1"
-			if(p.numPlaysSoFar ==0)
-				return true;
-			else
-				return false;
-		}
-
+			return false;
 	}
+
+	/**
+	 * This determines what limit (of this type) is currently in play 
+	 * @param numType The type of rule you're looking for. play is 1. draw is 2. poss lim is 3. hand lim is 4.
+	 * @return the number associated with this type
+	 */
+	private static int determineNumber(int numType) {
+		Deck dRules = g.gameboard.rules;
+		ArrayList<Card> rules = dRules.deck;
+ 		for(Card cd : rules)
+ 		{
+ 			RuleCard rl = (RuleCard) cd;
+ 			if(rl.type == numType)
+ 				return rl.theNumber;
+ 		}
+		
+ 		switch(numType){
+ 			case 1://play
+ 				return 1;//Default: Play 1
+ 			case 2://draw
+ 				return 1; //Default: Draw 1
+ 			case 3://possession
+ 				return Integer.MAX_VALUE; //Default: No possession limit
+ 			case 4://hand
+ 				return Integer.MAX_VALUE;//Default:No hand limit
+ 				
+ 		}
+ 		
+ 		System.out.println("This statement should never be seen.");
+		return -1;
+	}
+	
+	
 
 	/**
 	 * This determines whether or not you can end your turn
@@ -408,36 +418,13 @@ public class OverallRunner
 	 * @return whether you can end your turn
 	 */
 	private static boolean canEnd(Player p) {
-		Deck dRules = g.gameboard.rules;
-		
+		int n = determineNumber(1);
+		if(p.numPlaysSoFar < n)
+			return false;
+		else
+			return true;
 		//NOT DONE PROPER YET!!!!!
 		//It needs to include whether you have discarded enough cards to be within the possession and hand limits (if there are any).
 		
-		/*
-		 * If the deck of rules contains the "Play 2" card, which had id 5,
-		 * then you must have played 2 cards.
-		 */
-		if(dRules.search(5) != null)
-		{
-			if(p.numPlaysSoFar < 2)
-			{
-				//you need to play more cards
-				return false;
-			}
-			else
-			{
-				//you can end your turn
-				return true;
-			}
-		}
-		else
-		{
-			//default to "Play 1"
-			if(p.numPlaysSoFar ==0)
-				return false;
-			else
-				return true;
-		}
-
 	}
 }

@@ -44,9 +44,9 @@ public class Game extends Canvas implements GameObject, Runnable
 		Deck rulebook = gameboard.getRules();
 		// deal with stuff now...
 		// ... so, dispense with old goal.
-		if(gameboard.goals.count() >= 1)
-			gameboard.goals.drawCard(gameboard.discard, 1);
-		gameboard.goals.addCard(arr);
+		if(gameboard.goals.count() >= 1)//if there is a goal:
+			gameboard.goals.drawCard(gameboard.discard, 1);//move the old goal to the discard pile
+		gameboard.goals.addCard(arr);//add new goal
 		// remove old goals, add new card, and also direct other traffic.
 		
 	}
