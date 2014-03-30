@@ -2,15 +2,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,14 +15,13 @@ import javax.swing.UIManager;
 
 public class OverallRunner
 {
-
-	private static BufferedImage img;
 	private static JFrame overallFrame;
+	private static int plIndex;
+	private static Game g;
 	
 	public static void main(String [] args)
 	{
-		Game g = new Game();
-		
+		g = new Game();
 		StandardDeck sd = new StandardDeck(g);
 		//CONOR WRITE THIS CODE FOR ME!
 		//STANDARD DECK, I WANT TO BE LIKE sd.getCard("Banana") and get that card
@@ -37,7 +29,7 @@ public class OverallRunner
 		//all sorts of stuff here
 		
 		Board exampleBoard = g.gameboard;
-		//When making the board, all the decks get initialized (including the drawpile and players' hands and hps)
+		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
 		
 		ArrayList<Player> plrs = exampleBoard.players;
 		
@@ -49,30 +41,20 @@ public class OverallRunner
 			{
 				exampleBoard.drawPile.drawCard(pl.getHand(), 1);
 			}
-				
+		
+		//Make sure to initialize the original frame
+		overallFrame = new JFrame("Flapples");
+		plIndex =0;
+		
+		drawEverything(plrs.get(0),exampleBoard);
+		//As the end turn button gets pressed, the turns commence.
+		
 		//for the purposes of seeing what's really in peoples' hands
-		for(Player pl: plrs)
+		/*for(Player pl: plrs)
 		{
 			System.out.println(pl.name);
 			for(Card cd: pl.hand.deck){
 				System.out.println(cd.getTitle());
-			}
-		}
-		
-		//Make sure to initialize the original frame
-		overallFrame = new JFrame("Flapples");
-		drawEverything(plrs.get(0),exampleBoard);
-		
-		//System.out.println("" + drawpile.count());
-		//System.out.println("plr0 " + plrs.get(0).hand.count());
-		//System.out.println("plr1 " + plrs.get(1).hand.count());
-		
-		/*boolean won = false;//THIS SHOULD BE CHANGED
-		while(!won)
-		{
-			for(Player pl : plrs){
-				drawEverything(pl,g.gameboard);
-				//game play here
 			}
 		}*/
 
@@ -98,7 +80,7 @@ public class OverallRunner
 		BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 		uberpane.setLayout(box);
 
-		JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+		JPanel playerInfoRow = setUpPlayerInfoRow(p,b);//This will hold the player's name at the top of the screen.
 		JPanel goalsRow = setUpGoalsRow(b);//This will hold the goals in the second row.
 		JPanel rulesRow = setUpRulesRow(b);//This will hold the rules in the third row.
 		JPanel discardRow = setUpDiscardPileRow(b);//This will hold the discard pile in the fourth row.
@@ -168,7 +150,6 @@ public class OverallRunner
 		b.addActionListener(alist);
 		return b;
 	}
-
 	private static JPanel setUpHoldingPenRow(Player p) {
 		JPanel hpRow = new JPanel();
 		String str = "Holding Pen: \n";
@@ -201,7 +182,7 @@ public class OverallRunner
 		goalsRow.add(blob);//add the text to the panel
 		return goalsRow;
 	}
-	private static JPanel setUpPlayerInfoRow(Player p) {
+	private static JPanel setUpPlayerInfoRow(Player p, Board brd) {
 		JPanel plInfo = new JPanel();
 	
 		JTextArea blob = new JTextArea();
@@ -210,11 +191,49 @@ public class OverallRunner
 		blob.setText(str);
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
 		
+		JButton endTurn = endTurnButton(p,brd);
+		
 		plInfo.add(blob);
+		plInfo.add(endTurn);
 		
 		return plInfo;
 	}
 	
+	/**
+	 * Make the JButton that ends your turn
+	 * @param nextPlayer The next person to play.
+	 * @param brd The board as it is.
+	 * @return The JButton, which will end your turn if you click it.
+	 */
+	private static JButton endTurnButton(final Player currentPlayer, final Board brd) {
+		JButton endTurn = new JButton("End Your Turn.");
+
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("You ended your turn.");
+				//Redraw everything:
+				Player nextPlayer = getNextPlayer(currentPlayer);
+				drawEverything(nextPlayer,brd);
+			}
+		};
+		
+		endTurn.addActionListener(alist);
+		
+		return endTurn;
+	}
+
+	private static Player getNextPlayer(Player currentPlayer) {
+		ArrayList<Player> plrs = g.gameboard.players;
+		
+		//I think this gets the next player...
+		int nextPlIndex = (plIndex + 1) % plrs.size();
+		plIndex = nextPlIndex;
+		
+		return plrs.get(nextPlIndex);
+	}
+	
+
 	/**
 	 * Gets all the titles from a Deck and makes a JTextArea out of it. 
 	 * @param d the Deck you want the titles of
