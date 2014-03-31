@@ -159,6 +159,14 @@ public class OverallRunner
 						message = "You played the " + cd.getTitle() + " card!";
 						cd.playCard(p, g.gameboard);
 						p.numPlaysSoFar +=1;
+						
+						//if this is a rule, then change the rules.
+						if(cd.getClass().equals((new RuleCard()).getClass()))
+						{
+							//System.out.println("It's a rule card!");
+							replaceNumber((RuleCard) cd);
+						}
+						
 						//REDRAW EVERYTHING!
 						drawEverything(p, g.gameboard);
 					}
@@ -534,4 +542,41 @@ public class OverallRunner
 			}
 		}
 	}//end canEnd()
+
+
+	/**
+	 * This replaces the current rules with the new rule, if necessary
+	 * @param newRule the new rule to replace the old
+	 */
+	private static void replaceNumber(RuleCard newRule) {
+
+		if(g!= null && g.gameboard != null && g.gameboard.rules != null)
+		{
+			Deck dRules = g.gameboard.rules;
+			if(dRules.count() != 0)
+			{
+				ArrayList<Card> rules = dRules.deck;
+				for(int i = 0; i < dRules.count(); i++)
+				{
+					RuleCard rl = (RuleCard) rules.get(i);
+					
+					if(newRule != rl)
+					{
+						if(rl.type == newRule.type)
+						{
+							//remove the old rule from the rules
+							dRules.removeCard(rl);
+							g.gameboard.discard.addCard(rl);
+							rl.location = g.gameboard.discard;
+						}
+					}
+				}//end going through all the rules
+				
+			}
+		}
+		else
+		{
+			System.out.println("hmmm. this shouldn't have happened");
+		}
+	}
 }

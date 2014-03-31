@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 /**
@@ -33,13 +34,18 @@ public class RuleCard extends Card{
 		
 	}
 
+	public RuleCard() {
+		//generic rule card
+		super();
+	}
+	
 	@Override
 	public void playCard(Player pl, Board b) {
 		pl.getHand().removeCard(this);
 		b.getRules().addCard(this);
 		this.location = b.rules;
 		
-		//STILL NEEDS TO DETERMINE WHETHER THE INCOMING RULE KILLS AN OLD RULE
 	}
+	
 
 }
