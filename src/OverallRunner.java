@@ -522,6 +522,7 @@ public class OverallRunner
 			else
 			{
 				//you can't play anything
+				message = "End turn, because you have no hand.";
 				drawEverything(p,g.gameboard);
 				return true;
 			}
