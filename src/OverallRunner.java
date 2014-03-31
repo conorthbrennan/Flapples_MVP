@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,7 +71,7 @@ public class OverallRunner
 		
 		if(!g.evaluateGoalMatching())
 		{
-			//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+			//FlowLayout flow = new FlowLayout(FlowLayout.CENTER,200,20);//alignment,hgap,vgap		
 			BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 			uberpane.setLayout(box);
 
@@ -422,12 +423,12 @@ public class OverallRunner
 		if(dRules.search(4)!=null)
 		{
 			//Add two cards from the draw pile to the next player's hand
-			checkDrawPile(2);
+			checkDrawPile(2, nextPlayer);
 			g.gameboard.drawPile.drawCard(nextPlayer.hand, 2);
 		}
 		else
 		{
-			checkDrawPile(1);
+			checkDrawPile(1,nextPlayer);
 			g.gameboard.drawPile.drawCard(nextPlayer.hand, 1);
 		}
 		
@@ -438,7 +439,7 @@ public class OverallRunner
 	 * If not, then the discard pile will be shuffled and used for the draw pile.
 	 * @param drawNum the number of cards to draw
 	 */
-	private static void checkDrawPile(int drawNum) {
+	private static void checkDrawPile(int drawNum, Player nextP) {
 		if(g.gameboard.drawPile.count() < drawNum)
 		{
 			//Add the shuffled discard pile to the drawpile:
@@ -448,9 +449,10 @@ public class OverallRunner
 		
 		if(g.gameboard.drawPile.count() < drawNum)
 		{
-			//LOL. There aren't enough cards in the draw pile and the discard pile combined to draw enough cards.
-			//Have fun with errors!!
-			System.out.println("The standard deck hasn't been filled with cards yet, so screw you!");
+			System.out.println("You all lose... I hate you");
+			message = "You all lose... I hate you";
+			drawEverything(nextP,g.gameboard);
+			
 		}
 			
 	}
