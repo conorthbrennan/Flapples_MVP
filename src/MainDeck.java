@@ -502,7 +502,7 @@ public class MainDeck extends Deck{
 			winCards.add(cabbages);
 			winCards.add(spinaches);
 			winCards.add(kales);
-			Goal leaf = new Goal(g, "lafy", img, "cabbage and kale and spinach", 78, this, (ArrayList<Possession>) winCards.clone());
+			Goal leaf = new Goal(g, "leafy", img, "cabbage and kale and spinach", 78, this, (ArrayList<Possession>) winCards.clone());
 			addCard(leaf);
 			winCards.clear();
 		
@@ -556,6 +556,7 @@ public class MainDeck extends Deck{
 			addCard(fail);
 			winCards.clear();
 		
+			//rule cards
 			RuleCard play1 = new RuleCard("Play 1", img, "you may play one card now", 87, this, 1, 1);
 			RuleCard play2 = new RuleCard("Play 2", img, "you may play two cards now", 88, this, 1, 2);
 			RuleCard play3 = new RuleCard("Play 3", img, "you may play three cards now", 89, this, 1, 3);
