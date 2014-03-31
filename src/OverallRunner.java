@@ -410,27 +410,15 @@ public class OverallRunner
 	 */
 	private static void handleTurnChange(Player nextPlayer) {
 		
+		nextPlayer.numPlaysSoFar = 0;
+		
 		//Drawing cards
 		//This should give the player the number of cards as specified by the "Draw X" card in play.
 		//If there isn't one in play, it defaults to Draw 1.
-		Deck dRules = g.gameboard.rules;
-
-		nextPlayer.numPlaysSoFar = 0;
-		/* If the deck of rules contains the "Draw 2" card, which has id 4, 
-		 * then draw 2 cards
-		 * */
-		if(dRules.search(4)!=null)
-		{
-			//Add two cards from the draw pile to the next player's hand
-			checkDrawPile(2);
-			g.gameboard.drawPile.drawCard(nextPlayer.hand, 2);
-		}
-		else
-		{
-			checkDrawPile(1);
-			g.gameboard.drawPile.drawCard(nextPlayer.hand, 1);
-		}
-		
+		int drawAmt = determineNumber(2);
+		checkDrawPile(drawAmt);
+		g.gameboard.drawPile.drawCard(nextPlayer.hand, drawAmt);
+	
 	}
 
 	/**
