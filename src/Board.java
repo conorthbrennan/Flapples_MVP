@@ -25,7 +25,7 @@ public class Board {
 		discard = new Deck(g);
 		
 		//Shuffle the drawPile
-		drawPile = new StandardDeck(g);
+		drawPile = new MainDeck(g);
 		drawPile.shuffle();
 	}
 	

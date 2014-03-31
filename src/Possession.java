@@ -1,4 +1,5 @@
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * Possessions: A type of card that you can play into your holding pen.
@@ -7,6 +8,7 @@ import java.awt.image.BufferedImage;
  */
 public class Possession extends Card {
 	// --- ALSO MAYBE SOME KIND OF EXTRA IDENTIFYING DATA-CONTENT.
+	ArrayList<String> categories = new ArrayList<String>();
 
 	@Override
 	public void playCard(Player pl, Board b) {
@@ -26,9 +28,9 @@ public class Possession extends Card {
 	 * @param id the id number of the card
 	 * @param locate the deck location of the card
 	 */
-	public Possession(String titl, BufferedImage pic, String descrip, int id, Deck locate){
+	public Possession(String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<String> cats){
 		super(titl, pic, descrip, id, locate);
-		
+		categories = cats;
 	}
 
 }
