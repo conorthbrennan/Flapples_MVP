@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -12,22 +13,29 @@ public class Goal extends Card{
 	
 	public ArrayList<Possession> necCardsToWin;
 	
-	public Goal(Game game, ArrayList<Possession> winCards) {
-		super();//sets up blank card
+	public Goal(Game game, String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<Possession> winCards) {
+		super(titl, pic, descrip, id, locate);
+	
 		necCardsToWin=winCards;
 		
-		//setGame(game);//super.g = game;
 		super.g = game;
 		
 		// set up configuration
 	}
 	@Override
 	public void playCard(Player pl, Board b) {
+		pl.hand.removeCard(this);
 		
+		//Dispense with old goal:
+		if(b.goals.count() >= 1)//if there is a goal:
+				b.goals.drawCard(b.discard, 1);//move the old goal to the discard pile
+		b.goals.addCard(this);//add new goal
 		
-		//this.location.removeCard(this.ID); 		// how to implement this paradigm?
-		this.g.handleGoal(this);
-		//this.location = this.g.getBoard().getGoals;
+		//change the location of this goal:
+		this.location = this.g.getBoard().getGoals();
+		
+		//handle the goal
+		g.evaluateGoalMatching();
 	}
 	
 	/**

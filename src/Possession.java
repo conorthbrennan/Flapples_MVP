@@ -15,10 +15,19 @@ public class Possession extends Card {
 		//Move the card from the hand to the holding pen.
 		hand.removeCard(this);
 		holdingPen.addCard(this);
+		this.location = pl.holdingPen;
 	}
 	
-	public Possession(String titl, BufferedImage pic, String descrip, int id){
-		super(titl, pic, descrip, id);
+	/**
+	 * 
+	 * @param titl the title
+	 * @param pic the icon of the possession
+	 * @param descrip the description of the possession
+	 * @param id the id number of the card
+	 * @param locate the deck location of the card
+	 */
+	public Possession(String titl, BufferedImage pic, String descrip, int id, Deck locate){
+		super(titl, pic, descrip, id, locate);
 		
 	}
 
