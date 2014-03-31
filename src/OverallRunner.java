@@ -512,10 +512,20 @@ public class OverallRunner
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
-			//System.out.println("You haven't played enough cards.");
-			message = "You haven't played enough cards.";
-			drawEverything(p,g.gameboard);
-			return false;
+			if(p.hand.count() != 0)
+			{
+				//System.out.println("You haven't played enough cards.");
+				message = "You haven't played enough cards.";
+				drawEverything(p,g.gameboard);
+				return false;
+			}
+			else
+			{
+				//you can't play anything
+				drawEverything(p,g.gameboard);
+				return true;
+			}
+			
 		}
 		else
 		{
