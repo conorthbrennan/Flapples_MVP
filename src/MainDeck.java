@@ -367,192 +367,192 @@ public class MainDeck extends Deck{
 		
 		 	winCards.add(apples);
 		 	winCards.add(bananas);
-		 	Goal iLikeToOot = new Goal(g, "I like to oot oot opples and baynaynays", img, "apples and bananas", 56, this, winCards);
+		 	Goal iLikeToOot = new Goal(g, "I like to oot oot opples and baynaynays", img, "apples and bananas", 56, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(iLikeToOot);
 		 	winCards.clear();
 		
 		 	winCards.add(starfruits);
 		 	winCards.add(passionfruits);
-		 	Goal RnJ = new Goal(g, "Romeo and Juliet", img, "starfruits and passionfruits", 57, this, winCards);
+		 	Goal RnJ = new Goal(g, "Romeo and Juliet", img, "starfruits and passionfruits", 57, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(RnJ);
 		 	winCards.clear();
 		
 		 	winCards.add(cucumbers);
 		 	winCards.add(corns);
 		 	winCards.add(butternutSquashes);
-		 	Goal penis = new Goal(g, "Oddly Phallic", img, "cucumbers and corn and butternut squashes", 58, this, winCards);
+		 	Goal penis = new Goal(g, "Oddly Phallic", img, "cucumbers and corn and butternut squashes", 58, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(penis);
 		 	winCards.clear();
 		
 		 	winCards.add(jalapenos);
 		 	winCards.add(chilis);
-		 	Goal spicy = new Goal(g, "Spicy", img, "jalapenos and chilis", 59, this, winCards);
+		 	Goal spicy = new Goal(g, "Spicy", img, "jalapenos and chilis", 59, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(spicy);
 		 	winCards.clear();
 		
 		 	winCards.add(apples);
 		 	winCards.add(grapes);
-		 	Goal grapples = new Goal(g, "Grapples", img, "grapes and apples", 60, this, winCards);
+		 	Goal grapples = new Goal(g, "Grapples", img, "grapes and apples", 60, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(grapples);
 		 	winCards.clear();
 		
 		 	winCards.add(grapefruits);
 		 	winCards.add(tangerines);
-		 	Goal tangelo = new Goal(g, "tangelo", img, "grapefruits and tangerines", 61, this, winCards);
+		 	Goal tangelo = new Goal(g, "tangelo", img, "grapefruits and tangerines", 61, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(tangelo);
 		 	winCards.clear();
 		
 		 	winCards.add(limes);
 		 	winCards.add(coconuts);
-		 	Goal shake = new Goal(g, "Shake it all up", img, "limes and coconuts", 62, this, winCards);
+		 	Goal shake = new Goal(g, "Shake it all up", img, "limes and coconuts", 62, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(shake);
 		 	winCards.clear();
 		
 		 	winCards.add(lemons);
 		 	winCards.add(limes);
-		 	Goal sour = new Goal(g, "Sourrrr", img, "lemons and limes", 63, this, winCards);
+		 	Goal sour = new Goal(g, "Sourrrr", img, "lemons and limes", 63, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(sour);
 		 	winCards.clear();
 		
 		 	winCards.add(raspberries);
 		 	winCards.add(blueberries);
 		 	winCards.add(strawberries);
-		 	Goal berryBlast = new Goal(g, "berry blast", img, "berry blast", 64, this, winCards);
+		 	Goal berryBlast = new Goal(g, "berry blast", img, "berry blast", 64, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(berryBlast);
 		 	winCards.clear();
 		
 		 	winCards.add(oranges);
-		 	Goal rhyme = new Goal(g, "Nothing rhymes with...", img, "oranges", 65, this, winCards);
+		 	Goal rhyme = new Goal(g, "Nothing rhymes with...", img, "oranges", 65, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(rhyme);
 		 	winCards.clear();
 		
 		 	winCards.add(watermelons);
 		 	winCards.add(cantaloupes);
-		 	Goal melons = new Goal(g, "Nice melons", img, "watermelons and cantaloupes", 66, this, winCards);
+		 	Goal melons = new Goal(g, "Nice melons", img, "watermelons and cantaloupes", 66, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(melons);
 		 	winCards.clear();
 		
 		 	winCards.add(pears);
 		 	winCards.add(cantaloupes);
-		 	Goal elope = new Goal(g, "the pear cantaloupe", img, "pears and cantaloupes", 67, this, winCards);
+		 	Goal elope = new Goal(g, "the pear cantaloupe", img, "pears and cantaloupes", 67, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(sour);
 		 	winCards.clear();
 		
 		 	winCards.add(coconuts);
 		 	winCards.add(cocoaNuts);
-		 	Goal cocomo = new Goal(g, "way down in cocomo", img, "coconuts and cocoa nuts", 68, this, winCards);
+		 	Goal cocomo = new Goal(g, "way down in cocomo", img, "coconuts and cocoa nuts", 68, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(cocomo);
 		 	winCards.clear();
 		
 		 	winCards.add(pineapples);
 		 	winCards.add(durians);
-			Goal pointy = new Goal(g, "Pointy", img, "pineapples and durians", 69, this, winCards);
+			Goal pointy = new Goal(g, "Pointy", img, "pineapples and durians", 69, this, (ArrayList<Possession>) winCards.clone());
 			addCard(pointy);
 			winCards.clear();
 		
 			winCards.add(figs);
 			winCards.add(grapes);
-			Goal dried = new Goal(g, "dried", img, "grapes and figs", 70, this, winCards);
+			Goal dried = new Goal(g, "dried", img, "grapes and figs", 70, this, (ArrayList<Possession>) winCards.clone());
 			addCard(dried);
 			winCards.clear();
 		
 			winCards.add(tomatoes);
 			winCards.add(potatoes);
 			winCards.add(eggplants);
-			Goal nightshades = new Goal(g, "nightshades", img, "tomatoes and potatoes and eggplants", 71, this, winCards);
+			Goal nightshades = new Goal(g, "nightshades", img, "tomatoes and potatoes and eggplants", 71, this, (ArrayList<Possession>) winCards.clone());
 			addCard(nightshades);
 			winCards.clear();
 		
 			winCards.add(tomatoes);
 			winCards.add(avocados);
-			Goal guac = new Goal(g, "guacamole", img, "tomatoes and avocados", 72, this, winCards);
+			Goal guac = new Goal(g, "guacamole", img, "tomatoes and avocados", 72, this, (ArrayList<Possession>) winCards.clone());
 			addCard(guac);
 			winCards.clear();
 		
 			winCards.add(carrots);
 			winCards.add(turnips);
-			Goal roots = new Goal(g, "get back to your roots", img, "carrots and turnips", 73, this, winCards);
+			Goal roots = new Goal(g, "get back to your roots", img, "carrots and turnips", 73, this, (ArrayList<Possession>) winCards.clone());
 			addCard(roots);
 			winCards.clear();
 		
 			winCards.add(beets);
 			winCards.add(radishes);
-			Goal roots2 = new Goal(g, "get back to your roots part II", img, "beets and radishes", 74, this, winCards);
+			Goal roots2 = new Goal(g, "get back to your roots part II", img, "beets and radishes", 74, this, (ArrayList<Possession>) winCards.clone());
 			addCard(roots2);
 			winCards.clear();
 		
 			winCards.add(potatoes);
 			winCards.add(tomatoes);
-			Goal toes = new Goal(g, "toes", img, "tomatoes and potatoes", 75, this, winCards);
+			Goal toes = new Goal(g, "toes", img, "tomatoes and potatoes", 75, this, (ArrayList<Possession>) winCards.clone());
 			addCard(toes);
 			winCards.clear();
 		
 			winCards.add(pomegranates);
 			winCards.add(artichokes);
-			Goal heart = new Goal(g, "to the heart of the matter", img, "pomegranates and artichokes", 76, this, winCards);
+			Goal heart = new Goal(g, "to the heart of the matter", img, "pomegranates and artichokes", 76, this, (ArrayList<Possession>) winCards.clone());
 			addCard(heart);
 			winCards.clear();
 		
 			winCards.add(broccolis);
 			winCards.add(cauliflowers);
-			Goal diff = new Goal(g, "what's the difference", img, "broccolis and cauliflowers", 77, this, winCards);
+			Goal diff = new Goal(g, "what's the difference", img, "broccolis and cauliflowers", 77, this, (ArrayList<Possession>) winCards.clone());
 			addCard(diff);
 			winCards.clear();
 		
 			winCards.add(cabbages);
 			winCards.add(spinaches);
 			winCards.add(kales);
-			Goal leaf = new Goal(g, "lafy", img, "cabbage and kale and spinach", 78, this, winCards);
+			Goal leaf = new Goal(g, "lafy", img, "cabbage and kale and spinach", 78, this, (ArrayList<Possession>) winCards.clone());
 			addCard(leaf);
 			winCards.clear();
 		
 			winCards.add(peas);
 			winCards.add(chickpeas);
 			winCards.add(snowPeas);
-			Goal peace = new Goal(g, "give peas a chance", img, "peas and chick peas and snow peas", 79, this, winCards);
+			Goal peace = new Goal(g, "give peas a chance", img, "peas and chick peas and snow peas", 79, this, (ArrayList<Possession>) winCards.clone());
 			addCard(peace);
 			winCards.clear();
 		
 			winCards.add(waterChestnuts);
 			winCards.add(peanuts);
-			Goal nuts = new Goal(g, "not nuts", img, "peanuts and water chestnuts", 80, this, winCards);
+			Goal nuts = new Goal(g, "not nuts", img, "peanuts and water chestnuts", 80, this, (ArrayList<Possession>) winCards.clone());
 			addCard(nuts);
 			winCards.clear();
 		
 			winCards.add(celerys);
 			winCards.add(aspharaguses);
-			Goal stalk = new Goal(g, "stalker", img, "celery and aspharagus", 81, this, winCards);
+			Goal stalk = new Goal(g, "stalker", img, "celery and aspharagus", 81, this, (ArrayList<Possession>) winCards.clone());
 			addCard(stalk);
 			winCards.clear();
 		
 			winCards.add(pumpkins);
 			winCards.add(whitePumpkins);
-			Goal spook = new Goal(g, "spooky scary", img, "pumpkins and white pumpkins", 82, this, winCards);
+			Goal spook = new Goal(g, "spooky scary", img, "pumpkins and white pumpkins", 82, this, (ArrayList<Possession>) winCards.clone());
 			addCard(spook);
 			winCards.clear();
 		
 			winCards.add(limaBeans);
 			winCards.add(greenBeans);
 			winCards.add(beanSprouts);
-			Goal magic = new Goal(g, "the magical fruit", img, "lima beans and green beans and bean sprouts", 83, this, winCards);
+			Goal magic = new Goal(g, "the magical fruit", img, "lima beans and green beans and bean sprouts", 83, this, (ArrayList<Possession>) winCards.clone());
 			addCard(magic);
 			winCards.clear();
 		
 			winCards.add(edamames);
 			winCards.add(eggplants);
-			Goal e = new Goal(g, "EEEEEEEEEEE!", img, "edamames and eggplants", 84, this, winCards);
+			Goal e = new Goal(g, "EEEEEEEEEEE!", img, "edamames and eggplants", 84, this, (ArrayList<Possession>) winCards.clone());
 			addCard(e);
 			winCards.clear();
 		
 			winCards.add(acornSquashes);
 			winCards.add(spaghettiSquashes);
-			Goal lies = new Goal(g, "LIES!", img, "acorn squash and spaghetti squash", 85, this, winCards);
+			Goal lies = new Goal(g, "LIES!", img, "acorn squash and spaghetti squash", 85, this, (ArrayList<Possession>) winCards.clone());
 			addCard(lies);
 			winCards.clear();
 		
 			winCards.add(grapes);
 			winCards.add(grapefruits);
-			Goal fail = new Goal(g, "I fail to see the resemblance", img, "grapes and grapefruits", 86, this, winCards);
+			Goal fail = new Goal(g, "I fail to see the resemblance", img, "grapes and grapefruits", 86, this, (ArrayList<Possession>) (ArrayList<Possession>) winCards.clone());
 			addCard(fail);
 			winCards.clear();
 		
@@ -574,6 +574,23 @@ public class MainDeck extends Deck{
 			RuleCard handLim2 = new RuleCard("hand limit 2", img, "you may have up to two cards in your hand", 99, this, 4, 2);
 			RuleCard handLim3 = new RuleCard("hand limit 3", img, "you may have up to three cards in your hand", 100, this, 4, 3);
 			RuleCard handLim4 = new RuleCard("hand limit 4", img, "you may have up to four cards in your hand", 101, this, 4, 4);
+		
+			addCard(play1);
+			addCard(play2);
+			addCard(play3);
+			addCard(play4);
+			addCard(draw1);
+			addCard(draw2);
+			addCard(draw3);
+			addCard(draw4);
+			addCard(posLim2);
+			addCard(posLim3);
+			addCard(posLim4);
+			addCard(handLim1);
+			addCard(handLim2);
+			addCard(handLim3);
+			addCard(handLim4);
+			
 		} //end try
 		catch (IOException e) {
 			// TODO Auto-generated catch block

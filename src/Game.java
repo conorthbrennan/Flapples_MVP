@@ -17,19 +17,19 @@ import java.util.Scanner;
 public class Game extends Canvas implements GameObject, Runnable, KeyListener
 {	// The Game should be the centralized controller.
 	// it DOES things, it receives messages, has many roles.
-	
-	
+
+
 	// fields that a Game has (and .get methods)
 	private Thread thisThread;//bleepbloop
-	
+
 	public Board gameboard;
 	public Board getBoard() { return gameboard;	}
-	
-	
+
+
 	public Game getGame() {  return this; }
-	
+
 	// Game methods
-	
+
 	public Game() {
 		super();		
 		thisThread=new Thread(this); //create a thread for an object
@@ -37,7 +37,7 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 		int plrs = Integer.parseInt(prompt("how many players?"));
 		gameboard = new Board(this, plrs);
 	}
-	
+
 	/** ***GOALIE***
 	 * Handles goals
 	 * @param arr the goal in question
@@ -46,13 +46,13 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 		// look up rules
 		Deck rulebook = gameboard.getRules();
 		// deal with stuff now...
-		
+
 		// remove old goals, add new card <- that was done in the goal's playCard method
 		evaluateGoalMatching();
 		//and also direct other traffic.
-		
+
 	}*/
-	
+
 	/**
 	 * This checks whether a player has satisfied the goal
 	 */
@@ -67,20 +67,24 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 				Goal goal = (Goal) gl;
 				Deck hp = pl.getHoldingPen();
 				boolean won = goal.hasWon(hp);
+				
 				if(won){
+					//System.out.println(goal.getTitle() +" has won for "+ pl.name);
+					//System.out.println("\t with "+ goal.necCardsToWin.size() +" reqs");
+					
 					hasAnyoneWon = true;	
 					who = pl;
 				}		
 			}
 		}
-		
+
 		if(hasAnyoneWon){
 			System.out.println("YOU, "+ who.name +", HAVE WON!!!!");
 		}
-	
+
 		return hasAnyoneWon;
 	}
-	
+
 	// utility methods (to be changed according to circumstance
 	public String prompt(String msg) {
 		System.out.print(msg +"  _");
@@ -105,9 +109,9 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Create Frame and Panel
 	 * Call this method to start the game
@@ -117,10 +121,10 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 	 */
 	public static void createGameFrame(Game game, int width, int height){
 		Frame myFrame=new Frame(); 
-		 
+
 		myFrame.setSize(  width,height); //frame size
 		myFrame.setBackground(Color.white);
-		 
+
 		myFrame.add(game);
 		game.addKeyListener(game);
 		//Make sure program ends when window is closed
@@ -128,37 +132,37 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 			public void windowClosing(WindowEvent e){
 				System.exit(0);
 			}
-			
+
 		};
-		
+
 		myFrame.addWindowListener(d);
 		myFrame.setVisible(true); //see frame
 		game.requestFocus(); //make sure the game is selected
-	
-		
+
+
 	}
 
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		
-		
+
+
 	}
 
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		
-		
+
+
 	}
 
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		
-		
+
+
 	}
-	
+
 	/**
 	 * 
 	 * @param g - the graphics
@@ -166,8 +170,8 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 	public void nextTurn(Graphics g){
 		paint(g);
 	}
-	
+
 	public void paint(Graphics g){
-		
+
 	}
 }
