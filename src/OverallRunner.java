@@ -415,26 +415,8 @@ public class OverallRunner
 		//Drawing cards
 		//This should give the player the number of cards as specified by the "Draw X" card in play.
 		//If there isn't one in play, it defaults to Draw 1.
-		Deck dRules = g.gameboard.rules;
-
-		nextPlayer.numPlaysSoFar = 0;
-		/* If the deck of rules contains the "Draw 2" card, which has id 4, 
-		 * then draw 2 cards
-		 * */
-		if(dRules.search(4)!=null)
-		{
-			//Add two cards from the draw pile to the next player's hand
-			checkDrawPile(2, nextPlayer);
-			g.gameboard.drawPile.drawCard(nextPlayer.hand, 2);
-		}
-		else
-		{
-			checkDrawPile(1, nextPlayer);
-			g.gameboard.drawPile.drawCard(nextPlayer.hand, 1);
-		}
-		
 		int drawAmt = determineNumber(2);
-		checkDrawPile(drawAmt, nextPlayer);
+		checkDrawPile(drawAmt);
 		g.gameboard.drawPile.drawCard(nextPlayer.hand, drawAmt);
 	
 	}
@@ -444,7 +426,7 @@ public class OverallRunner
 	 * If not, then the discard pile will be shuffled and used for the draw pile.
 	 * @param drawNum the number of cards to draw
 	 */
-	private static void checkDrawPile(int drawNum, Player p) {
+	private static void checkDrawPile(int drawNum) {
 		if(g.gameboard.drawPile.count() < drawNum)
 		{
 			//Add the shuffled discard pile to the drawpile:
