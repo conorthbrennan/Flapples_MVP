@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +70,7 @@ public class OverallRunner
 		
 		if(!g.evaluateGoalMatching())
 		{
-			//FlowLayout flow = new FlowLayout(FlowLayout.CENTER,200,20);//alignment,hgap,vgap		
+			//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
 			BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 			uberpane.setLayout(box);
 
@@ -411,6 +410,8 @@ public class OverallRunner
 	 */
 	private static void handleTurnChange(Player nextPlayer) {
 		
+		nextPlayer.numPlaysSoFar = 0;
+		
 		//Drawing cards
 		//This should give the player the number of cards as specified by the "Draw X" card in play.
 		//If there isn't one in play, it defaults to Draw 1.
@@ -428,10 +429,14 @@ public class OverallRunner
 		}
 		else
 		{
-			checkDrawPile(1,nextPlayer);
+			checkDrawPile(1, nextPlayer);
 			g.gameboard.drawPile.drawCard(nextPlayer.hand, 1);
 		}
 		
+		int drawAmt = determineNumber(2);
+		checkDrawPile(drawAmt, nextPlayer);
+		g.gameboard.drawPile.drawCard(nextPlayer.hand, drawAmt);
+	
 	}
 
 	/**
@@ -439,7 +444,7 @@ public class OverallRunner
 	 * If not, then the discard pile will be shuffled and used for the draw pile.
 	 * @param drawNum the number of cards to draw
 	 */
-	private static void checkDrawPile(int drawNum, Player nextP) {
+	private static void checkDrawPile(int drawNum, Player p) {
 		if(g.gameboard.drawPile.count() < drawNum)
 		{
 			//Add the shuffled discard pile to the drawpile:
@@ -449,10 +454,9 @@ public class OverallRunner
 		
 		if(g.gameboard.drawPile.count() < drawNum)
 		{
-			System.out.println("You all lose... I hate you");
-			message = "You all lose... I hate you";
-			drawEverything(nextP,g.gameboard);
-			
+			//LOL. There aren't enough cards in the draw pile and the discard pile combined to draw enough cards.
+			//Have fun with errors!!
+			System.out.println("The standard deck hasn't been filled with cards yet, so screw you!");
 		}
 			
 	}
@@ -514,10 +518,21 @@ public class OverallRunner
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
-			//System.out.println("You haven't played enough cards.");
-			message = "You haven't played enough cards.";
-			drawEverything(p,g.gameboard);
-			return false;
+			if(p.hand.count() != 0)
+			{
+				//System.out.println("You haven't played enough cards.");
+				message = "You haven't played enough cards.";
+				drawEverything(p,g.gameboard);
+				return false;
+			}
+			else
+			{
+				//you can't play anything
+				message = "End turn, because you have no hand.";
+				drawEverything(p,g.gameboard);
+				return true;
+			}
+			
 		}
 		else
 		{
