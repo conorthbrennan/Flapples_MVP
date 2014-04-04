@@ -576,9 +576,9 @@ public class MainDeck extends Deck{
 			
 			//cards dictating how many possessions can be had in your holding pen
 			//RuleCard posLim2 = new RuleCard("possession limit 2", ruleImg, "you may have up to two possessions in your pen", 95, this, 3, 2);
-			RuleCard posLim3 = new RuleCard("possession limit 3", ruleImg, "you may have up to three possessions in your pen", 96, this, 3, 3);
-			RuleCard posLim4 = new RuleCard("possession limit 4", ruleImg, "you may have up to four possessions in your pen", 97, this, 3, 4);
-			RuleCard posLim5 = new RuleCard("possession limit 5", ruleImg, "you may have up to two possessions in your pen", 95, this, 3, 5);
+			RuleCard posLim3 = new RuleCard("possession limit 3", ruleImg, "you may have up to three possessions in your pen", 95, this, 3, 3);
+			RuleCard posLim4 = new RuleCard("possession limit 4", ruleImg, "you may have up to four possessions in your pen", 96, this, 3, 4);
+			RuleCard posLim5 = new RuleCard("possession limit 5", ruleImg, "you may have up to five possessions in your pen", 97, this, 3, 5);
 			
 			//cards dictating how many cards can be held in your hand
 			RuleCard handLim1 = new RuleCard("hand limit 1", ruleImg, "you may have up to one card in your hand", 98, this, 4, 1);
@@ -595,9 +595,9 @@ public class MainDeck extends Deck{
 			addCard(draw2);
 			addCard(draw3);
 			addCard(draw4);
-			addCard(posLim5);
 			addCard(posLim3);
 			addCard(posLim4);
+			addCard(posLim5);
 			addCard(handLim1);
 			addCard(handLim2);
 			addCard(handLim3);
