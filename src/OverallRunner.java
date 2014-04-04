@@ -27,8 +27,7 @@ public class OverallRunner
 	
 	public static void main(String [] args)
 	{
-		askPlayers();
-		g = new Game();
+		g = new Game(overallFrame);
 		
 		Board exampleBoard = g.gameboard;
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
@@ -108,28 +107,6 @@ public class OverallRunner
 		
 	}
 	
-	public static ArrayList<Player> askPlayers(){
-		
-		Object[] possibilities = null;//{"ham", "spam", "yam"};
-		String s = (String)JOptionPane.showInputDialog(
-		                    overallFrame,
-		                    "How many players?",
-		                    "Customized Dialog",
-		                    JOptionPane.QUESTION_MESSAGE,
-		                    null,
-		                    possibilities,
-		                    "0");
-
-		//If a string was returned, say so.
-		if ((s != null) && (s.length() > 0)) {
-		    //setLabel("Green eggs and... " + s + "!");
-		    //return;
-		}
-
-		//If you're here, the return value was null/empty.
-		//setLabel("Come on, finish the sentence!");
-		return null;
-	}
 	
 	/**
 	 * This sets up the JPanel dealing with the Player's hand. Each card is a JButton that can be played.

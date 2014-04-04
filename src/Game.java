@@ -9,6 +9,9 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  * The game. It controls things.
  * @author Billy Leete, Rebecca Thomas, Conor Brennan
@@ -30,12 +33,27 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 
 	// Game methods
 
-	public Game() {
+	public Game(JFrame f) {
 		super();		
 		thisThread=new Thread(this); //create a thread for an object
 		thisThread.start(); 
-		int plrs = Integer.parseInt(prompt("how many players?"));
-		gameboard = new Board(this, plrs);
+		//int plrs = Integer.parseInt(prompt("how many players?"));
+		int plrs = askNumPlayers(f);
+		gameboard = new Board(this, plrs,f);
+	}
+	
+	public static int askNumPlayers(JFrame overallFrame){
+		Object[] possibilities = null;
+		String s = (String)JOptionPane.showInputDialog(
+				overallFrame,
+				"How many players?",
+				"Tell me the number of the players...",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				possibilities,
+				"0");
+
+		return Integer.parseInt(s);
 	}
 
 	/** ***GOALIE***
