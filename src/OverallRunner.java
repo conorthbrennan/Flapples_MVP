@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -26,6 +27,7 @@ public class OverallRunner
 	
 	public static void main(String [] args)
 	{
+		askPlayers();
 		g = new Game();
 		
 		Board exampleBoard = g.gameboard;
@@ -89,6 +91,10 @@ public class OverallRunner
 			uberpane.add(holdingPenRow);
 			uberpane.add(handRow);
 			
+			
+			if(message != null)
+				JOptionPane.showMessageDialog(overallFrame, message);
+			
 			overallFrame.pack();
 			overallFrame.setVisible(true);
 			overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,6 +106,29 @@ public class OverallRunner
 			uberpane.add(youWon);
 		}
 		
+	}
+	
+	public static ArrayList<Player> askPlayers(){
+		
+		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String s = (String)JOptionPane.showInputDialog(
+		                    overallFrame,
+		                    "How many players?",
+		                    "Customized Dialog",
+		                    JOptionPane.QUESTION_MESSAGE,
+		                    null,
+		                    possibilities,
+		                    "0");
+
+		//If a string was returned, say so.
+		if ((s != null) && (s.length() > 0)) {
+		    //setLabel("Green eggs and... " + s + "!");
+		    //return;
+		}
+
+		//If you're here, the return value was null/empty.
+		//setLabel("Come on, finish the sentence!");
+		return null;
 	}
 	
 	/**
@@ -157,6 +186,7 @@ public class OverallRunner
 					{
 						//System.out.println("You played the " + cd.getTitle() + " card!");
 						message = "You played the " + cd.getTitle() + " card!";
+						
 						cd.playCard(p, g.gameboard);
 						p.numPlaysSoFar +=1;
 						
