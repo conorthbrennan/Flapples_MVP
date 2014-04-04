@@ -595,7 +595,7 @@ public class MainDeck extends Deck{
 			addCard(draw2);
 			addCard(draw3);
 			addCard(draw4);
-			addCard(posLim2);
+			addCard(posLim5);
 			addCard(posLim3);
 			addCard(posLim4);
 			addCard(handLim1);
