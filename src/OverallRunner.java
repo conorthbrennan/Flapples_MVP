@@ -355,7 +355,16 @@ public class OverallRunner
 					Player nextPlayer = getNextPlayer(currentPlayer);
 					message = "Now it is " + nextPlayer.name + "'s turn.";
 					handleTurnChange(nextPlayer);
-					drawEverything(nextPlayer,g.gameboard);
+					if(nextPlayer.getClass() != (new ArtificialIntelligence()).getClass())
+					{
+						drawEverything(nextPlayer,g.gameboard);
+					}
+					else
+					{
+						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
+						AI.PickCardSwitch().playCard(AI, g.gameboard);
+					}
+					
 				}	
 				
 			}

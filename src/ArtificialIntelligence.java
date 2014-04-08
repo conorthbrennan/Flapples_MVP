@@ -9,6 +9,10 @@ public class ArtificialIntelligence extends Player{
 		game = g;
 	}
 
+	public ArtificialIntelligence(){
+		super("Nobody");
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

@@ -25,6 +25,9 @@ public class MainDeck extends Deck{
 			posImg = ImageIO.read(new File("exampleCardIcon.png"));
 			goalImg = ImageIO.read(new File("16947.fw.png"));
 			ruleImg = ImageIO.read(new File("Rules.gif"));
+			posImg = null;
+			goalImg = null;
+			ruleImg= null;
 			
 			ArrayList<String> categories = new ArrayList<String>();
 			
