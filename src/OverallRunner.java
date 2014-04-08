@@ -129,6 +129,7 @@ public class OverallRunner
 			{
 				JButton b = new JButton(cd.getTitle());
 				b.setText(cd.getTitle() + ": " + cd.getDescription());
+				System.out.println(cd.getTitle() + "  " + cd.getPicture());
 				b.setIcon(new ImageIcon(cd.getPicture()));
 				b = addListeners(b,cd,p);
 				handRow.add(b);
