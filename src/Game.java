@@ -52,7 +52,6 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 				null,
 				possibilities,
 				"0");
-
 		return Integer.parseInt(s);
 	}
 

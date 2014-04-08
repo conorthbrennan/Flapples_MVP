@@ -23,6 +23,7 @@ public class Board {
 			players.get(i).hand = new Deck(g);
 			players.get(i).holdingPen = new Deck(g);
 		}
+		
 		//initialize some of the decks:
 		goals = new Deck(g);
 		rules = new Deck(g);
