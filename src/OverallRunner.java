@@ -187,7 +187,8 @@ public class OverallRunner
 				}
 				else//you are discarding
 				{
-					cd.location.removeCard(cd);
+					System.out.println(cd.location);
+					cd.location.removeCard(cd);					
 					g.gameboard.addCard(cd, g.gameboard.discard);
 					cd.location = g.gameboard.discard;
 					//System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
