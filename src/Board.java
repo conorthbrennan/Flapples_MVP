@@ -1,25 +1,60 @@
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  * The board.
  * @author Rebecca Thomas,Billy Leete,Conor Brennan
  *
  */
-// 3-16 - Board is not abstract. it should have a constructor.
 public class Board {
-	private Game g;
-	private ArrayList<Player> players;
-	private Deck goals, rules, discard, deckdeck;
+	public ArrayList<Player> players;
+	public Deck goals, rules, discard, drawPile;
+	public Game g;
 	
-	public Board(Game g0, int numPlayers) {
-		g = g0;
+	public Board(Game game, int num,JFrame f){//game needed a constructor like this but I don't know what to fill it with
+		g = game;
 		players = new ArrayList<Player>();
+		for (int i=0;i<num;i++) {
+			//players.add(new Player(g.prompt("name of player "+ (i+1) )) );
+			
+			String n = askPlayerName(i+1,f);
+			if(!n.contains("AI"))
+				players.add(new Player(n));
+			else
+				players.add(new ArtificialIntelligence(n,0,game));
+			//initialize hand and holding pen
+			players.get(i).hand = new Deck(g);
+			players.get(i).holdingPen = new Deck(g);
+		}
+		
+		//initialize some of the decks:
+		goals = new Deck(g);
+		rules = new Deck(g);
+		discard = new Deck(g);
+		
+		//Shuffle the drawPile
+		drawPile = new MainDeck(g);
+		drawPile.shuffle();
 	}
 	
-	public Game getGame() { return g; }
-	
-	public Deck getDeckDeck(){
-		return deckdeck;
+	public static String askPlayerName(int n, JFrame overallFrame){
+
+		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String s = (String)JOptionPane.showInputDialog(
+				overallFrame,
+				"What is player " + n + " 's name?" ,
+				"WHAT'S YO NAME?",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				possibilities,
+				"NameNameName");
+		return s;
+	}
+
+	public Deck getDrawPile(){
+		return drawPile;
 	}
 	
 	public ArrayList<Player> getPlayers(){

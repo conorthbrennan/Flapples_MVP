@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -6,13 +7,15 @@ import java.util.ArrayList;
  *
  */
 public class Goal extends Card{
+
 	// has to reference specific Possessions objects
 	// has to have a method that interfaces with Game's evaluateGoalMatching method
 	
-	private ArrayList<Possessions> necCardsToWin;
+	public ArrayList<Possession> necCardsToWin;
 	
-	public Goal(Game game, ArrayList<Possessions> winCards) {
-		super();//sets up blank card
+	public Goal(Game game, String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<Possession> winCards) {
+		super(titl, pic, descrip, id, locate);
+	
 		necCardsToWin=winCards;
 		
 		super.g = game;
@@ -21,9 +24,18 @@ public class Goal extends Card{
 	}
 	@Override
 	public void playCard(Player pl, Board b) {
-		this.location.removeCard(this);; 		// how to implement this paradigm?
-		this.g.handleGoal(this);
+		pl.hand.removeCard(this);
+		
+		//Dispense with old goal:
+		if(b.goals.count() >= 1)//if there is a goal:
+				b.goals.drawCard(b.discard, 1);//move the old goal to the discard pile
+		b.goals.addCard(this);//add new goal
+		
+		//change the location of this goal:
 		this.location = this.g.getBoard().getGoals();
+		
+		//handle the goal
+		g.evaluateGoalMatching();
 	}
 	
 	/**

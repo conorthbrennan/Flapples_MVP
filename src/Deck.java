@@ -10,7 +10,7 @@ public class Deck implements GameObject {
 	public ArrayList<Card> deck = new ArrayList<Card>();	// 'Deck' auto creates an empty list
 	
 	/**
-	 * Specify whose Deck!
+	 * Specify whose Deck
 	 * @param creator
 	 */
 	public Deck(GameObject creator) {
@@ -24,7 +24,8 @@ public class Deck implements GameObject {
 			return owner.getGame();
 	}
 	
-	public ArrayList<Card> getDeck(){	// for its sub-classes..(?)
+
+	public ArrayList<Card> getDeck(){	// intended to be used by sub-classes?
 		return deck;
 	}
 	
@@ -110,7 +111,7 @@ public class Deck implements GameObject {
 	 */
 	public void removeCards(Card[] cards){
 		for (int i = 0; i < cards.length; i++) {//iterates through the list of cards
-			addCard(cards[i]);//removes each card from the deck
+			removeCard(cards[i]);//removes each card from the deck
 		}//end for
 	}//class addCards
 	
