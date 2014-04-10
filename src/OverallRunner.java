@@ -100,9 +100,9 @@ public class OverallRunner
 		}
 		else
 		{
-			JTextArea youWon = new JTextArea();
-			youWon.setText("THE GAME HAS BEEN WON!!!!!");
-			uberpane.add(youWon);
+			message = "THE GAME HAS BEEN WON!!!!";
+			JOptionPane.showMessageDialog(overallFrame, message);
+			System.exit(0);
 		}
 		
 	}
@@ -328,6 +328,7 @@ public class OverallRunner
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				discarding = true;
+				message = "You will be discarding the next card you click! Beware!";
 				drawEverything(p, g.gameboard);
 			}
 		};
