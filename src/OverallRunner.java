@@ -27,6 +27,7 @@ public class OverallRunner
 	
 	public static void main(String [] args)
 	{
+		boolean cheatable = willCheat();
 		g = new Game(overallFrame);
 		
 		Board exampleBoard = g.gameboard;
@@ -50,6 +51,23 @@ public class OverallRunner
 		drawEverything(plrs.get(0),exampleBoard);
 		//As the end turn button gets pressed, the turns commence.
 
+	}
+
+	private static boolean willCheat() {
+
+		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String s = (String)JOptionPane.showInputDialog(
+				overallFrame,
+				"Cheating." ,
+				"Can you cheat?",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				possibilities,
+				"Cheatcodes");
+		if(s.equals("w"))
+			return true;
+		else
+			return false;
 	}
 
 	/**
