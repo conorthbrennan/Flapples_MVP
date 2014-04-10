@@ -13,6 +13,12 @@ public class Goal extends Card{
 	
 	public ArrayList<Possession> necCardsToWin;
 	
+	public Goal(){
+		super(null, null, null, (Integer) null, null);
+		necCardsToWin=null;
+		super.g = null;
+	}
+	
 	public Goal(Game game, String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<Possession> winCards) {
 		super(titl, pic, descrip, id, locate);
 	
