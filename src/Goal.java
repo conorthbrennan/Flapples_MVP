@@ -54,4 +54,16 @@ public class Goal extends Card{
 		return true;
 	}
 
+	/**
+	 * Returns whether or not this card is within one of the Goal cards
+	 * @param the Card
+	 * @return is this card in one of the goal cards
+	 */
+	public boolean doesItFit(Card cd){
+		for(Card n : necCardsToWin)
+			if(cd.equals(n))
+				return true;
+		
+		return false;
+	}
 }

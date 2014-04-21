@@ -20,10 +20,21 @@ public class Board {
 			//players.add(new Player(g.prompt("name of player "+ (i+1) )) );
 			
 			String n = askPlayerName(i+1,f);
-			if(!n.contains("AI"))
+			if(!n.contains("AI"))				
 				players.add(new Player(n));
 			else
-				players.add(new ArtificialIntelligence(n,0,game));
+				if(n.contains("1"))
+					players.add(new ArtificialIntelligence(n,1,game));
+				else if(n.contains("2"))
+					players.add(new ArtificialIntelligence(n,2,game));
+				else if(n.contains("3"))
+					players.add(new ArtificialIntelligence(n,3,game));
+				else if(n.contains("4"))
+					players.add(new ArtificialIntelligence(n,4,game));
+				else if(n.contains("0"))
+					players.add(new ArtificialIntelligence(n,0,game));
+				else
+					players.add(new ArtificialIntelligence(n,0,game));
 			//initialize hand and holding pen
 			players.get(i).hand = new Deck(g);
 			players.get(i).holdingPen = new Deck(g);

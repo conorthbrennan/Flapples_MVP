@@ -50,14 +50,47 @@ public class ArtificialIntelligence extends Player{
 	}
 	
 	public Card PickCardEasy(){
-		return null;
+		Deck goals = game.gameboard.goals;
+		//Let's see if any of the cards in your hand fit the goals played
+		Card theCard = null;
+		boolean fit = false;
+		for(int i =0 ; i < goals.count(); i++)
+		{
+			for(int j=0; j < hand.count();j++)
+			{
+				Card hdcd = hand.deck.get(j);
+				Goal gl = (Goal) goals.deck.get(i);
+				//is this card one of the necessary keepers for the goal?
+				fit = gl.doesItFit(hdcd);
+				if(fit)
+					theCard = hdcd;
+			}
+		}
+		
+		if(fit)
+			return theCard;
+		else
+			return PickCardVeryEasy();
 	}
 	
 	public Card PickCardNormal(){
+		//for every card in your hand, see if playing it would make you win.
+		//if so, play that.
+		
+		
 		return null;
 	}
 	
 	public Card PickCardHard(){
+		//for every card in your hand, you check to see if playing it would make anyone else win.
+		//if so, kill it (unless you have to play it)
+		//then take the limited set of cards now and see if playing it would 
+		//make you win.
+		//if none of the cards make you win, then
+		//see if any of the cards is on the current goal card
+		//if none of the cards are on the goals,
+		//then BLA BLA BLA card/board position
+		
 		return null;
 	}
 	
