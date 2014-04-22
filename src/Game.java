@@ -27,8 +27,8 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 
 	public Board gameboard;
 	public JFrame overallFrame;
+	public boolean cheatable;
 	public Board getBoard() { return gameboard;	}
-
 
 	public Game getGame() {  return this; }
 
@@ -96,8 +96,9 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 				}		
 			}
 		}
-
-		hasAnyoneWon = cheatingCode() || hasAnyoneWon;
+		
+		if(cheatable)
+			hasAnyoneWon = cheatingCode() || hasAnyoneWon;
 		
 		if(hasAnyoneWon){
 			if(who != null)

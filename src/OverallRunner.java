@@ -27,8 +27,8 @@ public class OverallRunner
 	
 	public static void main(String [] args)
 	{
-		boolean cheatable = willCheat();
 		g = new Game(overallFrame);
+		g.cheatable = willCheat();
 		
 		Board exampleBoard = g.gameboard;
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
