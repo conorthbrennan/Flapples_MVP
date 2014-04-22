@@ -23,6 +23,7 @@ public class MainDeck extends Deck{
 		BufferedImage ruleImg;
 		try {
 			posImg = ImageIO.read(new File("exampleCardIcon.png"));
+
 			goalImg = ImageIO.read(new File("16947.png"));
 			ruleImg = ImageIO.read(new File("obey.png"));
 			ArrayList<String> categories = new ArrayList<String>();

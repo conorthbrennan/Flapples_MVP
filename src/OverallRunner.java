@@ -27,6 +27,7 @@ public class OverallRunner
 	
 	public static void main(String [] args)
 	{
+		boolean cheatable = willCheat();
 		g = new Game(overallFrame);
 		
 		Board exampleBoard = g.gameboard;
@@ -50,6 +51,23 @@ public class OverallRunner
 		drawEverything(plrs.get(0),exampleBoard);
 		//As the end turn button gets pressed, the turns commence.
 
+	}
+
+	private static boolean willCheat() {
+
+		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String s = (String)JOptionPane.showInputDialog(
+				overallFrame,
+				"Cheating." ,
+				"Can you cheat?",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				possibilities,
+				"Cheatcodes");
+		if(s.equals("w"))
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -100,9 +118,9 @@ public class OverallRunner
 		}
 		else
 		{
-			JTextArea youWon = new JTextArea();
-			youWon.setText("THE GAME HAS BEEN WON!!!!!");
-			uberpane.add(youWon);
+			message = "THE GAME HAS BEEN WON!!!!";
+			JOptionPane.showMessageDialog(overallFrame, message);
+			System.exit(0);
 		}
 		
 	}
@@ -187,7 +205,8 @@ public class OverallRunner
 				}
 				else//you are discarding
 				{
-					cd.location.removeCard(cd);
+					System.out.println(cd.location);
+					cd.location.removeCard(cd);					
 					g.gameboard.addCard(cd, g.gameboard.discard);
 					cd.location = g.gameboard.discard;
 					//System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
@@ -328,6 +347,7 @@ public class OverallRunner
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				discarding = true;
+				message = "You will be discarding the next card you click! Beware!";
 				drawEverything(p, g.gameboard);
 			}
 		};
@@ -356,7 +376,16 @@ public class OverallRunner
 					Player nextPlayer = getNextPlayer(currentPlayer);
 					message = "Now it is " + nextPlayer.name + "'s turn.";
 					handleTurnChange(nextPlayer);
-					drawEverything(nextPlayer,g.gameboard);
+					if(nextPlayer.getClass() != (new ArtificialIntelligence()).getClass())
+					{
+						drawEverything(nextPlayer,g.gameboard);
+					}
+					else
+					{
+						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
+						AI.PickCardSwitch().playCard(AI, g.gameboard);
+					}
+					
 				}	
 				
 			}
