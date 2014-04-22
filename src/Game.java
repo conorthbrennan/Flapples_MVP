@@ -28,6 +28,8 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 	public Board gameboard;
 	public JFrame overallFrame;
 	public boolean cheatable;
+	public int numPlrs;
+	
 	public Board getBoard() { return gameboard;	}
 
 	public Game getGame() {  return this; }
@@ -40,8 +42,8 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 		thisThread.start(); 
 		//int plrs = Integer.parseInt(prompt("how many players?"));
 		overallFrame = f;
-		int plrs = askNumPlayers();
-		gameboard = new Board(this, plrs,overallFrame);
+		numPlrs = askNumPlayers();
+		gameboard = new Board(this, numPlrs,overallFrame);
 	}
 	
 	public int askNumPlayers(){

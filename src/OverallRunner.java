@@ -53,6 +53,10 @@ public class OverallRunner
 
 	}
 
+	/**
+	 * Will this game allowing cheating?
+	 * @return whether or not you entered the secret code
+	 */
 	private static boolean willCheat() {
 
 		Object[] possibilities = null;//{"ham", "spam", "yam"};
@@ -99,15 +103,16 @@ public class OverallRunner
 			JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
 			JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
 			JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+			JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
 			
 			//Add all the items to the pane
 			uberpane.add(playerInfoRow);
 			uberpane.add(goalsRow);
 			uberpane.add(rulesRow);
 			uberpane.add(discardRow);
+			uberpane.add(otherHPsRow);
 			uberpane.add(holdingPenRow);
 			uberpane.add(handRow);
-			
 			
 			if(message != null)
 				JOptionPane.showMessageDialog(overallFrame, message);
@@ -125,11 +130,91 @@ public class OverallRunner
 		
 	}
 	
+	/**This sets up the JPanel dealing with the other player's holding pens. 
+	 * There will be a list of buttons with each button having each other player's name on it.
+	 * If you click that button, then their holding pen will pop up in a different window.
+	 * @param p the Player
+	 * 
+	 * @return the JPanel of other peoples' holding pens.
+	 */
+	private static JPanel setUpOtherHPsRow(Player p) {
+		JPanel HPsRow = new JPanel();
+		
+		GridLayout grid = new GridLayout(1,g.numPlrs);//1 row with x cards
+		HPsRow.setLayout(grid);
+		
+		ArrayList<Player> plrs = g.gameboard.players;
+		
+		for(Player plr: plrs)//for each card
+		{
+			if(!plr.equals(p))
+			{
+				JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
+				b = addPopUpHPsListeners(b,plr);
+				HPsRow.add(b);
+			}
+		}	
+		
+		return HPsRow;
+	}
+
+	
+	/**
+	 * This adds an action listener to the JButton that will pop up another window
+	 * That window will have a list of the cards of the that person's holding pen.
+	 * @param b
+	 * @return the JButton that will pop up with the holding pen info.
+	 */
+	private static JButton addPopUpHPsListeners(JButton b, final Player owner) {
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//title of the popup box = player's name with the num of cards in parens
+				//words = all the cards' titles
+				
+				String str = "";
+				str = listTitlesString(owner.holdingPen,str);
+				if(str.equals(""))
+					str = "nothing";
+				
+				JOptionPane.showMessageDialog(overallFrame,
+					    str,
+					    owner.name + "'s Holding Pen" + " (" + owner.holdingPen.count() + ")",
+					    JOptionPane.PLAIN_MESSAGE);
+				
+			}
+		};
+		
+		b.addActionListener(alist);
+		return b;
+	}
+
+	/**
+	 * Of a particular deck, list all the cards' titles in a string
+	 * @param d the Deck
+	 * @param str the String you want it to be placed into
+	 * @return the String of all the cards' titles
+	 */
+	private static String listTitlesString(Deck d, String str){
+		if(d != null && d.deck != null)
+		{
+			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
+			for(Card cd: cards)//for each card
+			{
+				str += cd.getTitle() + '\n';//add its title to the string str
+			}
+		}
+		else
+		{
+			str+= "<null>";
+		}
+		
+		return str;
+	}
 	
 	/**
 	 * This sets up the JPanel dealing with the Player's hand. Each card is a JButton that can be played.
 	 * @param p The Player
-	 * @param brd The Board
 	 * @return The JPanel of JButtons describing the PLayer's hand.
 	 */
 	private static JPanel setUpHandRow(Player p) {
@@ -149,7 +234,7 @@ public class OverallRunner
 				b.setText(cd.getTitle() + ": " + cd.getDescription());
 				System.out.println(cd.getTitle() + "  " + cd.getPicture());
 				b.setIcon(new ImageIcon(cd.getPicture()));
-				b = addListeners(b,cd,p);
+				b = addCardListeners(b,cd,p);
 				handRow.add(b);
 			}
 		}
@@ -170,7 +255,7 @@ public class OverallRunner
 	 * @param brd The board at that moment
 	 * @return Returns the JButton that represents the card.
 	 */
-	private static JButton addListeners(JButton b,final Card cd, final Player p) {
+	private static JButton addCardListeners(JButton b,final Card cd, final Player p) {
 		//The ActionListener for all the JButtons representing cards in the hand:
 		//To be used to make sure the buttons could work:
 		ActionListener alist = new ActionListener(){
@@ -252,7 +337,7 @@ public class OverallRunner
 					b.setText(cd.getTitle() + ": " + cd.getDescription());
 					b.setIcon(new ImageIcon(cd.getPicture()));
 					b.setBackground(Color.PINK);
-					b = addListeners(b,cd,p);
+					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
 				}
 			}
@@ -383,7 +468,9 @@ public class OverallRunner
 					else
 					{
 						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
-						AI.PickCardSwitch().playCard(AI, g.gameboard);
+						Card cd = AI.PickCardSwitch();
+						cd.playCard(AI, g.gameboard);
+						message = AI.getName() + " played " + cd.getTitle();
 					}
 					
 				}	
@@ -420,20 +507,7 @@ public class OverallRunner
 	 */
 	private static JTextArea listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
-
-		if(d != null && d.deck != null)
-		{
-			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
-			for(Card cd: cards)//for each card
-			{
-				str += cd.getTitle() + '\n';//add its title to the string str
-			}
-		}
-		else
-		{
-			str+= "<null>";
-		}
-		
+		str = listTitlesString(d,str);
 		blob.setText(str);//set the text of the textArea to str
 		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 3));//make the TextArea big enough to read
 		
