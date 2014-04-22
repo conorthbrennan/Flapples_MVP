@@ -93,33 +93,45 @@ public class OverallRunner
 		
 		if(!g.evaluateGoalMatching())
 		{
-			//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
-			BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
-			uberpane.setLayout(box);
+			if(!p.getName().contains("AI"))
+			{
+				System.out.println("NO COMPY HERE");
+				//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
+				uberpane.setLayout(box);
 
-			JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-			JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
-			JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-			JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-			JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-			JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
-			JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
+				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+				JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+				JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+				JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
+				JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+				JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+				JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
+				
+				//Add all the items to the pane
+				uberpane.add(playerInfoRow);
+				uberpane.add(goalsRow);
+				uberpane.add(rulesRow);
+				uberpane.add(discardRow);
+				uberpane.add(otherHPsRow);
+				uberpane.add(holdingPenRow);
+				uberpane.add(handRow);
+				
+				if(message != null)
+					JOptionPane.showMessageDialog(overallFrame, message);
+				
+				overallFrame.pack();
+				overallFrame.setVisible(true);
+				overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+			else
+			{
+				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+				JTextArea blob = new JTextArea("THIS IS THE AI.");
+				uberpane.add(playerInfoRow);
+				uberpane.add(blob);
+			}
 			
-			//Add all the items to the pane
-			uberpane.add(playerInfoRow);
-			uberpane.add(goalsRow);
-			uberpane.add(rulesRow);
-			uberpane.add(discardRow);
-			uberpane.add(otherHPsRow);
-			uberpane.add(holdingPenRow);
-			uberpane.add(handRow);
-			
-			if(message != null)
-				JOptionPane.showMessageDialog(overallFrame, message);
-			
-			overallFrame.pack();
-			overallFrame.setVisible(true);
-			overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		else
 		{
@@ -471,6 +483,7 @@ public class OverallRunner
 						Card cd = AI.PickCardSwitch();
 						cd.playCard(AI, g.gameboard);
 						message = AI.getName() + " played " + cd.getTitle();
+						drawEverything(nextPlayer,g.gameboard);
 					}
 					
 				}	
@@ -608,6 +621,9 @@ public class OverallRunner
 		int numPlaysNeeded = determineNumber(1);
 		int maxPoss = determineNumber(3);
 		int maxHand = determineNumber(4);
+		
+		if(p.getName().contains("AI"))
+			return true;
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
