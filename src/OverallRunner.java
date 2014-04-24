@@ -201,6 +201,7 @@ public class OverallRunner
 		return b;
 	}
 
+	
 	/**
 	 * Of a particular deck, list all the cards' titles in a string
 	 * @param d the Deck
@@ -392,17 +393,48 @@ public class OverallRunner
 	}
 	
 	/**
-	 * This sets up the JPanel about the Goals in play. Each card is represented by its title.
+	 * This sets up the JPanel about the Goals in play. 
+	 * Each goal is represented by its title on a JButton.
+	 * The JButton will open up a popup window which tells you its description.
 	 * @param b The Board
 	 * @return The JPanel with JTextArea which has the titles of all its cards
 	 */
 	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
-		String str= "Goals: \n";
+		String str= "Goals: ";
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
-		JTextArea blob = listTitles(goals,str);
-		goalsRow.add(blob);//add the text to the panel
+		//for all the goals are played, they will be shown.
+		//if there isn't a goal in play, then nothing is shown.
+		for(Card gl : goals.deck){
+			JButton bob = new JButton(str + gl.getTitle());
+			bob = addDescriptionListener(bob,(Goal) gl);
+			goalsRow.add(bob);
+		}
+		
 		return goalsRow;
+	}
+	
+	/**
+	 * This adds the listener that will bring up a pop up containing the description of the goal.
+	 * @param descrip the JButton for the Goal you want to have described.
+	 * @param gl the Goal card associated
+	 * @return the JButton with listener
+	 */
+	private static JButton addDescriptionListener(JButton descrip,final Goal gl){
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Get the goal's description
+				JOptionPane.showMessageDialog(overallFrame,
+						gl.getDescription(),
+					    gl.getTitle(),
+					    JOptionPane.PLAIN_MESSAGE);
+				
+			}
+		};
+		
+		descrip.addActionListener(alist);
+		return descrip;
 	}
 	
 	/**
