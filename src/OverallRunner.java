@@ -1,9 +1,15 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -244,8 +250,9 @@ public class OverallRunner
 			for(Card cd: cards)//for each card
 			{
 				JButton b = new JButton(cd.getTitle());
-				b.setText(cd.getTitle() + ": " + cd.getDescription());
-				System.out.println(cd.getTitle() + "  " + cd.getPicture());
+				//b.setText(cd.getTitle() + ": " + cd.getDescription());
+				//System.out.println(cd.getTitle() + "  " + cd.getPicture());
+				b.setText(cd.getTitle());//no description because ToolTips
 				b.setIcon(new ImageIcon(cd.getPicture()));
 				b = addCardListeners(b,cd,p);
 				handRow.add(b);
@@ -317,6 +324,7 @@ public class OverallRunner
 		};
 		
 		b.addActionListener(alist);
+		b.setToolTipText(cd.getDescription());
 		return b;
 	}
 
@@ -347,7 +355,8 @@ public class OverallRunner
 				for(Card cd: cards)//for each card
 				{
 					JButton b = new JButton(cd.getTitle());
-					b.setText(cd.getTitle() + ": " + cd.getDescription());
+					//b.setText(cd.getTitle() + ": " + cd.getDescription());
+					b.setText(cd.getTitle());//now you can just hover over the button to see teh description
 					b.setIcon(new ImageIcon(cd.getPicture()));
 					b.setBackground(Color.PINK);
 					b = addCardListeners(b,cd,p);
@@ -401,7 +410,7 @@ public class OverallRunner
 	 */
 	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
-		String str= "Goals: ";
+		String str= "Goal: ";
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
 		//for all the goals are played, they will be shown.
 		//if there isn't a goal in play, then nothing is shown.
@@ -450,7 +459,7 @@ public class OverallRunner
 		String str= "Player: " + p.getName();
 		//I might add more player info later!
 		blob.setText(str);
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
+		blob.setPreferredSize(JTextAreaSize(str));
 		
 		JButton endTurn = endTurnButton(p);
 		JButton discard = discardButton(p);
@@ -463,6 +472,22 @@ public class OverallRunner
 		plInfo.add(discard);
 		plInfo.add(messages);
 		return plInfo;
+	}
+	
+	/**
+	 * This returns the dimensions that the JTExtARea should be.
+	 * @param s The String that the JTextArea has
+	 * @return The size that the JTextArea should be
+	 */
+	private static Dimension JTextAreaSize(String s){	
+		Font f = new Font("Ariel", Font.PLAIN, 12); //overallFrame.getFont();
+		//FONT IS NULL!!!!!
+		System.out.println(f.getFontName());
+		FontRenderContext thing =  new FontRenderContext(null, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT);
+		Rectangle2D r = f.getStringBounds(s,thing);
+	    //System.out.println("(" + r.getWidth() + ", " + r.getHeight() + ")"); 
+		//THIS IS SCERWESED
+		return new Dimension((int)r.getWidth(),(int)r.getHeight());
 	}
 	
 	/**
@@ -519,7 +544,9 @@ public class OverallRunner
 					}
 					
 				}	
-				
+				//ARH
+				//overallFrame.repaint();
+				//drawEverything(getNextPlayer(currentPlayer),g.gameboard);
 			}
 		};
 		
@@ -553,8 +580,9 @@ public class OverallRunner
 	private static JTextArea listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
 		str = listTitlesString(d,str);
+		blob.setEditable(false);
 		blob.setText(str);//set the text of the textArea to str
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 3));//make the TextArea big enough to read
+		blob.setPreferredSize(JTextAreaSize(str));//make the TextArea big enough to read
 		
 		return blob;
 	}
@@ -574,7 +602,6 @@ public class OverallRunner
 		int drawAmt = determineNumber(2);
 		checkDrawPile(drawAmt);
 		g.gameboard.drawPile.drawCard(nextPlayer.hand, drawAmt);
-	
 	}
 
 	/**
