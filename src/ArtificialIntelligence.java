@@ -133,6 +133,10 @@ public class ArtificialIntelligence extends Player{
 		return null;
 	}
 	
+	/**
+	 * Returns a copy of all the goals in your hand.
+	 * @return the deck of goals from your hand
+	 */
 	public Deck goalsHeld(){
 		Deck goals = new Deck();
 		for (int i = 0; i < hand.count(); i++) {

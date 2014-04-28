@@ -14,7 +14,7 @@ public class Goal extends Card{
 	public ArrayList<Possession> necCardsToWin;
 	
 	public Goal(){
-		super(null, null, null, (Integer) null, null);
+		//super(null, null, null, (Integer) null, null);
 		necCardsToWin=null;
 		super.g = null;
 	}
