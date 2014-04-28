@@ -28,6 +28,11 @@ public class Goal extends Card{
 		
 		// set up configuration
 	}
+	
+	public ArrayList<Possession> getWinCards(){
+		return necCardsToWin;
+	}
+	
 	@Override
 	public void playCard(Player pl, Board b) {
 		pl.hand.removeCard(this);

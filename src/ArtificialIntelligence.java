@@ -74,20 +74,33 @@ public class ArtificialIntelligence extends Player{
 			System.out.println("played because this card best fits the goal");
 			return theCard;
 		}
-		else{
-			System.out.println("played at random");
+		else
 			return PickCardVeryEasy();
-		}
 	}
 	
 	public Card PickCardNormal(){
-		//for every card in your hand, see if playing it would make you win.
+		//for every Goal card in your hand, see if playing it would make you win.
 		//if so, play that.
 		Card theCard = null;
 		boolean fit = false;
+		Deck goals = goalsHeld();
+		for (int i = 0; i < goals.count(); i++) {
+			for (int j = 0; j < holdingPen.count(); j++) {
+				Card penCard = holdingPen.deck.get(j);
+				Goal gl = (Goal) goals.deck.get(i);
+				//is the card in the pen a requirement for this goal?
+				fit = gl.doesItFit(penCard);
+				if(fit)
+					theCard = gl;
+			}
+		}
 		
-		
-		return null;
+		if(fit){
+			System.out.println("Played because this card fits the cards in my pen");
+			return theCard;
+		}
+		else
+			return PickCardNormal();
 	}
 	
 	public Card PickCardHard(){
@@ -100,6 +113,13 @@ public class ArtificialIntelligence extends Player{
 		//if none of the cards are on the goals,
 		//then BLA BLA BLA card/board position
 		
+		ArrayList<Player> players = game.gameboard.players;
+		//removes this AI from the list of players so it will allow itself to win
+		for(int p = 0; p < players.size(); p++){
+			if(players.get(p).getName().equals(name))
+				players.remove(p);
+		}
+		
 		return null;
 	}
 	
@@ -108,14 +128,16 @@ public class ArtificialIntelligence extends Player{
 	}
 	
 	public Deck goalsHeld(){
-		Deck goals = null;
+		Deck goals = new Deck();
 		for (int i = 0; i < hand.count(); i++) {
 			Card hdcd = hand.deck.get(i);
 			boolean isGoal = false;
 			isGoal = hdcd.getClass().equals(new Goal().getClass());
-			if(isGoal)
-				goals.addCard(hdcd);
-			
+			if(isGoal){
+				Goal goal = (Goal)hdcd;
+				Goal clone = new Goal(g, goal.getTitle(), goal.getPicture(), goal.getDescription(), goal.getID(), goal.getLocation(), goal.getWinCards());
+				goals.addCard(clone);
+			}
 		}
 		return goals;
 	}

@@ -17,6 +17,10 @@ public class Deck implements GameObject {
 		owner = creator;
 	}
 	
+	public Deck(){
+		
+	}
+	
 	public Game getGame() {
 		if (owner instanceof Game)
 			return (Game)owner;
@@ -85,11 +89,6 @@ public class Deck implements GameObject {
 	public void addCard(Card card){
 		deck.add(card);//adds the card to the deck
 	}//class addCard
-	
-//	public void addCardClone(Card card){
-//		Card clone = new Card(card.getTitle(), card.getPicture(), card.getDescription(), card.getLocation(), card.getID());
-//		deck.add(clone);
-//	}
 	
 	/**
 	 * adds an array of cards to the deck
