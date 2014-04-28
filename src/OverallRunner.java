@@ -1,9 +1,15 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -27,8 +33,8 @@ public class OverallRunner
 	
 	public static void main(String [] args)
 	{
-		boolean cheatable = willCheat();
 		g = new Game(overallFrame);
+		g.cheatable = willCheat();
 		
 		Board exampleBoard = g.gameboard;
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
@@ -53,6 +59,10 @@ public class OverallRunner
 
 	}
 
+	/**
+	 * Will this game allowing cheating?
+	 * @return whether or not you entered the secret code
+	 */
 	private static boolean willCheat() {
 
 		Object[] possibilities = null;//{"ham", "spam", "yam"};
@@ -89,32 +99,45 @@ public class OverallRunner
 		
 		if(!g.evaluateGoalMatching())
 		{
-			//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
-			BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
-			uberpane.setLayout(box);
+			if(!p.getName().contains("AI"))
+			{
+				System.out.println("NO COMPY HERE");
+				//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
+				uberpane.setLayout(box);
 
-			JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-			JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
-			JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-			JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-			JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-			JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+				JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+				JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+				JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
+				JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+				JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+				JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
+				
+				//Add all the items to the pane
+				uberpane.add(playerInfoRow);
+				uberpane.add(goalsRow);
+				uberpane.add(rulesRow);
+				uberpane.add(discardRow);
+				uberpane.add(otherHPsRow);
+				uberpane.add(holdingPenRow);
+				uberpane.add(handRow);
+				
+				if(message != null)
+					JOptionPane.showMessageDialog(overallFrame, message);
+				
+				overallFrame.pack();
+				overallFrame.setVisible(true);
+				overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+			else
+			{
+				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+				JTextArea blob = new JTextArea("THIS IS THE AI.");
+				uberpane.add(playerInfoRow);
+				uberpane.add(blob);
+			}
 			
-			//Add all the items to the pane
-			uberpane.add(playerInfoRow);
-			uberpane.add(goalsRow);
-			uberpane.add(rulesRow);
-			uberpane.add(discardRow);
-			uberpane.add(holdingPenRow);
-			uberpane.add(handRow);
-			
-			
-			if(message != null)
-				JOptionPane.showMessageDialog(overallFrame, message);
-			
-			overallFrame.pack();
-			overallFrame.setVisible(true);
-			overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		else
 		{
@@ -125,11 +148,92 @@ public class OverallRunner
 		
 	}
 	
+	/**This sets up the JPanel dealing with the other player's holding pens. 
+	 * There will be a list of buttons with each button having each other player's name on it.
+	 * If you click that button, then their holding pen will pop up in a different window.
+	 * @param p the Player
+	 * 
+	 * @return the JPanel of other peoples' holding pens.
+	 */
+	private static JPanel setUpOtherHPsRow(Player p) {
+		JPanel HPsRow = new JPanel();
+		
+		GridLayout grid = new GridLayout(1,g.numPlrs);//1 row with x cards
+		HPsRow.setLayout(grid);
+		
+		ArrayList<Player> plrs = g.gameboard.players;
+		
+		for(Player plr: plrs)//for each card
+		{
+			if(!plr.equals(p))
+			{
+				JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
+				b = addPopUpHPsListeners(b,plr);
+				HPsRow.add(b);
+			}
+		}	
+		
+		return HPsRow;
+	}
+
+	
+	/**
+	 * This adds an action listener to the JButton that will pop up another window
+	 * That window will have a list of the cards of the that person's holding pen.
+	 * @param b
+	 * @return the JButton that will pop up with the holding pen info.
+	 */
+	private static JButton addPopUpHPsListeners(JButton b, final Player owner) {
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//title of the popup box = player's name with the num of cards in parens
+				//words = all the cards' titles
+				
+				String str = "";
+				str = listTitlesString(owner.holdingPen,str);
+				if(str.equals(""))
+					str = "nothing";
+				
+				JOptionPane.showMessageDialog(overallFrame,
+					    str,
+					    owner.name + "'s Holding Pen" + " (" + owner.holdingPen.count() + ")",
+					    JOptionPane.PLAIN_MESSAGE);
+				
+			}
+		};
+		
+		b.addActionListener(alist);
+		return b;
+	}
+
+	
+	/**
+	 * Of a particular deck, list all the cards' titles in a string
+	 * @param d the Deck
+	 * @param str the String you want it to be placed into
+	 * @return the String of all the cards' titles
+	 */
+	private static String listTitlesString(Deck d, String str){
+		if(d != null && d.deck != null)
+		{
+			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
+			for(Card cd: cards)//for each card
+			{
+				str += cd.getTitle() + '\n';//add its title to the string str
+			}
+		}
+		else
+		{
+			str+= "<null>";
+		}
+		
+		return str;
+	}
 	
 	/**
 	 * This sets up the JPanel dealing with the Player's hand. Each card is a JButton that can be played.
 	 * @param p The Player
-	 * @param brd The Board
 	 * @return The JPanel of JButtons describing the PLayer's hand.
 	 */
 	private static JPanel setUpHandRow(Player p) {
@@ -146,10 +250,11 @@ public class OverallRunner
 			for(Card cd: cards)//for each card
 			{
 				JButton b = new JButton(cd.getTitle());
-				b.setText(cd.getTitle() + ": " + cd.getDescription());
-				System.out.println(cd.getTitle() + "  " + cd.getPicture());
+				//b.setText(cd.getTitle() + ": " + cd.getDescription());
+				//System.out.println(cd.getTitle() + "  " + cd.getPicture());
+				b.setText(cd.getTitle());//no description because ToolTips
 				b.setIcon(new ImageIcon(cd.getPicture()));
-				b = addListeners(b,cd,p);
+				b = addCardListeners(b,cd,p);
 				handRow.add(b);
 			}
 		}
@@ -170,7 +275,7 @@ public class OverallRunner
 	 * @param brd The board at that moment
 	 * @return Returns the JButton that represents the card.
 	 */
-	private static JButton addListeners(JButton b,final Card cd, final Player p) {
+	private static JButton addCardListeners(JButton b,final Card cd, final Player p) {
 		//The ActionListener for all the JButtons representing cards in the hand:
 		//To be used to make sure the buttons could work:
 		ActionListener alist = new ActionListener(){
@@ -219,6 +324,7 @@ public class OverallRunner
 		};
 		
 		b.addActionListener(alist);
+		b.setToolTipText(cd.getDescription());
 		return b;
 	}
 
@@ -249,10 +355,11 @@ public class OverallRunner
 				for(Card cd: cards)//for each card
 				{
 					JButton b = new JButton(cd.getTitle());
-					b.setText(cd.getTitle() + ": " + cd.getDescription());
+					//b.setText(cd.getTitle() + ": " + cd.getDescription());
+					b.setText(cd.getTitle());//now you can just hover over the button to see teh description
 					b.setIcon(new ImageIcon(cd.getPicture()));
 					b.setBackground(Color.PINK);
-					b = addListeners(b,cd,p);
+					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
 				}
 			}
@@ -295,17 +402,48 @@ public class OverallRunner
 	}
 	
 	/**
-	 * This sets up the JPanel about the Goals in play. Each card is represented by its title.
+	 * This sets up the JPanel about the Goals in play. 
+	 * Each goal is represented by its title on a JButton.
+	 * The JButton will open up a popup window which tells you its description.
 	 * @param b The Board
 	 * @return The JPanel with JTextArea which has the titles of all its cards
 	 */
 	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
-		String str= "Goals: \n";
+		String str= "Goal: ";
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
-		JTextArea blob = listTitles(goals,str);
-		goalsRow.add(blob);//add the text to the panel
+		//for all the goals are played, they will be shown.
+		//if there isn't a goal in play, then nothing is shown.
+		for(Card gl : goals.deck){
+			JButton bob = new JButton(str + gl.getTitle());
+			bob = addDescriptionListener(bob,(Goal) gl);
+			goalsRow.add(bob);
+		}
+		
 		return goalsRow;
+	}
+	
+	/**
+	 * This adds the listener that will bring up a pop up containing the description of the goal.
+	 * @param descrip the JButton for the Goal you want to have described.
+	 * @param gl the Goal card associated
+	 * @return the JButton with listener
+	 */
+	private static JButton addDescriptionListener(JButton descrip,final Goal gl){
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Get the goal's description
+				JOptionPane.showMessageDialog(overallFrame,
+						gl.getDescription(),
+					    gl.getTitle(),
+					    JOptionPane.PLAIN_MESSAGE);
+				
+			}
+		};
+		
+		descrip.addActionListener(alist);
+		return descrip;
 	}
 	
 	/**
@@ -321,7 +459,7 @@ public class OverallRunner
 		String str= "Player: " + p.getName();
 		//I might add more player info later!
 		blob.setText(str);
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
+		blob.setPreferredSize(JTextAreaSize(str));
 		
 		JButton endTurn = endTurnButton(p);
 		JButton discard = discardButton(p);
@@ -334,6 +472,22 @@ public class OverallRunner
 		plInfo.add(discard);
 		plInfo.add(messages);
 		return plInfo;
+	}
+	
+	/**
+	 * This returns the dimensions that the JTExtARea should be.
+	 * @param s The String that the JTextArea has
+	 * @return The size that the JTextArea should be
+	 */
+	private static Dimension JTextAreaSize(String s){	
+		Font f = new Font("Ariel", Font.PLAIN, 12); //overallFrame.getFont();
+		//FONT IS NULL!!!!!
+		System.out.println(f.getFontName());
+		FontRenderContext thing =  new FontRenderContext(null, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT);
+		Rectangle2D r = f.getStringBounds(s,thing);
+	    //System.out.println("(" + r.getWidth() + ", " + r.getHeight() + ")"); 
+		//THIS IS SCERWESED
+		return new Dimension((int)r.getWidth(),(int)r.getHeight());
 	}
 	
 	/**
@@ -383,11 +537,16 @@ public class OverallRunner
 					else
 					{
 						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
-						AI.PickCardSwitch().playCard(AI, g.gameboard);
+						Card cd = AI.PickCardSwitch();
+						cd.playCard(AI, g.gameboard);
+						message = AI.getName() + " played " + cd.getTitle();
+						drawEverything(nextPlayer,g.gameboard);
 					}
 					
 				}	
-				
+				//ARH
+				//overallFrame.repaint();
+				//drawEverything(getNextPlayer(currentPlayer),g.gameboard);
 			}
 		};
 		
@@ -420,22 +579,10 @@ public class OverallRunner
 	 */
 	private static JTextArea listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
-
-		if(d != null && d.deck != null)
-		{
-			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
-			for(Card cd: cards)//for each card
-			{
-				str += cd.getTitle() + '\n';//add its title to the string str
-			}
-		}
-		else
-		{
-			str+= "<null>";
-		}
-		
+		str = listTitlesString(d,str);
+		blob.setEditable(false);
 		blob.setText(str);//set the text of the textArea to str
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 3));//make the TextArea big enough to read
+		blob.setPreferredSize(JTextAreaSize(str));//make the TextArea big enough to read
 		
 		return blob;
 	}
@@ -455,7 +602,6 @@ public class OverallRunner
 		int drawAmt = determineNumber(2);
 		checkDrawPile(drawAmt);
 		g.gameboard.drawPile.drawCard(nextPlayer.hand, drawAmt);
-	
 	}
 
 	/**
@@ -534,6 +680,9 @@ public class OverallRunner
 		int numPlaysNeeded = determineNumber(1);
 		int maxPoss = determineNumber(3);
 		int maxHand = determineNumber(4);
+		
+		if(p.getName().contains("AI"))
+			return true;
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
