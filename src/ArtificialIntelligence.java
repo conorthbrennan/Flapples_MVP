@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class ArtificialIntelligence extends Player{
 	int difficulty;//accepts an Integer from 0 - 4 with 0 being super easy and 4 being mega hard
 	Game game;
+	Deck noPlay;
 
 	public ArtificialIntelligence(String n, int diff, Game g){
 		super(n);
@@ -13,11 +14,6 @@ public class ArtificialIntelligence extends Player{
 
 	public ArtificialIntelligence(){
 		super("Nobody");
-	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 	
 	public Card PickCardSwitch(){
@@ -100,7 +96,7 @@ public class ArtificialIntelligence extends Player{
 			return theCard;
 		}
 		else
-			return PickCardNormal();
+			return PickCardEasy();
 	}
 	
 	public Card PickCardHard(){
@@ -115,9 +111,19 @@ public class ArtificialIntelligence extends Player{
 		
 		ArrayList<Player> players = game.gameboard.players;
 		//removes this AI from the list of players so it will allow itself to win
-		for(int p = 0; p < players.size(); p++){
+		Deck goals = goalsHeld();
+		for (int p = 0; p < players.size(); p++) {
 			if(players.get(p).getName().equals(name))
 				players.remove(p);
+		}
+		for (int i = 0; i < players.size(); i++) {
+			for (int j = 0; j < players.get(i).holdingPen.count(); j++) {
+				for (int k = 0; k < goals.count(); k++) {
+					boolean fit = false;
+					Card penCard = holdingPen.deck.get(j);
+					
+				}
+			}	
 		}
 		
 		return null;
@@ -135,7 +141,7 @@ public class ArtificialIntelligence extends Player{
 			isGoal = hdcd.getClass().equals(new Goal().getClass());
 			if(isGoal){
 				Goal goal = (Goal)hdcd;
-				Goal clone = new Goal(g, goal.getTitle(), goal.getPicture(), goal.getDescription(), goal.getID(), goal.getLocation(), goal.getWinCards());
+				Goal clone = goal.clone();
 				goals.addCard(clone);
 			}
 		}

@@ -78,8 +78,8 @@ public class Goal extends Card{
 		return false;
 	}
 	
-	public Card clone(){
-		Card clone = new Goal(g, title, picture, description, ID, location, necCardsToWin);
+	public Goal clone(){
+		Goal clone = new Goal(g, title, picture, description, ID, location, necCardsToWin);
 		return clone;
 	}
 }
