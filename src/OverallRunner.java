@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -343,7 +344,7 @@ public class OverallRunner
 		
 		if(!discarding)
 		{
-			JTextArea blob = listTitles(hp,str);
+			JScrollPane blob = listTitles(hp,str);
 			hpRow.add(blob);//add the text to the panel
 		}
 		else
@@ -385,7 +386,7 @@ public class OverallRunner
 		JPanel discardRow = new JPanel();
 		String str = "Discard Pile: \n";
 		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
-		JTextArea blob = listTitles(discards,str);
+		JScrollPane blob = listTitles(discards,str);
 		discardRow.add(blob);//add the text to the panel
 		return discardRow;
 	}
@@ -399,7 +400,7 @@ public class OverallRunner
 		JPanel rulesRow = new JPanel();
 		String str = "Rules: \n";
 		Deck rules = g.gameboard.getRules();//Get the deck of all the rules from the board.
-		JTextArea blob = listTitles(rules,str);
+		JScrollPane blob = listTitles(rules,str);
 		rulesRow.add(blob);//add the text to the panel
 		return rulesRow;
 	}
@@ -575,15 +576,16 @@ public class OverallRunner
 	 * Gets all the titles from a Deck and makes a JTextArea out of it. 
 	 * @param d the Deck you want the titles of
 	 * @param str the starting string for the text area
-	 * @return the text area with all the titles
+	 * @return the scroll pane with all the titles
 	 */
-	private static JTextArea listTitles(Deck d, String str){
+	private static JScrollPane listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
 		str = listTitlesString(d,str,"\n");
 		blob.setEditable(false);
 		blob.setText(str);//set the text of the textArea to str
-		
-		return blob;
+		JScrollPane scrollPane = new JScrollPane(blob,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setPreferredSize(new Dimension(200,60));
+		return scrollPane;
 	}
 	
 	/**
