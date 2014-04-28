@@ -3,6 +3,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -87,7 +88,7 @@ public class OverallRunner
 		
 		//set the look and feel
 		try{
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch(Exception e)
 		{
@@ -169,6 +170,7 @@ public class OverallRunner
 			{
 				JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
 				b = addPopUpHPsListeners(b,plr);
+				b.setToolTipText(listTitlesString(plr.holdingPen,""," "));
 				HPsRow.add(b);
 			}
 		}	
@@ -191,7 +193,7 @@ public class OverallRunner
 				//words = all the cards' titles
 				
 				String str = "";
-				str = listTitlesString(owner.holdingPen,str);
+				str = listTitlesString(owner.holdingPen,str,"\n");
 				if(str.equals(""))
 					str = "nothing";
 				
@@ -212,15 +214,16 @@ public class OverallRunner
 	 * Of a particular deck, list all the cards' titles in a string
 	 * @param d the Deck
 	 * @param str the String you want it to be placed into
+	 * @param spacing whether you want a " " or a "\n"
 	 * @return the String of all the cards' titles
 	 */
-	private static String listTitlesString(Deck d, String str){
+	private static String listTitlesString(Deck d, String str, String spacing){
 		if(d != null && d.deck != null)
 		{
 			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
 			for(Card cd: cards)//for each card
 			{
-				str += cd.getTitle() + '\n';//add its title to the string str
+				str += cd.getTitle() + spacing;//add its title to the string str
 			}
 		}
 		else
@@ -459,7 +462,6 @@ public class OverallRunner
 		String str= "Player: " + p.getName();
 		//I might add more player info later!
 		blob.setText(str);
-		blob.setPreferredSize(JTextAreaSize(str));
 		
 		JButton endTurn = endTurnButton(p);
 		JButton discard = discardButton(p);
@@ -474,21 +476,19 @@ public class OverallRunner
 		return plInfo;
 	}
 	
-	/**
+/*	*//**
 	 * This returns the dimensions that the JTExtARea should be.
 	 * @param s The String that the JTextArea has
 	 * @return The size that the JTextArea should be
-	 */
+	 *//*
 	private static Dimension JTextAreaSize(String s){	
-		Font f = new Font("Ariel", Font.PLAIN, 12); //overallFrame.getFont();
-		//FONT IS NULL!!!!!
-		System.out.println(f.getFontName());
-		FontRenderContext thing =  new FontRenderContext(null, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT, RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT);
-		Rectangle2D r = f.getStringBounds(s,thing);
-	    //System.out.println("(" + r.getWidth() + ", " + r.getHeight() + ")"); 
-		//THIS IS SCERWESED
-		return new Dimension((int)r.getWidth(),(int)r.getHeight());
-	}
+		Font f = new JTextArea().getFont();
+        FontMetrics metrics = new FontMetrics(f) {};  
+        Rectangle2D bounds = metrics.getStringBounds(s, null);  
+        int width= (int) bounds.getWidth();  
+		int hgt = (int) bounds.getHeight();
+		return new Dimension(width,hgt);
+	}*/
 	
 	/**
 	 * Make the JButton that will let you discard other cards
@@ -579,10 +579,9 @@ public class OverallRunner
 	 */
 	private static JTextArea listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
-		str = listTitlesString(d,str);
+		str = listTitlesString(d,str,"\n");
 		blob.setEditable(false);
 		blob.setText(str);//set the text of the textArea to str
-		blob.setPreferredSize(JTextAreaSize(str));//make the TextArea big enough to read
 		
 		return blob;
 	}
