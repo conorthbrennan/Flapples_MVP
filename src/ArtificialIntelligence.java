@@ -91,7 +91,7 @@ public class ArtificialIntelligence extends Player{
 				//is the card in the pen a requirement for this goal?
 				fit = gl.doesItFit(penCard);
 				if(fit)
-					theCard = gl;
+					theCard = hand.search(gl.getID());
 			}
 		}
 		

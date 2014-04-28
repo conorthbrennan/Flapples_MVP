@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Card implements GameObject {
 	Game g;
-	private String title;//the cards title
-	private BufferedImage picture;//the picture of the card
+	String title;//the cards title
+	BufferedImage picture;//the picture of the card
 	String description;//a short description of the card
 	int ID;//a unique Id for the card
 	Deck location;//a designation of it's place on the board
