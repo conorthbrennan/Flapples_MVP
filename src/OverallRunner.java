@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -116,13 +117,26 @@ public class OverallRunner
 				JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
 				JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
 				
+				JTabbedPane tabbedPane = new JTabbedPane();
+				
+				tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
+		                  "Look at your holding pen.");
+				
+				tabbedPane.addTab("The Rules", null, rulesRow,
+		                  "Look at the current rules.");
+				
+				tabbedPane.addTab("The Goal", null, goalsRow,
+		                  "Look at the current goal.");
+				
+				tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
+		                  "Look at other people's holding pens.");
+				
+				tabbedPane.addTab("The Discard Pile", null, discardRow,
+		                  "Look at the current discard pile.");
+				
 				//Add all the items to the pane
 				uberpane.add(playerInfoRow);
-				uberpane.add(goalsRow);
-				uberpane.add(rulesRow);
-				uberpane.add(discardRow);
-				uberpane.add(otherHPsRow);
-				uberpane.add(holdingPenRow);
+				uberpane.add(tabbedPane);
 				uberpane.add(handRow);
 				
 				if(message != null)
@@ -464,6 +478,7 @@ public class OverallRunner
 		String str= "Player: " + p.getName();
 		//I might add more player info later!
 		blob.setText(str);
+		blob.setEditable(false);
 		
 		JButton endTurn = endTurnButton(p);
 		JButton discard = discardButton(p);
