@@ -258,7 +258,7 @@ public class OverallRunner
 		JPanel handRow = new JPanel();
 		//THIS SHALL BE A GRID OF BUTTONS
 		
-		GridLayout grid = new GridLayout(0,3);//any number of rows with 3 cards
+		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
 		handRow.setLayout(grid);
 		
 		Deck hand = p.getHand();
@@ -589,7 +589,7 @@ public class OverallRunner
 	
 
 	/**
-	 * Gets all the titles from a Deck and makes a JTextArea out of it. 
+	 * Gets all the titles from a Deck and makes a JScrollPane out of it. 
 	 * @param d the Deck you want the titles of
 	 * @param str the starting string for the text area
 	 * @return the scroll pane with all the titles
@@ -603,6 +603,23 @@ public class OverallRunner
 		scrollPane.setPreferredSize(new Dimension(200,60));
 		return scrollPane;
 	}
+	
+	/**
+	 * Gets all the titles from a Deck and makes a JScrollPane out of the JButtons
+	 * @param d the Deck you want the titles of
+	 * @param str the starting string for the text area
+	 * @return the scroll pane with all the titles
+	 */
+	private static JScrollPane listButtons(Deck d, String str){
+		JTextArea blob = new JTextArea();
+		str = listTitlesString(d,str,"\n");
+		blob.setEditable(false);
+		blob.setText(str);//set the text of the textArea to str
+		JScrollPane scrollPane = new JScrollPane(blob,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setPreferredSize(new Dimension(200,60));
+		return scrollPane;
+	}
+	
 	
 	/**
 	 * This determines what needs to be done before the next Player is allowed to play any cards.
