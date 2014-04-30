@@ -419,9 +419,10 @@ public class OverallRunner
 		//for all the goals are played, they will be shown.
 		//if there isn't a goal in play, then nothing is shown.
 		for(Card gl : goals.deck){
-			JButton bob = new JButton(str + gl.getTitle());
-			bob = addDescriptionListener(bob,(Goal) gl);
-			goalsRow.add(bob);
+			JButton goalButt = new JButton(str + gl.getTitle());
+			goalButt = addDescriptionListener(goalButt,(Goal) gl);
+			goalButt.setToolTipText(gl.getDescription());
+			goalsRow.add(goalButt);
 		}
 		
 		return goalsRow;
