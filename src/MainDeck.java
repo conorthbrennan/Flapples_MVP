@@ -421,7 +421,7 @@ public class MainDeck extends Deck{
 		 	winCards.add(raspberries);
 		 	winCards.add(blueberries);
 		 	winCards.add(strawberries);
-		 	Goal berryBlast = new Goal(g, "berry blast", goalImg, "berry blast", 64, this, (ArrayList<Possession>) winCards.clone());
+		 	Goal berryBlast = new Goal(g, "berry blast", goalImg, "raspberries and blueberries and strawberries", 64, this, (ArrayList<Possession>) winCards.clone());
 		 	addCard(berryBlast);
 		 	winCards.clear();
 		
