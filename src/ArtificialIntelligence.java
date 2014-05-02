@@ -42,6 +42,7 @@ public class ArtificialIntelligence extends Player{
 			hand.addCard(cd);
 			//noPlay.removeCard(cd);
 		}*/
+		numPlaysSoFar += 1;
 		
 		return picked;
 	}
@@ -148,6 +149,10 @@ public class ArtificialIntelligence extends Player{
 			}
 		}
 		return goals;
+	}
+	
+	public void discard(int max){
+		
 	}
 
 }
