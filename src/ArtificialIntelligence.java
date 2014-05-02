@@ -42,6 +42,7 @@ public class ArtificialIntelligence extends Player{
 			hand.addCard(cd);
 			//noPlay.removeCard(cd);
 		}*/
+		numPlaysSoFar += 1;
 		
 		return picked;
 	}
@@ -105,15 +106,6 @@ public class ArtificialIntelligence extends Player{
 	}
 	
 	public Card PickCardHard(){
-		//for every card in your hand, you check to see if playing it would make anyone else win.
-		//if so, kill it (unless you have to play it)
-		//then take the limited set of cards now and see if playing it would 
-		//make you win.
-		//if none of the cards make you win, then
-		//see if any of the cards is on the current goal card
-		//if none of the cards are on the goals,
-		//then BLA BLA BLA card/board position
-		
 		ArrayList<Player> players = game.gameboard.players;
 		//removes this AI from the list of players so it will allow itself to win
 		Deck goals = goalsHeld();
@@ -157,6 +149,10 @@ public class ArtificialIntelligence extends Player{
 			}
 		}
 		return goals;
+	}
+	
+	public void discard(int max){
+		
 	}
 
 }

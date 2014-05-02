@@ -696,8 +696,8 @@ public class OverallRunner
 		int maxPoss = determineNumber(3);
 		int maxHand = determineNumber(4);
 		
-		if(p.getName().contains("AI"))
-			return true;
+//		if(p.getName().contains("AI"))
+//			return true;
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
