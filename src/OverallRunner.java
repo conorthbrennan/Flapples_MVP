@@ -29,7 +29,7 @@ import javax.swing.UIManager;
 public class OverallRunner
 {
 	private static JFrame overallFrame;
-	private static int plIndex;
+	private static int plIndex;//the index in the list of players of the current player
 	private static Game g;
 	private static boolean discarding;
 	private static String message;
@@ -402,8 +402,8 @@ public class OverallRunner
 	 */
 	private static JPanel setUpRulesRow() {
 		JPanel rulesRow = new JPanel();
-		Deck rules = g.gameboard.getRules();//Get the deck of all the rules from the board.
-		rulesRow = listButtons(rules,Color.lightGray);
+		//Get the deck of all the rules from the board.
+		rulesRow = listButtons(g.gameboard.getRules(),Color.lightGray);
 		return rulesRow;
 	}
 	
