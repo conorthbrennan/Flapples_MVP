@@ -179,7 +179,7 @@ public class OverallRunner
 		
 		ArrayList<Player> plrs = g.gameboard.players;
 		
-		for(Player plr: plrs)//for each card
+		for(Player plr: plrs)//for each player
 		{
 			if(!plr.equals(p))
 			{
@@ -353,38 +353,30 @@ public class OverallRunner
 	 */
 	private static JPanel setUpHoldingPenRow(Player p) {
 		JPanel hpRow = new JPanel();
-		String str = "Holding Pen: \n";
 		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
 		
+		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
+		hpRow.setLayout(grid);
 		if(!discarding)
 		{
-			JScrollPane blob = listTitles(hp,str);
-			hpRow.add(blob);//add the text to the panel
+			hpRow = listButtons(hp,Color.gray);
 		}
 		else
 		{
-			//ROW OF BUTTONS WHEN DISCARDING
-			GridLayout grid = new GridLayout(0,3);//any number of rows with 3 cards
-			hpRow.setLayout(grid);
-			
 			if(hp!= null)
 			{
-				ArrayList<Card> cards = hp.deck;//Get list of cards from the deck given
-				for(Card cd: cards)//for each card
+				//hpRow = listButtons(hp,Color.PINK);WRONG CUZ WRONG LISTENERS HERE
+				ArrayList<Card> cards = hp.deck;
+				for(Card cd: cards)
 				{
 					JButton b = new JButton(cd.getTitle());
-					//b.setText(cd.getTitle() + ": " + cd.getDescription());
-					b.setText(cd.getTitle());//now you can just hover over the button to see teh description
+					b.setText(cd.getTitle());
 					b.setIcon(new ImageIcon(cd.getPicture()));
-					b.setBackground(Color.PINK);
+					b.setBackground(Color.pink);
 					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
 				}
-			}
-			else{
-				JTextArea blob = new JTextArea();
-				blob.setText("The holding pen is null");
-				hpRow.add(blob);
+				
 			}
 		}
 		
@@ -398,10 +390,8 @@ public class OverallRunner
 	 */
 	private static JPanel setUpDiscardPileRow() {
 		JPanel discardRow = new JPanel();
-		String str = "Discard Pile: \n";
 		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
-		JScrollPane blob = listTitles(discards,str);
-		discardRow.add(blob);//add the text to the panel
+		discardRow = listButtons(discards,Color.lightGray);
 		return discardRow;
 	}
 	
@@ -412,10 +402,8 @@ public class OverallRunner
 	 */
 	private static JPanel setUpRulesRow() {
 		JPanel rulesRow = new JPanel();
-		String str = "Rules: \n";
 		Deck rules = g.gameboard.getRules();//Get the deck of all the rules from the board.
-		JScrollPane blob = listTitles(rules,str);
-		rulesRow.add(blob);//add the text to the panel
+		rulesRow = listButtons(rules,Color.lightGray);
 		return rulesRow;
 	}
 	
@@ -428,34 +416,35 @@ public class OverallRunner
 	 */
 	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
-		String str= "Goal: ";
+		//String str= "Goal: ";
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
 		//for all the goals are played, they will be shown.
 		//if there isn't a goal in play, then nothing is shown.
-		for(Card gl : goals.deck){
+		/*for(Card gl : goals.deck){
 			JButton goalButt = new JButton(str + gl.getTitle());
 			goalButt = addDescriptionListener(goalButt,(Goal) gl);
 			goalButt.setToolTipText(gl.getDescription());
 			goalsRow.add(goalButt);
-		}
+		}*/
+		goalsRow = listButtons(goals,Color.lightGray);
 		
 		return goalsRow;
 	}
 	
 	/**
-	 * This adds the listener that will bring up a pop up containing the description of the goal.
+	 * This adds the listener that will bring up a pop up containing the description of the card.
 	 * @param descrip the JButton for the Goal you want to have described.
-	 * @param gl the Goal card associated
+	 * @param cd the card associated
 	 * @return the JButton with listener
 	 */
-	private static JButton addDescriptionListener(JButton descrip,final Goal gl){
+	private static JButton addDescriptionListener(JButton descrip,final Card cd){
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Get the goal's description
 				JOptionPane.showMessageDialog(overallFrame,
-						gl.getDescription(),
-					    gl.getTitle(),
+						cd.getDescription(),
+					    cd.getTitle(),
 					    JOptionPane.PLAIN_MESSAGE);
 				
 			}
@@ -493,19 +482,6 @@ public class OverallRunner
 		return plInfo;
 	}
 	
-/*	*//**
-	 * This returns the dimensions that the JTExtARea should be.
-	 * @param s The String that the JTextArea has
-	 * @return The size that the JTextArea should be
-	 *//*
-	private static Dimension JTextAreaSize(String s){	
-		Font f = new JTextArea().getFont();
-        FontMetrics metrics = new FontMetrics(f) {};  
-        Rectangle2D bounds = metrics.getStringBounds(s, null);  
-        int width= (int) bounds.getWidth();  
-		int hgt = (int) bounds.getHeight();
-		return new Dimension(width,hgt);
-	}*/
 	
 	/**
 	 * Make the JButton that will let you discard other cards
@@ -607,17 +583,22 @@ public class OverallRunner
 	/**
 	 * Gets all the titles from a Deck and makes a JScrollPane out of the JButtons
 	 * @param d the Deck you want the titles of
-	 * @param str the starting string for the text area
-	 * @return the scroll pane with all the titles
+	 * @param pink 
+	 * @return the JPanel with all the buttons
 	 */
-	private static JScrollPane listButtons(Deck d, String str){
-		JTextArea blob = new JTextArea();
-		str = listTitlesString(d,str,"\n");
-		blob.setEditable(false);
-		blob.setText(str);//set the text of the textArea to str
-		JScrollPane scrollPane = new JScrollPane(blob,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setPreferredSize(new Dimension(200,60));
-		return scrollPane;
+	private static JPanel listButtons(Deck d, Color color){
+		JPanel pane = new JPanel();
+		
+		for(Card cd : d.deck){
+			JButton cdButt = new JButton(cd.getTitle());
+			cdButt.setBackground(color);
+			cdButt.setIcon(new ImageIcon(cd.getPicture()));
+			cdButt.setToolTipText(cd.getDescription());
+			cdButt = addDescriptionListener(cdButt,cd);
+			pane.add(cdButt);
+		}
+		
+		return pane;
 	}
 	
 	

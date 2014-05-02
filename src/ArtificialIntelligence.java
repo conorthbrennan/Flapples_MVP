@@ -34,7 +34,14 @@ public class ArtificialIntelligence extends Player{
 		case 3: picked = PickCardHard();
 				break;
 		}
-		hand.addCards((Card[]) noPlay.deck.toArray());
+		
+		if(noPlay!= null)
+			hand.addCards((Card[]) noPlay.deck.toArray());
+		
+		/*for(Card cd : noPlay.deck){
+			hand.addCard(cd);
+			//noPlay.removeCard(cd);
+		}*/
 		
 		return picked;
 	}
