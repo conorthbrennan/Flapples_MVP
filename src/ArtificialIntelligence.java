@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 
 public class ArtificialIntelligence extends Player{
-	int difficulty;//accepts an Integer from 0 - 4 with 0 being super easy and 4 being mega hard
+	int difficulty;//accepts an Integer from 0 - 3 with 0 being super easy and 3 being hard
 	Game game;
 	Deck noPlay;
 
@@ -32,9 +32,6 @@ public class ArtificialIntelligence extends Player{
 				break;
 				
 		case 3: picked = PickCardHard();
-				break;
-				
-		case 4: picked = PickCardVeryHard();
 				break;
 		}
 		
@@ -112,6 +109,7 @@ public class ArtificialIntelligence extends Player{
 		ArrayList<Player> players = game.gameboard.players;
 		//removes this AI from the list of players so it will allow itself to win
 		Deck goals = goalsHeld();
+		Card theCard = null;
 		for (int p = 0; p < players.size(); p++) {
 			if(players.get(p).getName().equals(name))
 				players.remove(p);
@@ -120,17 +118,18 @@ public class ArtificialIntelligence extends Player{
 			for (int j = 0; j < players.get(i).holdingPen.count(); j++) {
 				for (int k = 0; k < goals.count(); k++) {
 					boolean fit = false;
-					Card penCard = holdingPen.deck.get(j);
-					
+					Card penCard =players.get(i).holdingPen.deck.get(j);
+					Goal goal = (Goal) goals.deck.get(k);
+					if(goal.doesItFit(penCard)){
+						theCard = hand.search(goal.getID());
+						noPlay.addCard(theCard);
+						hand.removeCard(theCard);
+					}
 				}
 			}	
 		}
 		
-		return null;
-	}
-	
-	public Card PickCardVeryHard(){
-		return null;
+		return PickCardNormal();
 	}
 	
 	/**
