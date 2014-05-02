@@ -353,13 +353,12 @@ public class OverallRunner
 	 */
 	private static JPanel setUpHoldingPenRow(Player p) {
 		JPanel hpRow = new JPanel();
-		String str = "Holding Pen: \n";
+		//String str = "Holding Pen: \n";
 		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
 		
 		if(!discarding)
 		{
-			JScrollPane blob = listTitles(hp,str);
-			hpRow.add(blob);//add the text to the panel
+			hpRow = listButtons(hp,Color.lightGray);
 		}
 		else
 		{
