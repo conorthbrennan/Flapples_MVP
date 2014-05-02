@@ -179,7 +179,7 @@ public class OverallRunner
 		
 		ArrayList<Player> plrs = g.gameboard.players;
 		
-		for(Player plr: plrs)//for each card
+		for(Player plr: plrs)//for each player
 		{
 			if(!plr.equals(p))
 			{
@@ -353,27 +353,30 @@ public class OverallRunner
 	 */
 	private static JPanel setUpHoldingPenRow(Player p) {
 		JPanel hpRow = new JPanel();
-		//String str = "Holding Pen: \n";
 		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
 		
+		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
+		hpRow.setLayout(grid);
 		if(!discarding)
 		{
-			hpRow = listButtons(hp,Color.lightGray);
+			hpRow = listButtons(hp,Color.gray);
 		}
 		else
 		{
-			//ROW OF BUTTONS WHEN DISCARDING
-			GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
-			hpRow.setLayout(grid);
-			
 			if(hp!= null)
 			{
-				hpRow = listButtons(hp,Color.PINK);
-			}
-			else{
-				JTextArea blob = new JTextArea();
-				blob.setText("The holding pen is null");
-				hpRow.add(blob);
+				//hpRow = listButtons(hp,Color.PINK);WRONG CUZ WRONG LISTENERS HERE
+				ArrayList<Card> cards = hp.deck;
+				for(Card cd: cards)
+				{
+					JButton b = new JButton(cd.getTitle());
+					b.setText(cd.getTitle());
+					b.setIcon(new ImageIcon(cd.getPicture()));
+					b.setBackground(Color.pink);
+					b = addCardListeners(b,cd,p);
+					hpRow.add(b);
+				}
+				
 			}
 		}
 		
@@ -387,10 +390,7 @@ public class OverallRunner
 	 */
 	private static JPanel setUpDiscardPileRow() {
 		JPanel discardRow = new JPanel();
-		//String str = "Discard Pile: \n";
 		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
-		//JScrollPane blob = listTitles(discards,str);
-		//discardRow.add(blob);//add the text to the panel
 		discardRow = listButtons(discards,Color.lightGray);
 		return discardRow;
 	}
@@ -402,10 +402,7 @@ public class OverallRunner
 	 */
 	private static JPanel setUpRulesRow() {
 		JPanel rulesRow = new JPanel();
-		//String str = "Rules: \n";
 		Deck rules = g.gameboard.getRules();//Get the deck of all the rules from the board.
-		//JScrollPane blob = listTitles(rules,str);
-		//rulesRow.add(blob);//add the text to the panel
 		rulesRow = listButtons(rules,Color.lightGray);
 		return rulesRow;
 	}
