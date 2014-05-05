@@ -302,7 +302,7 @@ public class OverallRunner
 	
 	
 	/**
-	 * This adds the proper action listener to each JButton representing a card.
+	 * This adds the proper action listener to each JButton representing a card in the handRow.
 	 * @param b The JButton that represents this card.
 	 * @param cd The actual card
 	 * @param p The player playing the card
@@ -315,51 +315,52 @@ public class OverallRunner
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!discarding)
-				{
-					if(canPlay(p))
-					{
-						//System.out.println("You played the " + cd.getTitle() + " card!");
-						message = "You played the " + cd.getTitle() + " card!";
-						
-						cd.playCard(p, g.gameboard);
-						p.numPlaysSoFar +=1;
-						
-						//if this is a rule, then change the rules.
-						if(cd.getClass().equals((new RuleCard()).getClass()))
-						{
-							//System.out.println("It's a rule card!");
-							replaceNumber((RuleCard) cd);
-						}
-						
-						//REDRAW EVERYTHING!
-						drawEverything(p, g.gameboard);
-					}
-					else
-					{
-						//System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
-						message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
-						drawEverything(p,g.gameboard);
-					}
-				}
-				else//you are discarding
-				{
-					System.out.println(cd.location);
-					cd.location.removeCard(cd);					
-					g.gameboard.addCard(cd, g.gameboard.discard);
-					cd.location = g.gameboard.discard;
-					//System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
-					message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
-					discarding = false;
-					drawEverything(p,g.gameboard);
-				}
-				
+				cardChosen(cd,p);
 			}
 		};
 		
 		b.addActionListener(alist);
 		b.setToolTipText(cd.getDescription());
 		return b;
+	}
+
+	private static void cardChosen(Card cd, Player p) {
+		if(!discarding)
+		{
+			if(canPlay(p))
+			{
+				//System.out.println("You played the " + cd.getTitle() + " card!");
+				message = "You played the " + cd.getTitle() + " card!";
+				
+				cd.playCard(p, g.gameboard);
+				p.numPlaysSoFar +=1;
+				
+				//if this is a rule, then change the rules.
+				if(cd.getClass().equals((new RuleCard()).getClass()))
+				{
+					replaceNumber((RuleCard) cd);
+				}
+				
+				//REDRAW EVERYTHING!
+				drawEverything(p, g.gameboard);
+			}
+			else
+			{
+				message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
+				drawEverything(p,g.gameboard);
+			}
+		}
+		else//you are discarding
+		{
+			//System.out.println(cd.location);
+			cd.location.removeCard(cd);					
+			g.gameboard.addCard(cd, g.gameboard.discard);
+			cd.location = g.gameboard.discard;
+			message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
+			discarding = false;
+			drawEverything(p,g.gameboard);
+		}
+		
 	}
 
 	/**
@@ -432,18 +433,8 @@ public class OverallRunner
 	 */
 	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
-		//String str= "Goal: ";
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
-		//for all the goals are played, they will be shown.
-		//if there isn't a goal in play, then nothing is shown.
-		/*for(Card gl : goals.deck){
-			JButton goalButt = new JButton(str + gl.getTitle());
-			goalButt = addDescriptionListener(goalButt,(Goal) gl);
-			goalButt.setToolTipText(gl.getDescription());
-			goalsRow.add(goalButt);
-		}*/
 		goalsRow = listButtons(goals,null);
-		
 		return goalsRow;
 	}
 	
@@ -548,6 +539,7 @@ public class OverallRunner
 						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
 						Card cd = AI.PickCardSwitch();
 						cd.playCard(AI, g.gameboard);
+						//cardChosen(cd,AI);
 						message = AI.getName() + " played " + cd.getTitle();
 						drawEverything(nextPlayer,g.gameboard);
 					}
@@ -656,7 +648,7 @@ public class OverallRunner
 		{
 			//LOL. There aren't enough cards in the draw pile and the discard pile combined to draw enough cards.
 			//Have fun with errors!!
-			System.out.println("The standard deck hasn't been filled with cards yet, so screw you!");
+			System.out.println("There aren't enough cards to draw from the combined discard and draw pile.");
 		}
 			
 	}
