@@ -1,16 +1,9 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -33,6 +26,9 @@ public class OverallRunner
 	private static Game g;
 	private static boolean discarding;
 	private static String message;
+	private static Color goalColor = Color.orange;
+	private static Color ruleColor = Color.blue;
+	private static Color possColor = Color.green;
 	
 	public static void main(String [] args)
 	{
@@ -268,12 +264,14 @@ public class OverallRunner
 			for(Card cd: cards)//for each card
 			{
 				JButton b = new JButton(cd.getTitle());
-				//b.setText(cd.getTitle() + ": " + cd.getDescription());
-				//System.out.println(cd.getTitle() + "  " + cd.getPicture());
 				b.setText(cd.getTitle());//no description because ToolTips
 				b.setIcon(new ImageIcon(cd.getPicture()));
 				b = addCardListeners(b,cd,p);
+				b.setBackground(colorCard(cd));
+				//b.setForeground(colorCard(cd)); //Let's leave the text as black, so you can read it here. Elsewhere, it will have the background's color.
+				b.setOpaque(true);
 				handRow.add(b);
+				//handRow.add(b);
 			}
 		}
 		else{
@@ -284,6 +282,24 @@ public class OverallRunner
 	
 		return handRow;
 	}
+	
+	/**
+	 * Returns the color of the card according to its type
+	 * @param cd the Card
+	 * @return the color of that card
+	 */
+	public static Color colorCard(Card cd){
+		if(cd.getClass().equals(new RuleCard().getClass()))
+			return ruleColor;
+		else if(cd.getClass().equals(new Possession().getClass()))
+			return possColor;
+		else if(cd.getClass().equals(new Goal().getClass()))
+			return goalColor;//Goals are orange
+		else
+			return Color.black;//Other are black
+	}
+	
+	
 	
 	/**
 	 * This adds the proper action listener to each JButton representing a card.
@@ -359,7 +375,7 @@ public class OverallRunner
 		hpRow.setLayout(grid);
 		if(!discarding)
 		{
-			hpRow = listButtons(hp,Color.gray);
+			hpRow = listButtons(hp,null);
 		}
 		else
 		{
@@ -372,7 +388,7 @@ public class OverallRunner
 					JButton b = new JButton(cd.getTitle());
 					b.setText(cd.getTitle());
 					b.setIcon(new ImageIcon(cd.getPicture()));
-					b.setBackground(Color.pink);
+					b.setForeground(Color.red);
 					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
 				}
@@ -391,7 +407,7 @@ public class OverallRunner
 	private static JPanel setUpDiscardPileRow() {
 		JPanel discardRow = new JPanel();
 		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
-		discardRow = listButtons(discards,Color.lightGray);
+		discardRow = listButtons(discards,null);
 		return discardRow;
 	}
 	
@@ -403,7 +419,7 @@ public class OverallRunner
 	private static JPanel setUpRulesRow() {
 		JPanel rulesRow = new JPanel();
 		//Get the deck of all the rules from the board.
-		rulesRow = listButtons(g.gameboard.getRules(),Color.lightGray);
+		rulesRow = listButtons(g.gameboard.getRules(),null);
 		return rulesRow;
 	}
 	
@@ -426,7 +442,7 @@ public class OverallRunner
 			goalButt.setToolTipText(gl.getDescription());
 			goalsRow.add(goalButt);
 		}*/
-		goalsRow = listButtons(goals,Color.lightGray);
+		goalsRow = listButtons(goals,null);
 		
 		return goalsRow;
 	}
@@ -591,7 +607,11 @@ public class OverallRunner
 		
 		for(Card cd : d.deck){
 			JButton cdButt = new JButton(cd.getTitle());
+			if(color == null)
+				color = colorCard(cd);
+			cdButt.setForeground(color);
 			cdButt.setBackground(color);
+			cdButt.setOpaque(true);
 			cdButt.setIcon(new ImageIcon(cd.getPicture()));
 			cdButt.setToolTipText(cd.getDescription());
 			cdButt = addDescriptionListener(cdButt,cd);
