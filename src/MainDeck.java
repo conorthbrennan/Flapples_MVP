@@ -27,12 +27,15 @@ public class MainDeck extends Deck{
 			goalImg = ImageIO.read(new File("16947.png"));
 			ruleImg = ImageIO.read(new File("obey.png"));
 			ArrayList<String> categories = new ArrayList<String>();
+			ArrayList<BufferedImage> ico = new ArrayList<BufferedImage>();
 			
 			Game g = creator.getGame();
 		
+
+			ico.add(ImageIO.read(new File("pics/lemon.png")));	// in construction
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession lemons = new Possession("lemons", posImg, "lemons", 0, this, categories);
+			Possession lemons = new Possession("lemons", ico.get(ico.size()-1), "lemons", 0, this, categories);
 			addCard(lemons);
 			categories.clear();
 		
