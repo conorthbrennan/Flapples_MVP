@@ -42,7 +42,7 @@ public class ArtificialIntelligence extends Player{
 			hand.addCard(cd);
 			//noPlay.removeCard(cd);
 		}*/
-		numPlaysSoFar += 1;
+		//numPlaysSoFar += 1; This is done elsewhere
 		
 		return picked;
 	}
@@ -50,7 +50,7 @@ public class ArtificialIntelligence extends Player{
 	public Card PickCardVeryEasy(){
 		int index = (int) (Math.random() * hand.count());
 		Card picked = hand.getDeck().get(index);
-		System.out.println("played at random");
+		System.out.println(picked.getTitle() + " was played at random");
 		return picked;
 	}
 	
@@ -73,7 +73,7 @@ public class ArtificialIntelligence extends Player{
 		}
 		
 		if(fit){
-			System.out.println("played because this card best fits the goal");
+			System.out.println(theCard.getTitle() + " was played because this card best fits the goal");
 			return theCard;
 		}
 		else
@@ -98,7 +98,7 @@ public class ArtificialIntelligence extends Player{
 		}
 		
 		if(fit){
-			System.out.println("Played because this card fits the cards in my pen");
+			System.out.println(theCard.getTitle() + " was played because this card fits the cards in my pen");
 			return theCard;
 		}
 		else
