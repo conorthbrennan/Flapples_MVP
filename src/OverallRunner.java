@@ -100,7 +100,7 @@ public class OverallRunner
 		{
 			if(!p.getName().contains("AI"))
 			{
-				System.out.println("NO COMPY HERE");
+				//System.out.println("NO COMPY HERE");
 				//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
 				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
 				uberpane.setLayout(box);
@@ -148,6 +148,13 @@ public class OverallRunner
 				JTextArea blob = new JTextArea("THIS IS THE AI.");
 				uberpane.add(playerInfoRow);
 				uberpane.add(blob);
+				
+				if(message != null)
+					JOptionPane.showMessageDialog(overallFrame, message);
+				
+				overallFrame.pack();
+				overallFrame.setVisible(true);
+				overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 			
 		}
@@ -327,17 +334,15 @@ public class OverallRunner
 	private static void cardChosen(Card cd, Player p) {
 		if(!discarding)
 		{
-			
 			if(canPlay(p))
 			{
-				//System.out.println("You played the " + cd.getTitle() + " card!");
-				message = "You played the " + cd.getTitle() + " card!";
+				if(!p.getName().contains("AI"))
+					message = "You played the " + cd.getTitle() + " card!";
+				//if it is an AI, this fixes itself later...... I think				
 				
 				cd.playCard(p, g.gameboard);
 				
 				p.numPlaysSoFar +=1;
-				if(p.getName().contains("AI"))
-					System.out.println(p.numPlaysSoFar);
 				
 				//if this is a rule, then change the rules.
 				if(cd.getClass().equals((new RuleCard()).getClass()))
