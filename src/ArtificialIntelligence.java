@@ -42,7 +42,7 @@ public class ArtificialIntelligence extends Player{
 			hand.addCard(cd);
 			//noPlay.removeCard(cd);
 		}*/
-		numPlaysSoFar += 1;
+		//numPlaysSoFar += 1; This is done elsewhere
 		
 		return picked;
 	}

@@ -327,12 +327,14 @@ public class OverallRunner
 	private static void cardChosen(Card cd, Player p) {
 		if(!discarding)
 		{
+			
 			if(canPlay(p))
 			{
 				//System.out.println("You played the " + cd.getTitle() + " card!");
 				message = "You played the " + cd.getTitle() + " card!";
 				
 				cd.playCard(p, g.gameboard);
+				
 				p.numPlaysSoFar +=1;
 				if(p.getName().contains("AI"))
 					System.out.println(p.numPlaysSoFar);
