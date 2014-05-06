@@ -334,6 +334,8 @@ public class OverallRunner
 				
 				cd.playCard(p, g.gameboard);
 				p.numPlaysSoFar +=1;
+				if(p.getName().contains("AI"))
+					System.out.println(p.numPlaysSoFar);
 				
 				//if this is a rule, then change the rules.
 				if(cd.getClass().equals((new RuleCard()).getClass()))
@@ -537,11 +539,7 @@ public class OverallRunner
 					else
 					{
 						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
-						Card cd = AI.PickCardSwitch();
-						//cd.playCard(AI, g.gameboard);
-						cardChosen(cd,AI);
-						message = AI.getName() + " played " + cd.getTitle();
-						drawEverything(nextPlayer,g.gameboard);
+						doAIStuff(AI);
 					}
 					
 				}	
@@ -554,6 +552,27 @@ public class OverallRunner
 		endTurn.addActionListener(alist);
 		
 		return endTurn;
+	}
+
+	/**
+	 * Make sure that the AI does the things it needs to.
+	 * @param AI the AI player
+	 */
+	private static void doAIStuff(ArtificialIntelligence AI) {
+		
+		for(int i = 0; i < determineNumber(1); i++)
+		{
+			//while you need to keep playing, choose cards
+			Card cd = AI.PickCardSwitch();
+			cardChosen(cd,AI);
+			message = AI.getName() + " played " + cd.getTitle();
+			drawEverything(AI,g.gameboard);
+		}
+		
+		//possession limit
+		AI.discardHoldingPen(determineNumber(3));
+		//hand limit
+		AI.discardHand(determineNumber(4));
 	}
 
 	/**
@@ -710,11 +729,6 @@ public class OverallRunner
 		
 //		if(p.getName().contains("AI"))
 //			return true;
-		
-		if(p.getName().contains("AI")){
-			((ArtificialIntelligence) p).discardHand(maxHand);
-			((ArtificialIntelligence) p).discardHoldingPen(maxPoss);
-		}
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
