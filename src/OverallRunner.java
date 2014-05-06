@@ -711,11 +711,6 @@ public class OverallRunner
 //		if(p.getName().contains("AI"))
 //			return true;
 		
-		if(p.getName().contains("AI")){
-			((ArtificialIntelligence) p).discardHand(maxHand);
-			((ArtificialIntelligence) p).discardHoldingPen(maxPoss);
-		}
-		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
 			if(p.hand.count() != 0)
