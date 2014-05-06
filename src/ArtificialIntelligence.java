@@ -151,8 +151,56 @@ public class ArtificialIntelligence extends Player{
 		return goals;
 	}
 	
-	public void discard(int max){
-		
-	}
+	/**
+	 * this method chooses which cards to discard from the board when necessary
+	 * @param max - the current limit on possessions currently in play
+	 */
+	public void discardHoldingPen(int max){
+		Deck goals = new Deck();//creates a new deck to hold all relevant goal cards
+		goals.deck.addAll(goalsHeld().deck);//adds the goals in hand to the deck
+		goals.deck.addAll(game.gameboard.goals.deck);//adds the goals on the board to the deck
+		for(int i = 0; i < goals.count(); i++){//this goes through all the goals in the AI's hand and in play
+			for (int j = 0; j < holdingPen.count(); j++) {//this for loop goes through all the cards in the AI's holding pen
+				Goal goal = (Goal) goals.deck.get(i);//the goal card being examined
+				Card card = holdingPen.deck.get(j);//the card in the holding Pen being examined
+				if(!goal.doesItFit(card)){//sees if the card fits the goal
+					holdingPen.removeCard(card);//if not the card is discarded
+					game.gameboard.discard.addCard(card);//adds the card to the discard pile
+				}//end if
+			}//end for
+		}//end for
+		while(holdingPen.count() > max){//if there are no cards left that aren't necessary discard cards randomly
+			int index = (int) (Math.random() * holdingPen.count());//gets a random number
+			Card card = holdingPen.getDeck().get(index);//finds the card that corresponds to the number
+			holdingPen.removeCard(card);//the card is discarded
+			game.gameboard.discard.addCard(card);//adds the card to the discard pile
+		}//end while
+	}//end discard
+	
+	/**
+	 * this method chooses which cards to discard from hand when necessary
+	 * @param max - the current limit on possessions currently in play
+	 */
+	public void discardHand(int max){
+		Deck goals = new Deck();//creates a new deck to hold all relevant goal cards
+		goals.deck.addAll(goalsHeld().deck);//adds the goals in hand to the deck
+		goals.deck.addAll(game.gameboard.goals.deck);//adds the goals on the board to the deck
+		for(int i = 0; i < goals.count(); i++){//this goes through all the goals in the AI's hand and in play
+			for (int j = 0; j < hand.count(); j++) {//this for loop goes through all the cards in the AI's hand
+				Goal goal = (Goal) goals.deck.get(i);//the goal card being examined
+				Card card = hand.deck.get(j);//the card in the hand being examined
+				if(!goal.doesItFit(card) && hand.count() > max){//sees if the card fits the goal
+					hand.removeCard(card);//if not the card is discarded
+					game.gameboard.discard.addCard(card);//adds the card to the discard pile
+				}//end if
+			}//end for
+		}//end for
+		while(hand.count() > max){//if there are no cards left that aren't necessary discard cards randomly
+			int index = (int) (Math.random() * hand.count());//gets a random number
+			Card card = hand.getDeck().get(index);//finds the card that corresponds to the number
+			hand.removeCard(card);//the card is discarded
+			game.gameboard.discard.addCard(card);//adds the card to the discard pile
+		}//end while
+	}//end discard
 
-}
+}//end Artificial Intelligence
