@@ -110,9 +110,12 @@ public class ArtificialIntelligence extends Player{
 		//removes this AI from the list of players so it will allow itself to win
 		Deck goals = goalsHeld();
 		Card theCard = null;
+		Player AI = null;
 		for (int p = 0; p < players.size(); p++) {
-			if(players.get(p).getName().equals(name))
+			if(players.get(p).getName().equals(name)){
+				AI = players.get(p);
 				players.remove(p);
+			}
 		}
 		for (int i = 0; i < players.size(); i++) {
 			for (int j = 0; j < players.get(i).holdingPen.count(); j++) {
@@ -128,6 +131,8 @@ public class ArtificialIntelligence extends Player{
 				}
 			}	
 		}
+		
+		players.add(AI);//puts the AI back into the list of players
 		
 		return PickCardNormal();
 	}
