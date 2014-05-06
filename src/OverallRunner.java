@@ -538,8 +538,8 @@ public class OverallRunner
 					{
 						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
 						Card cd = AI.PickCardSwitch();
-						cd.playCard(AI, g.gameboard);
-						//cardChosen(cd,AI);
+						//cd.playCard(AI, g.gameboard);
+						cardChosen(cd,AI);
 						message = AI.getName() + " played " + cd.getTitle();
 						drawEverything(nextPlayer,g.gameboard);
 					}
