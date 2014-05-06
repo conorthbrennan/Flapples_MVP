@@ -132,7 +132,7 @@ public class ArtificialIntelligence extends Player{
 			}	
 		}
 		
-		players.add(AI);
+		players.add(AI);//puts the AI back into the list of players
 		
 		return PickCardNormal();
 	}
