@@ -26,8 +26,11 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 	private Thread thisThread;//bleepbloop
 
 	public Board gameboard;
+	public JFrame overallFrame;
+	public boolean cheatable;
+	public int numPlrs;
+	
 	public Board getBoard() { return gameboard;	}
-
 
 	public Game getGame() {  return this; }
 
@@ -38,11 +41,12 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 		thisThread=new Thread(this); //create a thread for an object
 		thisThread.start(); 
 		//int plrs = Integer.parseInt(prompt("how many players?"));
-		int plrs = askNumPlayers(f);
-		gameboard = new Board(this, plrs,f);
+		overallFrame = f;
+		numPlrs = askNumPlayers();
+		gameboard = new Board(this, numPlrs,overallFrame);
 	}
 	
-	public static int askNumPlayers(JFrame overallFrame){
+	public int askNumPlayers(){
 		Object[] possibilities = null;
 		String s = (String)JOptionPane.showInputDialog(
 				overallFrame,
@@ -63,14 +67,6 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 		// look up rules
 		Deck rulebook = gameboard.getRules();
 		// deal with stuff now...
-<<<<<<< HEAD
-		// ... so, dispense with old goal.
-		gameboard.getGoals().addCard(arr);
-		// remove old goals, add new card, and also direct other traffic.
-		
-	}
-	
-=======
 
 		// remove old goals, add new card <- that was done in the goal's playCard method
 		evaluateGoalMatching();
@@ -102,14 +98,37 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 				}		
 			}
 		}
-
+		
+		if(cheatable)
+			hasAnyoneWon = cheatingCode() || hasAnyoneWon;
+		
 		if(hasAnyoneWon){
-
-			System.out.println("YOU, "+ who.name +", HAVE WON!!!!");
+			if(who != null)
+				System.out.println("YOU, "+ who.name +", HAVE WON!!!!");
+			else
+				System.out.println("THE CHEATER HAS WON!!!");
 		}
+		
 
 		return hasAnyoneWon;
 	}
+
+	private boolean cheatingCode() {
+		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String s = (String)JOptionPane.showInputDialog(
+				overallFrame,
+				"Cheater Cheater. Pumpkin Eater." ,
+				"What's the secret word?",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				possibilities,
+				"Cheatcodes");
+		if(s.equals("w"))
+			return true;
+		else
+			return false;
+	}
+
 
 	// utility methods (to be changed according to circumstance
 	public String prompt(String msg) {

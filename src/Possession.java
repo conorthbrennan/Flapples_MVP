@@ -33,4 +33,8 @@ public class Possession extends Card {
 		categories = cats;
 	}
 
+	public Possession() {
+		//the blank one
+	}
+
 }

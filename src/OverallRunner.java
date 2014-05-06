@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -20,14 +22,18 @@ import javax.swing.UIManager;
 public class OverallRunner
 {
 	private static JFrame overallFrame;
-	private static int plIndex;
+	private static int plIndex;//the index in the list of players of the current player
 	private static Game g;
 	private static boolean discarding;
 	private static String message;
+	private static Color goalColor = Color.orange;
+	private static Color ruleColor = Color.blue;
+	private static Color possColor = Color.green;
 	
 	public static void main(String [] args)
 	{
 		g = new Game(overallFrame);
+		g.cheatable = willCheat();
 		
 		Board exampleBoard = g.gameboard;
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
@@ -53,13 +59,34 @@ public class OverallRunner
 	}
 
 	/**
+	 * Will this game allowing cheating?
+	 * @return whether or not you entered the secret code
+	 */
+	private static boolean willCheat() {
+
+		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String s = (String)JOptionPane.showInputDialog(
+				overallFrame,
+				"Cheating." ,
+				"Can you cheat?",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				possibilities,
+				"Cheatcodes");
+		if(s.equals("w"))
+			return true;
+		else
+			return false;
+	}
+
+	/**
 	 * This does the graphical interface.
 	 */
 	private static void drawEverything(Player p, Board b) {
 		
 		//set the look and feel
 		try{
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch(Exception e)
 		{
@@ -71,54 +98,163 @@ public class OverallRunner
 		
 		if(!g.evaluateGoalMatching())
 		{
-			//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
-			BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
-			uberpane.setLayout(box);
+			if(!p.getName().contains("AI"))
+			{
+				System.out.println("NO COMPY HERE");
+				//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
+				uberpane.setLayout(box);
 
-			JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-			JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
-			JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-			JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-			JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-			JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+				JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+				JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+				JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
+				JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+				JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+				JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
+				
+				JTabbedPane tabbedPane = new JTabbedPane();
+				
+				tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
+		                  "Look at your holding pen.");
+				
+				tabbedPane.addTab("The Rules", null, rulesRow,
+		                  "Look at the current rules.");
+				
+				tabbedPane.addTab("The Goal", null, goalsRow,
+		                  "Look at the current goal.");
+				
+				tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
+		                  "Look at other people's holding pens.");
+				
+				tabbedPane.addTab("The Discard Pile", null, discardRow,
+		                  "Look at the current discard pile.");
+				
+				//Add all the items to the pane
+				uberpane.add(playerInfoRow);
+				uberpane.add(tabbedPane);
+				uberpane.add(handRow);
+				
+				if(message != null)
+					JOptionPane.showMessageDialog(overallFrame, message);
+				
+				overallFrame.pack();
+				overallFrame.setVisible(true);
+				overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+			else
+			{
+				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+				JTextArea blob = new JTextArea("THIS IS THE AI.");
+				uberpane.add(playerInfoRow);
+				uberpane.add(blob);
+			}
 			
-			//Add all the items to the pane
-			uberpane.add(playerInfoRow);
-			uberpane.add(goalsRow);
-			uberpane.add(rulesRow);
-			uberpane.add(discardRow);
-			uberpane.add(holdingPenRow);
-			uberpane.add(handRow);
-			
-			
-			if(message != null)
-				JOptionPane.showMessageDialog(overallFrame, message);
-			
-			overallFrame.pack();
-			overallFrame.setVisible(true);
-			overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		else
 		{
-			JTextArea youWon = new JTextArea();
-			youWon.setText("THE GAME HAS BEEN WON!!!!!");
-			uberpane.add(youWon);
+			message = "THE GAME HAS BEEN WON!!!!";
+			JOptionPane.showMessageDialog(overallFrame, message);
+			System.exit(0);
 		}
 		
 	}
 	
+	/**This sets up the JPanel dealing with the other player's holding pens. 
+	 * There will be a list of buttons with each button having each other player's name on it.
+	 * If you click that button, then their holding pen will pop up in a different window.
+	 * @param p the Player
+	 * 
+	 * @return the JPanel of other peoples' holding pens.
+	 */
+	private static JPanel setUpOtherHPsRow(Player p) {
+		JPanel HPsRow = new JPanel();
+		
+		GridLayout grid = new GridLayout(1,g.numPlrs);//1 row with x cards
+		HPsRow.setLayout(grid);
+		
+		ArrayList<Player> plrs = g.gameboard.players;
+		
+		for(Player plr: plrs)//for each player
+		{
+			if(!plr.equals(p))
+			{
+				JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
+				b = addPopUpHPsListeners(b,plr);
+				b.setToolTipText(listTitlesString(plr.holdingPen,""," "));
+				HPsRow.add(b);
+			}
+		}	
+		
+		return HPsRow;
+	}
+
+	
+	/**
+	 * This adds an action listener to the JButton that will pop up another window
+	 * That window will have a list of the cards of the that person's holding pen.
+	 * @param b
+	 * @return the JButton that will pop up with the holding pen info.
+	 */
+	private static JButton addPopUpHPsListeners(JButton b, final Player owner) {
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//title of the popup box = player's name with the num of cards in parens
+				//words = all the cards' titles
+				
+				String str = "";
+				str = listTitlesString(owner.holdingPen,str,"\n");
+				if(str.equals(""))
+					str = "nothing";
+				
+				JOptionPane.showMessageDialog(overallFrame,
+					    str,
+					    owner.name + "'s Holding Pen" + " (" + owner.holdingPen.count() + ")",
+					    JOptionPane.PLAIN_MESSAGE);
+				
+			}
+		};
+		
+		b.addActionListener(alist);
+		return b;
+	}
+
+	
+	/**
+	 * Of a particular deck, list all the cards' titles in a string
+	 * @param d the Deck
+	 * @param str the String you want it to be placed into
+	 * @param spacing whether you want a " " or a "\n"
+	 * @return the String of all the cards' titles
+	 */
+	private static String listTitlesString(Deck d, String str, String spacing){
+		if(d != null && d.deck != null)
+		{
+			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
+			for(Card cd: cards)//for each card
+			{
+				str += cd.getTitle() + spacing;//add its title to the string str
+			}
+		}
+		else
+		{
+			str+= "<null>";
+		}
+		
+		return str;
+	}
 	
 	/**
 	 * This sets up the JPanel dealing with the Player's hand. Each card is a JButton that can be played.
 	 * @param p The Player
-	 * @param brd The Board
 	 * @return The JPanel of JButtons describing the PLayer's hand.
 	 */
 	private static JPanel setUpHandRow(Player p) {
 		JPanel handRow = new JPanel();
 		//THIS SHALL BE A GRID OF BUTTONS
 		
-		GridLayout grid = new GridLayout(0,3);//any number of rows with 3 cards
+		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
 		handRow.setLayout(grid);
 		
 		Deck hand = p.getHand();
@@ -128,11 +264,14 @@ public class OverallRunner
 			for(Card cd: cards)//for each card
 			{
 				JButton b = new JButton(cd.getTitle());
-				b.setText(cd.getTitle() + ": " + cd.getDescription());
-				System.out.println(cd.getTitle() + "  " + cd.getPicture());
+				b.setText(cd.getTitle());//no description because ToolTips
 				b.setIcon(new ImageIcon(cd.getPicture()));
-				b = addListeners(b,cd,p);
+				b = addCardListeners(b,cd,p);
+				b.setBackground(colorCard(cd));
+				//b.setForeground(colorCard(cd)); //Let's leave the text as black, so you can read it here. Elsewhere, it will have the background's color.
+				b.setOpaque(true);
 				handRow.add(b);
+				//handRow.add(b);
 			}
 		}
 		else{
@@ -145,62 +284,83 @@ public class OverallRunner
 	}
 	
 	/**
-	 * This adds the proper action listener to each JButton representing a card.
+	 * Returns the color of the card according to its type
+	 * @param cd the Card
+	 * @return the color of that card
+	 */
+	public static Color colorCard(Card cd){
+		if(cd.getClass().equals(new RuleCard().getClass()))
+			return ruleColor;
+		else if(cd.getClass().equals(new Possession().getClass()))
+			return possColor;
+		else if(cd.getClass().equals(new Goal().getClass()))
+			return goalColor;//Goals are orange
+		else
+			return Color.black;//Other are black
+	}
+	
+	
+	
+	/**
+	 * This adds the proper action listener to each JButton representing a card in the handRow.
 	 * @param b The JButton that represents this card.
 	 * @param cd The actual card
 	 * @param p The player playing the card
 	 * @param brd The board at that moment
 	 * @return Returns the JButton that represents the card.
 	 */
-	private static JButton addListeners(JButton b,final Card cd, final Player p) {
+	private static JButton addCardListeners(JButton b,final Card cd, final Player p) {
 		//The ActionListener for all the JButtons representing cards in the hand:
 		//To be used to make sure the buttons could work:
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!discarding)
-				{
-					if(canPlay(p))
-					{
-						//System.out.println("You played the " + cd.getTitle() + " card!");
-						message = "You played the " + cd.getTitle() + " card!";
-						
-						cd.playCard(p, g.gameboard);
-						p.numPlaysSoFar +=1;
-						
-						//if this is a rule, then change the rules.
-						if(cd.getClass().equals((new RuleCard()).getClass()))
-						{
-							//System.out.println("It's a rule card!");
-							replaceNumber((RuleCard) cd);
-						}
-						
-						//REDRAW EVERYTHING!
-						drawEverything(p, g.gameboard);
-					}
-					else
-					{
-						//System.out.println("You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.");
-						message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
-						drawEverything(p,g.gameboard);
-					}
-				}
-				else//you are discarding
-				{
-					cd.location.removeCard(cd);
-					g.gameboard.addCard(cd, g.gameboard.discard);
-					cd.location = g.gameboard.discard;
-					//System.out.println("You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.");
-					message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
-					discarding = false;
-					drawEverything(p,g.gameboard);
-				}
-				
+				cardChosen(cd,p);
 			}
 		};
 		
 		b.addActionListener(alist);
+		b.setToolTipText(cd.getDescription());
 		return b;
+	}
+
+	private static void cardChosen(Card cd, Player p) {
+		if(!discarding)
+		{
+			if(canPlay(p))
+			{
+				//System.out.println("You played the " + cd.getTitle() + " card!");
+				message = "You played the " + cd.getTitle() + " card!";
+				
+				cd.playCard(p, g.gameboard);
+				p.numPlaysSoFar +=1;
+				
+				//if this is a rule, then change the rules.
+				if(cd.getClass().equals((new RuleCard()).getClass()))
+				{
+					replaceNumber((RuleCard) cd);
+				}
+				
+				//REDRAW EVERYTHING!
+				drawEverything(p, g.gameboard);
+			}
+			else
+			{
+				message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
+				drawEverything(p,g.gameboard);
+			}
+		}
+		else//you are discarding
+		{
+			//System.out.println(cd.location);
+			cd.location.removeCard(cd);					
+			g.gameboard.addCard(cd, g.gameboard.discard);
+			cd.location = g.gameboard.discard;
+			message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
+			discarding = false;
+			drawEverything(p,g.gameboard);
+		}
+		
 	}
 
 	/**
@@ -210,37 +370,30 @@ public class OverallRunner
 	 */
 	private static JPanel setUpHoldingPenRow(Player p) {
 		JPanel hpRow = new JPanel();
-		String str = "Holding Pen: \n";
 		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
 		
+		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
+		hpRow.setLayout(grid);
 		if(!discarding)
 		{
-			JTextArea blob = listTitles(hp,str);
-			hpRow.add(blob);//add the text to the panel
+			hpRow = listButtons(hp,null);
 		}
 		else
 		{
-			//ROW OF BUTTONS WHEN DISCARDING
-			GridLayout grid = new GridLayout(0,3);//any number of rows with 3 cards
-			hpRow.setLayout(grid);
-			
 			if(hp!= null)
 			{
-				ArrayList<Card> cards = hp.deck;//Get list of cards from the deck given
-				for(Card cd: cards)//for each card
+				//hpRow = listButtons(hp,Color.PINK);WRONG CUZ WRONG LISTENERS HERE
+				ArrayList<Card> cards = hp.deck;
+				for(Card cd: cards)
 				{
 					JButton b = new JButton(cd.getTitle());
-					b.setText(cd.getTitle() + ": " + cd.getDescription());
+					b.setText(cd.getTitle());
 					b.setIcon(new ImageIcon(cd.getPicture()));
-					b.setBackground(Color.PINK);
-					b = addListeners(b,cd,p);
+					b.setForeground(Color.red);
+					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
 				}
-			}
-			else{
-				JTextArea blob = new JTextArea();
-				blob.setText("The holding pen is null");
-				hpRow.add(blob);
+				
 			}
 		}
 		
@@ -254,10 +407,8 @@ public class OverallRunner
 	 */
 	private static JPanel setUpDiscardPileRow() {
 		JPanel discardRow = new JPanel();
-		String str = "Discard Pile: \n";
 		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
-		JTextArea blob = listTitles(discards,str);
-		discardRow.add(blob);//add the text to the panel
+		discardRow = listButtons(discards,null);
 		return discardRow;
 	}
 	
@@ -268,25 +419,46 @@ public class OverallRunner
 	 */
 	private static JPanel setUpRulesRow() {
 		JPanel rulesRow = new JPanel();
-		String str = "Rules: \n";
-		Deck rules = g.gameboard.getRules();//Get the deck of all the rules from the board.
-		JTextArea blob = listTitles(rules,str);
-		rulesRow.add(blob);//add the text to the panel
+		//Get the deck of all the rules from the board.
+		rulesRow = listButtons(g.gameboard.getRules(),null);
 		return rulesRow;
 	}
 	
 	/**
-	 * This sets up the JPanel about the Goals in play. Each card is represented by its title.
+	 * This sets up the JPanel about the Goals in play. 
+	 * Each goal is represented by its title on a JButton.
+	 * The JButton will open up a popup window which tells you its description.
 	 * @param b The Board
 	 * @return The JPanel with JTextArea which has the titles of all its cards
 	 */
 	private static JPanel setUpGoalsRow() {
 		JPanel goalsRow = new JPanel();
-		String str= "Goals: \n";
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
-		JTextArea blob = listTitles(goals,str);
-		goalsRow.add(blob);//add the text to the panel
+		goalsRow = listButtons(goals,null);
 		return goalsRow;
+	}
+	
+	/**
+	 * This adds the listener that will bring up a pop up containing the description of the card.
+	 * @param descrip the JButton for the Goal you want to have described.
+	 * @param cd the card associated
+	 * @return the JButton with listener
+	 */
+	private static JButton addDescriptionListener(JButton descrip,final Card cd){
+		ActionListener alist = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//Get the goal's description
+				JOptionPane.showMessageDialog(overallFrame,
+						cd.getDescription(),
+					    cd.getTitle(),
+					    JOptionPane.PLAIN_MESSAGE);
+				
+			}
+		};
+		
+		descrip.addActionListener(alist);
+		return descrip;
 	}
 	
 	/**
@@ -302,7 +474,7 @@ public class OverallRunner
 		String str= "Player: " + p.getName();
 		//I might add more player info later!
 		blob.setText(str);
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 2));
+		blob.setEditable(false);
 		
 		JButton endTurn = endTurnButton(p);
 		JButton discard = discardButton(p);
@@ -317,6 +489,7 @@ public class OverallRunner
 		return plInfo;
 	}
 	
+	
 	/**
 	 * Make the JButton that will let you discard other cards
 	 * @param p The Player
@@ -328,6 +501,7 @@ public class OverallRunner
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				discarding = true;
+				message = "You will be discarding the next card you click! Beware!";
 				drawEverything(p, g.gameboard);
 			}
 		};
@@ -363,11 +537,17 @@ public class OverallRunner
 					else
 					{
 						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
-						AI.PickCardSwitch().playCard(AI, g.gameboard);
+						Card cd = AI.PickCardSwitch();
+						//cd.playCard(AI, g.gameboard);
+						cardChosen(cd,AI);
+						message = AI.getName() + " played " + cd.getTitle();
+						drawEverything(nextPlayer,g.gameboard);
 					}
 					
 				}	
-				
+				//ARH
+				//overallFrame.repaint();
+				//drawEverything(getNextPlayer(currentPlayer),g.gameboard);
 			}
 		};
 		
@@ -393,32 +573,46 @@ public class OverallRunner
 	
 
 	/**
-	 * Gets all the titles from a Deck and makes a JTextArea out of it. 
+	 * Gets all the titles from a Deck and makes a JScrollPane out of it. 
 	 * @param d the Deck you want the titles of
 	 * @param str the starting string for the text area
-	 * @return the text area with all the titles
+	 * @return the scroll pane with all the titles
 	 */
-	private static JTextArea listTitles(Deck d, String str){
+	private static JScrollPane listTitles(Deck d, String str){
 		JTextArea blob = new JTextArea();
-
-		if(d != null && d.deck != null)
-		{
-			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
-			for(Card cd: cards)//for each card
-			{
-				str += cd.getTitle() + '\n';//add its title to the string str
-			}
-		}
-		else
-		{
-			str+= "<null>";
-		}
-		
+		str = listTitlesString(d,str,"\n");
+		blob.setEditable(false);
 		blob.setText(str);//set the text of the textArea to str
-		blob.setPreferredSize(new Dimension(str.length() * 10,str.length() * 3));//make the TextArea big enough to read
-		
-		return blob;
+		JScrollPane scrollPane = new JScrollPane(blob,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setPreferredSize(new Dimension(200,60));
+		return scrollPane;
 	}
+	
+	/**
+	 * Gets all the titles from a Deck and makes a JScrollPane out of the JButtons
+	 * @param d the Deck you want the titles of
+	 * @param pink 
+	 * @return the JPanel with all the buttons
+	 */
+	private static JPanel listButtons(Deck d, Color color){
+		JPanel pane = new JPanel();
+		
+		for(Card cd : d.deck){
+			JButton cdButt = new JButton(cd.getTitle());
+			if(color == null)
+				color = colorCard(cd);
+			cdButt.setForeground(color);
+			cdButt.setBackground(color);
+			cdButt.setOpaque(true);
+			cdButt.setIcon(new ImageIcon(cd.getPicture()));
+			cdButt.setToolTipText(cd.getDescription());
+			cdButt = addDescriptionListener(cdButt,cd);
+			pane.add(cdButt);
+		}
+		
+		return pane;
+	}
+	
 	
 	/**
 	 * This determines what needs to be done before the next Player is allowed to play any cards.
@@ -435,7 +629,6 @@ public class OverallRunner
 		int drawAmt = determineNumber(2);
 		checkDrawPile(drawAmt);
 		g.gameboard.drawPile.drawCard(nextPlayer.hand, drawAmt);
-	
 	}
 
 	/**
@@ -455,7 +648,7 @@ public class OverallRunner
 		{
 			//LOL. There aren't enough cards in the draw pile and the discard pile combined to draw enough cards.
 			//Have fun with errors!!
-			System.out.println("The standard deck hasn't been filled with cards yet, so screw you!");
+			System.out.println("There aren't enough cards to draw from the combined discard and draw pile.");
 		}
 			
 	}
@@ -514,6 +707,9 @@ public class OverallRunner
 		int numPlaysNeeded = determineNumber(1);
 		int maxPoss = determineNumber(3);
 		int maxHand = determineNumber(4);
+		
+//		if(p.getName().contains("AI"))
+//			return true;
 		
 		if(p.numPlaysSoFar < numPlaysNeeded)
 		{
