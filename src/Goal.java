@@ -13,6 +13,12 @@ public class Goal extends Card{
 	
 	public ArrayList<Possession> necCardsToWin;
 	
+	public Goal(){
+		//super(null, null, null, (Integer) null, null);
+		necCardsToWin=null;
+		super.g = null;
+	}
+	
 	public Goal(Game game, String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<Possession> winCards) {
 		super(titl, pic, descrip, id, locate);
 	
@@ -22,6 +28,11 @@ public class Goal extends Card{
 		
 		// set up configuration
 	}
+	
+	public ArrayList<Possession> getWinCards(){
+		return necCardsToWin;
+	}
+	
 	@Override
 	public void playCard(Player pl, Board b) {
 		pl.hand.removeCard(this);
@@ -54,4 +65,21 @@ public class Goal extends Card{
 		return true;
 	}
 
+	/**
+	 * Returns whether or not this card is within one of the Goal cards
+	 * @param the Card
+	 * @return is this card in one of the goal cards
+	 */
+	public boolean doesItFit(Card cd){
+		for(Card n : necCardsToWin)
+			if(cd.equals(n))
+				return true;
+		
+		return false;
+	}
+	
+	public Goal clone(){
+		Goal clone = new Goal(g, title, picture, description, ID, location, necCardsToWin);
+		return clone;
+	}
 }

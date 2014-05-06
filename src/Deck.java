@@ -17,6 +17,10 @@ public class Deck implements GameObject {
 		owner = creator;
 	}
 	
+	public Deck(){
+		
+	}
+	
 	public Game getGame() {
 		if (owner instanceof Game)
 			return (Game)owner;
@@ -75,6 +79,7 @@ public class Deck implements GameObject {
 		for (int i = 0; i < num; i++) {
 			Card drawn = deck.remove(0);//takes a card from the deck
 			receiver.addCard(drawn);//puts card in receiving deck
+			drawn.location = receiver;
 		}//end for
 	}//class drawCard
 	
