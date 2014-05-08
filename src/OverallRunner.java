@@ -247,9 +247,8 @@ public class OverallRunner
 			}
 		}
 		else
-		{
 			str+= "<null>";
-		}
+		
 		
 		return str;
 	}
