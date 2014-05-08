@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -245,9 +247,8 @@ public class OverallRunner
 			}
 		}
 		else
-		{
 			str+= "<null>";
-		}
+		
 		
 		return str;
 	}
@@ -272,7 +273,10 @@ public class OverallRunner
 			{
 				JButton b = new JButton(cd.getTitle());
 				b.setText(cd.getTitle());//no description because ToolTips
-				b.setIcon(new ImageIcon(cd.getPicture()));
+				Image newimg = cd.getPicture().getScaledInstance( 75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
+				b.setIcon(new ImageIcon(newimg));
+				b.setHorizontalTextPosition(JButton.CENTER);
+				b.setVerticalTextPosition(JButton.BOTTOM);
 				b = addCardListeners(b,cd,p);
 				b.setBackground(colorCard(cd));
 				//b.setForeground(colorCard(cd)); //Let's leave the text as black, so you can read it here. Elsewhere, it will have the background's color.
@@ -627,10 +631,13 @@ public class OverallRunner
 			JButton cdButt = new JButton(cd.getTitle());
 			if(color == null)
 				color = colorCard(cd);
-			cdButt.setForeground(color);
+			cdButt.setForeground(color.darker());
 			cdButt.setBackground(color);
 			cdButt.setOpaque(true);
-			cdButt.setIcon(new ImageIcon(cd.getPicture()));
+			Image newimg = cd.getPicture().getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
+			cdButt.setIcon(new ImageIcon(newimg));
+			cdButt.setHorizontalTextPosition(JButton.CENTER);
+			cdButt.setVerticalTextPosition(JButton.BOTTOM);
 			cdButt.setToolTipText(cd.getDescription());
 			cdButt = addDescriptionListener(cdButt,cd);
 			pane.add(cdButt);

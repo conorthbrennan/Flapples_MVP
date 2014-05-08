@@ -27,342 +27,400 @@ public class MainDeck extends Deck{
 			goalImg = ImageIO.read(new File("16947.png"));
 			ruleImg = ImageIO.read(new File("obey.png"));
 			ArrayList<String> categories = new ArrayList<String>();
+			ArrayList<BufferedImage> ico = new ArrayList<BufferedImage>();
 			
 			Game g = creator.getGame();
 		
+
+			ico.add(ImageIO.read(new File("pics/lemon.png")));	// in construction
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession lemons = new Possession("lemons", posImg, "lemons", 0, this, categories);
+			Possession lemons = new Possession("lemons", ico.get(ico.size()-1), "lemons", 0, this, categories);
 			addCard(lemons);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/cantaloupe.png")));
 			categories.add("fruit");
 			categories.add("White");
-			Possession cantaloupes = new Possession("cantaloupes", posImg, "cantaloupes", 1, this, categories);
+			Possession cantaloupes = new Possession("cantaloupes", ico.get(ico.size()-1), "cantaloupes", 1, this, categories);
 			addCard(cantaloupes);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/strawberry.png")));
 			categories.add("fruit");
 			categories.add("red");
-			Possession strawberries = new Possession("strawberries", posImg, "strawberries", 2, this, categories);
+			Possession strawberries = new Possession("strawberries", ico.get(ico.size()-1), "strawberries", 2, this, categories);
 			addCard(strawberries);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/blueberry.png")));
 			categories.add("fruit");
 			categories.add("blue");
-			Possession blueberries = new Possession("blueberries", posImg, "blueberries", 3, this, categories);
+			Possession blueberries = new Possession("blueberries", ico.get(ico.size()-1), "blueberries", 3, this, categories);
 			addCard(blueberries);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/banana.png")));
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession bananas = new Possession("bananas", posImg, "bananas", 4, this, categories);
+			Possession bananas = new Possession("bananas", ico.get(ico.size()-1), "bananas", 4, this, categories);
 			addCard(bananas);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/apple.png")));
 			categories.add("fruit");
 			categories.add("red");
-			Possession apples = new Possession("apples", posImg, "apples", 5, this, categories);
+			Possession apples = new Possession("apples", ico.get(ico.size()-1), "apples", 5, this, categories);
 			addCard(apples);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/fig.png")));
 			categories.add("fruit");
 			categories.add("black");
-			Possession figs = new Possession("figs", posImg, "figs", 6, this, categories);
+			Possession figs = new Possession("figs", ico.get(ico.size()-1), "figs", 6, this, categories);
 			addCard(figs);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/pear.png")));
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession pears = new Possession("pears", posImg, "pears", 7, this, categories);
+			Possession pears = new Possession("pears", ico.get(ico.size()-1), "pears", 7, this, categories);
 			addCard(pears);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/grape.png")));
 			categories.add("fruit");
 			categories.add("purple");
-			Possession grapes = new Possession("grapes", posImg, "grapes", 8, this, categories);
+			Possession grapes = new Possession("grapes", ico.get(ico.size()-1), "grapes", 8, this, categories);
 			addCard(grapes);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/grapefruit.png")));
 			categories.add("fruit");
 			categories.add("orange");
-			Possession grapefruits = new Possession("grapefruits", posImg, "grapefruits", 9, this, categories);
+			Possession grapefruits = new Possession("grapefruits", ico.get(ico.size()-1), "grapefruits", 9, this, categories);
 			addCard(grapefruits);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/starfruit.png")));
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession starfruits = new Possession("starfruits", posImg, "starfruits", 10, this, categories);
+			Possession starfruits = new Possession("starfruits", ico.get(ico.size()-1), "starfruits", 10, this, categories);
 			addCard(starfruits);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/passionfruit.png")));
 			categories.add("fruit");
 			categories.add("purple");
-			Possession passionfruits = new Possession("passionfruits", posImg, "passionfruits", 11, this, categories);
+			Possession passionfruits = new Possession("passionfruits", ico.get(ico.size()-1), "passionfruits", 11, this, categories);
 			addCard(passionfruits);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/orange.png")));
 			categories.add("fruit");
 			categories.add("orange");
-			Possession oranges = new Possession("oranges", posImg, "oranges", 12, this, categories);
+			Possession oranges = new Possession("oranges", ico.get(ico.size()-1), "oranges", 12, this, categories);
 			addCard(oranges);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/watermelon.png")));
 			categories.add("fruit");
 			categories.add("green");
-			Possession watermelons = new Possession("watermelons", posImg, "watermelons", 13, this, categories);
+			Possession watermelons = new Possession("watermelons", ico.get(ico.size()-1), "watermelons", 13, this, categories);
 			addCard(watermelons);
 			categories.clear();
 		
+			ico.add(ImageIO.read(new File("pics/pineapple.png")));
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession pineapples = new Possession("pineapples", posImg, "pineapples", 14, this, categories);
+			Possession pineapples = new Possession("pineapples", ico.get(ico.size()-1), "pineapples", 14, this, categories);
 			addCard(pineapples);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/raspberry.png")));
 			categories.add("fruit");
 			categories.add("red");
-			Possession raspberries = new Possession("raspberries", posImg, "raspberries", 15, this, categories);
+			Possession raspberries = new Possession("raspberries", ico.get(ico.size()-1), "raspberries", 15, this, categories);
 			addCard(raspberries);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/tangerine.png")));
 			categories.add("fruit");
 			categories.add("orange");
-			Possession tangerines = new Possession("tangerines", posImg, "tangerines", 16, this, categories);
+			Possession tangerines = new Possession("tangerines", ico.get(ico.size()-1), "tangerines", 16, this, categories);
 			addCard(tangerines);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/lime.png")));
 			categories.add("fruit");
 			categories.add("green");
-			Possession limes = new Possession("limes", posImg, "limes", 17, this, categories);
+			Possession limes = new Possession("limes", ico.get(ico.size()-1), "limes", 17, this, categories);
 			addCard(limes);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/coconut.png")));
 			categories.add("fruit");
 			categories.add("brown");
-			Possession coconuts = new Possession("coconuts", posImg, "coconuts", 18, this, categories);
+			Possession coconuts = new Possession("coconuts", ico.get(ico.size()-1), "coconuts", 18, this, categories);
 			addCard(coconuts);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/cocoa_beans.png")));
 			categories.add("fruit");
 			categories.add("brown");
-			Possession cocoaNuts = new Possession("cocoa nuts", posImg, "cocoa nuts", 19, this, categories);
+			Possession cocoaNuts = new Possession("cocoa nuts", ico.get(ico.size()-1), "cocoa nuts", 19, this, categories);
 			addCard(cocoaNuts);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/pomegranate.png")));
 			categories.add("fruit");
 			categories.add("red");
-			Possession pomegranates = new Possession("pomegranates", posImg, "pomegranates", 20, this, categories);
+			Possession pomegranates = new Possession("pomegranates", ico.get(ico.size()-1), "pomegranates", 20, this, categories);
 			addCard(pomegranates);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/tomato.png")));
 			categories.add("fruit");
 			categories.add("red");
-			Possession tomatoes = new Possession("tomatoes", posImg, "tomatoes", 21, this, categories);
+			Possession tomatoes = new Possession("tomatoes", ico.get(ico.size()-1), "tomatoes", 21, this, categories);
 			addCard(tomatoes);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/durian_yes.png")));
 			categories.add("fruit");
 			categories.add("green");
-			Possession durians = new Possession("durians", posImg, "durians", 22, this, categories);
+			Possession durians = new Possession("durians", ico.get(ico.size()-1), "durians", 22, this, categories);
 			addCard(durians);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/avocado.png")));
 			categories.add("veggie");
 			categories.add("black");
-			Possession avocados = new Possession("avocados", posImg, "avocados", 23, this, categories);
+			Possession avocados = new Possession("avocados", ico.get(ico.size()-1), "avocados", 23, this, categories);
 			addCard(avocados);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/cucumber.png")));
 			categories.add("veggie");
 			categories.add("green");
-			Possession cucumbers = new Possession("cucumber", posImg, "cucumber", 24, this, categories);
+			Possession cucumbers = new Possession("cucumber", ico.get(ico.size()-1), "cucumber", 24, this, categories);
 			addCard(cucumbers);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/lima_bean.png")));
 			categories.add("legume");
 			categories.add("green");
-			Possession limaBeans = new Possession("lima beans", posImg, "lima beans", 25, this, categories);
+			Possession limaBeans = new Possession("lima beans", ico.get(ico.size()-1), "lima beans", 25, this, categories);
 			addCard(limaBeans);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/snow_peas.png")));
 			categories.add("legume");
 			categories.add("green");
-			Possession snowPeas = new Possession("snowPeas", posImg, "snowPeas", 26, this, categories);
+			Possession snowPeas = new Possession("snowPeas", ico.get(ico.size()-1), "snowPeas", 26, this, categories);
 			addCard(snowPeas);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/peanut.png")));
 			categories.add("legume");
 			categories.add("gray");
-			Possession peanuts = new Possession("peanuts", posImg, "peanuts", 27, this, categories);
+			Possession peanuts = new Possession("peanuts", ico.get(ico.size()-1), "peanuts", 27, this, categories);
 			addCard(peanuts);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/chickpeas.png")));
 			categories.add("legume");
 			categories.add("white");
-			Possession chickpeas = new Possession("chickpeas", posImg, "chickpeas", 28, this, categories);
+			Possession chickpeas = new Possession("chickpeas", ico.get(ico.size()-1), "chickpeas", 28, this, categories);
 			addCard(chickpeas);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/carrot.png")));
 			categories.add("veggie");
 			categories.add("orange");
-			Possession carrots = new Possession("carrots", posImg, "carrots", 29, this, categories);
+			Possession carrots = new Possession("carrots", ico.get(ico.size()-1), "carrots", 29, this, categories);
 			addCard(carrots);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/eggplant.png")));
 			categories.add("veggie");
 			categories.add("purple");
-			Possession eggplants = new Possession("eggplants", posImg, "eggplants", 30, this, categories);
+			Possession eggplants = new Possession("eggplants", ico.get(ico.size()-1), "eggplants", 30, this, categories);
 			addCard(eggplants);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/chili_pepper.png")));
 			categories.add("pepper");
 			categories.add("red");
-			Possession jalapenos = new Possession("apples", posImg, "apples", 31, this, categories);
+			Possession jalapenos = new Possession("jalapenos", ico.get(ico.size()-1), "jalapenos", 31, this, categories);
 			addCard(jalapenos);
 			categories.clear();
 			
+			ico.add(ImageIO.read(new File("pics/chili_pepper.png")));
 			categories.add("pepper");
 			categories.add("green");
-			Possession chilis = new Possession("chilis", posImg, "chilis", 32, this, categories);
+			Possession chilis = new Possession("chilis", ico.get(ico.size()-1), "chilis", 32, this, categories);
 			addCard(chilis);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/corn.png")));
+			categories.add("veggie");
 		 	categories.add("yellow");
-		 	Possession corns = new Possession("corn", posImg, "corn", 33, this, categories);
+		 	Possession corns = new Possession("corn", ico.get(ico.size()-1), "corn", 33, this, categories);
 		 	addCard(corns);
 		 	categories.clear();
 		
-		 	categories.add("Squash");
+		 	ico.add(ImageIO.read(new File("pics/acorn_squash.png")));
+			categories.add("Squash");
 		 	categories.add("green");
-		 	Possession acornSquashes = new Possession("acorn squashes", posImg, "acorn squashes", 34, this, categories);
+		 	Possession acornSquashes = new Possession("acorn squashes", ico.get(ico.size()-1), "acorn squashes", 34, this, categories);
 		 	addCard(acornSquashes);
 		 	categories.clear();
 		
-		 	categories.add("squash");
+		 	ico.add(ImageIO.read(new File("pics/white_pumpkin.png")));
+			categories.add("squash");
 		 	categories.add("white");
-		 	Possession whitePumpkins = new Possession("white pumpkins", posImg, "white pumpkins", 35, this, categories);
+		 	Possession whitePumpkins = new Possession("white pumpkins", ico.get(ico.size()-1), "white pumpkins", 35, this, categories);
 		 	addCard(whitePumpkins);
 		 	categories.clear();
 		
-		 	categories.add("squash");
+		 	ico.add(ImageIO.read(new File("pics/butternut_squash.png")));
+			categories.add("squash");
 		 	categories.add("white");
-		 	Possession butternutSquashes = new Possession("butternut squashes", posImg, "butternut squashes", 36, this, categories);
+		 	Possession butternutSquashes = new Possession("butternut squashes", ico.get(ico.size()-1), "butternut squashes", 36, this, categories);
 		 	addCard(butternutSquashes);
 		 	categories.clear();
 		
-		 	categories.add("squash");
+		 	ico.add(ImageIO.read(new File("pics/spaghetti_squash.png")));
+			categories.add("squash");
 		 	categories.add("yellow");
-		 	Possession spaghettiSquashes = new Possession("spaghetti squashes", posImg, "spaghetti squashes", 37, this, categories);
+		 	Possession spaghettiSquashes = new Possession("spaghetti squashes", ico.get(ico.size()-1), "spaghetti squashes", 37, this, categories);
 		 	addCard(spaghettiSquashes);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/broccoli.png")));
+			categories.add("veggie");
 		 	categories.add("green");
-		 	Possession broccolis = new Possession("broccolis", posImg, "brocolis", 38, this, categories);
+		 	Possession broccolis = new Possession("broccolis", ico.get(ico.size()-1), "brocolis", 38, this, categories);
 		 	addCard(broccolis);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/spinach.png")));
+			categories.add("veggie");
 		 	categories.add("green");
-		 	Possession spinaches = new Possession("spinaches", posImg, "spinaches", 39, this, categories);
+		 	Possession spinaches = new Possession("spinaches", ico.get(ico.size()-1), "spinaches", 39, this, categories);
 		 	addCard(spinaches);
 		 	categories.clear();
 		
-		 	categories.add("legumes");
+		 	ico.add(ImageIO.read(new File("pics/bean_sprouts.png")));
+			categories.add("legumes");
 		 	categories.add("white");
-		 	Possession beanSprouts = new Possession("bean sprouts", posImg, "bean sprouts", 40, this, categories);
+		 	Possession beanSprouts = new Possession("bean sprouts", ico.get(ico.size()-1), "bean sprouts", 40, this, categories);
 		 	addCard(beanSprouts);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/asparagus.png")));
+			categories.add("veggie");
 		 	categories.add("green");
-		 	Possession aspharaguses = new Possession("aspharaguses", posImg, "aspharaguses", 41, this, categories);
-		 	addCard(aspharaguses);
+		 	Possession asparaguses = new Possession("asparaguses", ico.get(ico.size()-1), "asparaguses", 41, this, categories);
+		 	addCard(asparaguses);
 		 	categories.clear();
 		
-		 	categories.add("legume");
+		 	ico.add(ImageIO.read(new File("pics/edamame.png")));
+			categories.add("legume");
 		 	categories.add("green");
-		 	Possession edamames = new Possession("edamames", posImg, "edamames", 42, this, categories);
+		 	Possession edamames = new Possession("edamames", ico.get(ico.size()-1), "edamames", 42, this, categories);
 		 	addCard(edamames);
 		 	categories.clear();
 		
-		 	categories.add("legumes");
+		 	ico.add(ImageIO.read(new File("pics/green_bean.png")));
+			categories.add("legumes");
 		 	categories.add("green");
-		 	Possession greenBeans = new Possession("green beans", posImg, "green beans", 43, this, categories);
+		 	Possession greenBeans = new Possession("green beans", ico.get(ico.size()-1), "green beans", 43, this, categories);
 		 	addCard(greenBeans);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/artichoke.png")));
+			categories.add("veggie");
 		 	categories.add("green");
-		 	Possession artichokes = new Possession("artichokes", posImg, "artichokes", 44, this, categories);
+		 	Possession artichokes = new Possession("artichokes", ico.get(ico.size()-1), "artichokes", 44, this, categories);
 		 	addCard(artichokes);
 		 	categories.clear();
 		
-		 	categories.add("fruit");
+		 	ico.add(ImageIO.read(new File("pics/water_chestnut.png")));
+			categories.add("fruit");
 		 	categories.add("white");
-		 	Possession waterChestnuts = new Possession("water chestnuts", posImg, "water chestnuts", 45, this, categories);
+		 	Possession waterChestnuts = new Possession("water chestnuts", ico.get(ico.size()-1), "water chestnuts", 45, this, categories);
 		 	addCard(waterChestnuts);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/radish.png")));
+			categories.add("veggie");
 		 	categories.add("red");
-		 	Possession radishes = new Possession("radishes", posImg, "radishes", 46, this, categories);
+		 	Possession radishes = new Possession("radishes", ico.get(ico.size()-1), "radishes", 46, this, categories);
 		 	addCard(radishes);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/cabbage.png")));
+			categories.add("veggie");
 		 	categories.add("purple");
-		 	Possession cabbages = new Possession("cabbages", posImg, "the purple kind", 47, this, categories);
+		 	Possession cabbages = new Possession("cabbages", ico.get(ico.size()-1), "the purple kind", 47, this, categories);
 		 	addCard(cabbages);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/celery.png")));
+			categories.add("veggie");
 		 	categories.add("green");
-		 	Possession celerys = new Possession("celery stalks", posImg, "celery stalks", 48, this, categories);
+		 	Possession celerys = new Possession("celery stalks", ico.get(ico.size()-1), "celery stalks", 48, this, categories);
 		 	addCard(celerys);
 		 	categories.clear();
 		
-		 	categories.add("veggie");
+		 	ico.add(ImageIO.read(new File("pics/kale.png")));
+			categories.add("veggie");
 		 	categories.add("green");
-		 	Possession kales = new Possession("kale leaves", posImg, "kale leaves", 49, this, categories);
+		 	Possession kales = new Possession("kale leaves", ico.get(ico.size()-1), "kale leaves", 49, this, categories);
 		 	addCard(kales);
 		 	categories.clear();
 		
-		 	categories.add("squash");
+		 	ico.add(ImageIO.read(new File("pics/pumpkin.png")));
+			categories.add("squash");
 		 	categories.add("orange");
-		 	Possession pumpkins = new Possession("pumpkins", posImg, "spooky", 50, this, categories);
+		 	Possession pumpkins = new Possession("pumpkins", ico.get(ico.size()-1), "spooky", 50, this, categories);
 		 	addCard(pumpkins);
 		 	categories.clear();
 		
-		 	categories.add("legume");
+		 	ico.add(ImageIO.read(new File("pics/peas.png")));
+			categories.add("legume");
 		 	categories.add("green");
-		 	Possession peas = new Possession("peas", posImg, "peas", 51, this, categories);
+		 	Possession peas = new Possession("peas", ico.get(ico.size()-1), "peas", 51, this, categories);
 		 	addCard(peas);
 		 	categories.clear();
 		
-		 	categories.add("veggies");
+		 	ico.add(ImageIO.read(new File("pics/beets.png")));
+			categories.add("veggies");
 		 	categories.add("red");
-		 	Possession beets = new Possession("beets", posImg, "check out these funky beets", 52, this, categories);
+		 	Possession beets = new Possession("beets", ico.get(ico.size()-1), "check out these funky beets", 52, this, categories);
 		 	addCard(beets);
 		 	categories.clear();
 		
-		 	categories.add("veggies");
+		 	ico.add(ImageIO.read(new File("pics/turnip.png")));
+			categories.add("veggies");
 		 	categories.add("white");
-		 	Possession turnips = new Possession("turnips", posImg, "turnips", 53, this, categories);
+		 	Possession turnips = new Possession("turnips", ico.get(ico.size()-1), "turnips", 53, this, categories);
 		 	addCard(turnips);
 		 	categories.clear();
 		
-		 	categories.add("veggies");
+		 	ico.add(ImageIO.read(new File("pics/cauliflower.png")));
+			categories.add("veggies");
 		 	categories.add("white");
-		 	Possession cauliflowers = new Possession("cauliflowers", posImg, "cauliflowers", 54, this, categories);
+		 	Possession cauliflowers = new Possession("cauliflowers", ico.get(ico.size()-1), "cauliflowers", 54, this, categories);
 		 	addCard(cauliflowers);
 		 	categories.clear();
 		
-		 	categories.add("veggies");
+		 	ico.add(ImageIO.read(new File("pics/potato.png")));
+			categories.add("veggies");
 		 	categories.add("yellow");
-		 	Possession potatoes = new Possession("potatoes", posImg, "potatoes", 55, this, categories);
+		 	Possession potatoes = new Possession("potatoes", ico.get(ico.size()-1), "potatoes", 55, this, categories);
 		 	addCard(potatoes);
 		 	categories.clear();
 		
@@ -524,7 +582,7 @@ public class MainDeck extends Deck{
 			winCards.clear();
 		
 			winCards.add(celerys);
-			winCards.add(aspharaguses);
+			winCards.add(asparaguses);
 			Goal stalk = new Goal(g, "stalker", goalImg, "celery and aspharagus", 81, this, (ArrayList<Possession>) winCards.clone());
 			addCard(stalk);
 			winCards.clear();
