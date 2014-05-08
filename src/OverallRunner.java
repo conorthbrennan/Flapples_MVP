@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -272,6 +274,7 @@ public class OverallRunner
 			{
 				JButton b = new JButton(cd.getTitle());
 				b.setText(cd.getTitle());//no description because ToolTips
+				
 				b.setIcon(new ImageIcon(cd.getPicture()));
 				b = addCardListeners(b,cd,p);
 				b.setBackground(colorCard(cd));
