@@ -104,7 +104,7 @@ public class OverallRunner
 			{
 				//System.out.println("NO COMPY HERE");
 				//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
-				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom
+				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom	
 				uberpane.setLayout(box);
 
 				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
