@@ -632,7 +632,7 @@ public class OverallRunner
 			JButton cdButt = new JButton(cd.getTitle());
 			if(color == null)
 				color = colorCard(cd);
-			cdButt.setForeground(color);
+			cdButt.setForeground(color.darker());
 			cdButt.setBackground(color);
 			cdButt.setOpaque(true);
 			Image newimg = cd.getPicture().getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
