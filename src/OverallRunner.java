@@ -123,8 +123,19 @@ public class OverallRunner
 				tabbedPane.addTab("The Rules", null, rulesRow,
 		                  "Look at the current rules.");
 				
-				tabbedPane.addTab("The Goal", null, goalsRow,
-		                  "Look at the current goal.");
+				String s= "";
+				String s2 = "";
+				if(g != null)// && g.gameboard != null && g.gameboard.goals != null && g.gameboard.goals.deck != null && g.gameboard.goals.deck.get(0) != null)
+					if(g.gameboard != null)
+						if(g.gameboard.goals != null)
+								if(g.gameboard.goals.deck.isEmpty() == false)
+								{
+									s = ": " + g.gameboard.goals.deck.get(0).getTitle();
+									s2 = g.gameboard.goals.deck.get(0).getDescription();
+								}
+					
+				tabbedPane.addTab("The Goal" + s, null, goalsRow,
+		                  s2);
 				
 				tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
 		                  "Look at other people's holding pens.");
