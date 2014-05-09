@@ -855,10 +855,21 @@ public class OverallRunner
 			}
 			else
 			{
-				//you can't play anything
-				message = "End turn, because you have no hand.";
-				drawEverything(p,g.gameboard);
-				return true;
+				if(p.hand.count() > maxHand)
+				{
+					//System.out.println("You have too many cards in your hand.");
+					message = "You have too many cards in your hand.";
+					drawEverything(p,g.gameboard);
+					return false;
+				}
+				else
+				{
+					//you can't play anything
+					message = "End turn, because you have no hand.";
+					drawEverything(p,g.gameboard);
+					return true;
+				}
+				
 			}
 			
 		}
