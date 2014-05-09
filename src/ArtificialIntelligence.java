@@ -48,10 +48,16 @@ public class ArtificialIntelligence extends Player{
 	}
 	
 	public Card PickCardVeryEasy(){
-		int index = (int) (Math.random() * hand.count());
-		Card picked = hand.getDeck().get(index);
-		System.out.println(picked.getTitle() + " was played at random");
-		return picked;
+		if(hand.count()!= 0)
+		{
+			int index = (int) (Math.random() * hand.count());
+			Card picked = hand.getDeck().get(index);
+			System.out.println(picked.getTitle() + " was played at random");
+			return picked;
+		}
+		System.out.println("The AI has no hand.");
+		return null;
+		
 	}
 	
 	public Card PickCardEasy(){
@@ -171,6 +177,7 @@ public class ArtificialIntelligence extends Player{
 				if(!goal.doesItFit(card)){//sees if the card fits the goal
 					holdingPen.removeCard(card);//if not the card is discarded
 					game.gameboard.discard.addCard(card);//adds the card to the discard pile
+					System.out.println(name + " discarded from its holding pen " + card.getTitle() + " specifically because this card does not fit the goal or its goals in hand.");
 				}//end if
 			}//end for
 		}//end for
@@ -179,6 +186,7 @@ public class ArtificialIntelligence extends Player{
 			Card card = holdingPen.getDeck().get(index);//finds the card that corresponds to the number
 			holdingPen.removeCard(card);//the card is discarded
 			game.gameboard.discard.addCard(card);//adds the card to the discard pile
+			System.out.println(name + " discarded from its holding pen " + card.getTitle() + " randomly.");
 		}//end while
 	}//end discard
 	
@@ -197,12 +205,14 @@ public class ArtificialIntelligence extends Player{
 				if(!goal.doesItFit(card) && hand.count() > max){//sees if the card fits the goal
 					hand.removeCard(card);//if not the card is discarded
 					game.gameboard.discard.addCard(card);//adds the card to the discard pile
+					System.out.println(name + " discarded from its hand " + card.getTitle() + " specifically because this card does not fit the goal or its goals in hand.");
 				}//end if
 			}//end for
 		}//end for
 		while(hand.count() > max){//if there are no cards left that aren't necessary discard cards randomly
 			int index = (int) (Math.random() * hand.count());//gets a random number
 			Card card = hand.getDeck().get(index);//finds the card that corresponds to the number
+			System.out.println(name + " discarded from its hand " + card.getTitle() + " randomly.");
 			hand.removeCard(card);//the card is discarded
 			game.gameboard.discard.addCard(card);//adds the card to the discard pile
 		}//end while

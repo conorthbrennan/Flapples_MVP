@@ -501,14 +501,17 @@ public class OverallRunner
 		blob.setEditable(false);
 		
 		JButton endTurn = endTurnButton(p);
-		JButton discard = discardButton(p);
+		JButton discard = new JButton("Nope");
+		if(!p.getName().contains("AI"))
+			discard = discardButton(p);
 		
 		JTextArea messages = new JTextArea();
 		messages.setText(message);
 		
 		plInfo.add(blob);
 		plInfo.add(endTurn);
-		plInfo.add(discard);
+		if(!p.getName().contains("AI"))
+			plInfo.add(discard);
 		plInfo.add(messages);
 		return plInfo;
 	}
@@ -586,6 +589,7 @@ public class OverallRunner
 		{
 			//while you need to keep playing, choose cards
 			Card cd = AI.PickCardSwitch();
+			discarding = false;
 			cardChosen(cd,AI);
 			message = AI.getName() + " played " + cd.getTitle();
 			drawEverything(AI,g.gameboard);
