@@ -193,19 +193,25 @@ public class OverallRunner
 		GridLayout grid = new GridLayout(1,g.numPlrs);//1 row with x cards
 		HPsRow.setLayout(grid);
 		
+		JTabbedPane tabbedPane = new JTabbedPane();
 		ArrayList<Player> plrs = g.gameboard.players;
-		
 		for(Player plr: plrs)//for each player
 		{
 			if(!plr.equals(p))
 			{
-				JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
-				b = addPopUpHPsListeners(b,plr);
-				b.setToolTipText(listTitlesString(plr.holdingPen,""," "));
-				HPsRow.add(b);
+				JPanel plrshp = new JPanel();
+				Deck hp = plr.getHoldingPen();//Get the deck of all the discards from the board.
+				plrshp = listButtons(hp,null);
+				tabbedPane.addTab(plr.getName(), null, plrshp, "Look at my holding pen.");
+				
+				//JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
+				//b = addPopUpHPsListeners(b,plr);
+				//b.setToolTipText(listTitlesString(plr.holdingPen,""," "));
+				//HPsRow.add(b);
 			}
 		}	
 		
+		HPsRow.add(tabbedPane);
 		return HPsRow;
 	}
 
@@ -551,32 +557,38 @@ public class OverallRunner
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(canEnd(currentPlayer))
-				{
-					//Redraw everything:
-					Player nextPlayer = getNextPlayer(currentPlayer);
-					message = "Now it is " + nextPlayer.name + "'s turn.";
-					handleTurnChange(nextPlayer);
-					if(nextPlayer.getClass() != (new ArtificialIntelligence()).getClass())
-					{
-						drawEverything(nextPlayer,g.gameboard);
-					}
-					else
-					{
-						ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
-						doAIStuff(AI);
-					}
-					
-				}	
-				//ARH
-				//overallFrame.repaint();
-				//drawEverything(getNextPlayer(currentPlayer),g.gameboard);
+				innardsEnd(currentPlayer);
 			}
 		};
 		
 		endTurn.addActionListener(alist);
 		
 		return endTurn;
+	}
+
+	/**
+	 * What the endTurn Button does when it has been clicked.
+	 * @param currentPlayer
+	 */
+	private static void innardsEnd(Player currentPlayer) {
+		
+		if(canEnd(currentPlayer))
+		{
+			//Redraw everything:
+			Player nextPlayer = getNextPlayer(currentPlayer);
+			message = "Now it is " + nextPlayer.name + "'s turn.";
+			handleTurnChange(nextPlayer);
+			if(nextPlayer.getClass() != (new ArtificialIntelligence()).getClass())
+			{
+				drawEverything(nextPlayer,g.gameboard);
+			}
+			else
+			{
+				ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
+				doAIStuff(AI);
+			}
+			
+		}	
 	}
 
 	/**
@@ -599,6 +611,8 @@ public class OverallRunner
 		AI.discardHoldingPen(determineNumber(3));
 		//hand limit
 		AI.discardHand(determineNumber(4));
+		
+		innardsEnd(AI);
 	}
 
 	/**
