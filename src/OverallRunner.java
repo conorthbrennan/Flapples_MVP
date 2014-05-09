@@ -202,12 +202,7 @@ public class OverallRunner
 				JPanel plrshp = new JPanel();
 				Deck hp = plr.getHoldingPen();//Get the deck of all the discards from the board.
 				plrshp = listButtons(hp,null);
-				tabbedPane.addTab(plr.getName(), null, plrshp, "Look at my holding pen.");
-				
-				//JButton b = new JButton(plr.getName() + " (" + plr.holdingPen.count() +")");
-				//b = addPopUpHPsListeners(b,plr);
-				//b.setToolTipText(listTitlesString(plr.holdingPen,""," "));
-				//HPsRow.add(b);
+				tabbedPane.addTab(plr.getName() + " (" + hp.count() + ")", null, plrshp, listTitlesString(hp,""," "));
 			}
 		}	
 		
