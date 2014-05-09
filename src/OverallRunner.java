@@ -31,6 +31,7 @@ public class OverallRunner
 	private static Color goalColor = Color.orange;
 	private static Color ruleColor = Color.blue;
 	private static Color possColor = Color.green;
+	private static int waitingTime = 1000;
 	
 	public static void main(String [] args)
 	{
@@ -98,85 +99,95 @@ public class OverallRunner
 		Container uberpane = overallFrame.getContentPane();
 		uberpane.removeAll();
 		
-		if(!g.evaluateGoalMatching())
+		if(p == null)
 		{
-			if(!p.getName().contains("AI"))
-			{
-				//System.out.println("NO COMPY HERE");
-				//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
-				BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom	
-				uberpane.setLayout(box);
-
-				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-				JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
-				JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-				JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-				JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
-				JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
-				JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
-				
-				JTabbedPane tabbedPane = new JTabbedPane();
-				
-				tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
-		                  "Look at your holding pen.");
-				
-				tabbedPane.addTab("The Rules", null, rulesRow,
-		                  "Look at the current rules.");
-				
-				String s= "";
-				String s2 = "";
-				if(g != null)// && g.gameboard != null && g.gameboard.goals != null && g.gameboard.goals.deck != null && g.gameboard.goals.deck.get(0) != null)
-					if(g.gameboard != null)
-						if(g.gameboard.goals != null)
-								if(g.gameboard.goals.deck.isEmpty() == false)
-								{
-									s = ": " + g.gameboard.goals.deck.get(0).getTitle();
-									s2 = g.gameboard.goals.deck.get(0).getDescription();
-								}
-					
-				tabbedPane.addTab("The Goal" + s, null, goalsRow,
-		                  s2);
-				
-				tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
-		                  "Look at other people's holding pens.");
-				
-				tabbedPane.addTab("The Discard Pile", null, discardRow,
-		                  "Look at the current discard pile.");
-				
-				//Add all the items to the pane
-				uberpane.add(playerInfoRow);
-				uberpane.add(tabbedPane);
-				uberpane.add(handRow);
-				
-				if(message != null)
-					JOptionPane.showMessageDialog(overallFrame, message);
-				
-				overallFrame.pack();
-				overallFrame.setVisible(true);
-				overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			}
-			else
-			{
-				JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-				JTextArea blob = new JTextArea("THIS IS THE AI.");
-				uberpane.add(playerInfoRow);
-				uberpane.add(blob);
-				
-				if(message != null)
-					JOptionPane.showMessageDialog(overallFrame, message);
-				
-				overallFrame.pack();
-				overallFrame.setVisible(true);
-				overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			}
-			
+			//let's draw a black screen.
+			JPanel jp = new JPanel();
+			jp.setBackground(Color.black);
+			uberpane.add(jp);
 		}
 		else
 		{
-			message = "THE GAME HAS BEEN WON!!!!";
-			JOptionPane.showMessageDialog(overallFrame, message);
-			System.exit(0);
-		}
+			if(!g.evaluateGoalMatching())
+			{
+				if(!p.getName().contains("AI"))
+				{
+					//System.out.println("NO COMPY HERE");
+					//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+					BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom	
+					uberpane.setLayout(box);
+
+					JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+					JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+					JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+					JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
+					JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+					JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
+					JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
+					
+					JTabbedPane tabbedPane = new JTabbedPane();
+					
+					tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
+			                  "Look at your holding pen.");
+					
+					tabbedPane.addTab("The Rules", null, rulesRow,
+			                  "Look at the current rules.");
+					
+					String s= "";
+					String s2 = "";
+					if(g != null)// && g.gameboard != null && g.gameboard.goals != null && g.gameboard.goals.deck != null && g.gameboard.goals.deck.get(0) != null)
+						if(g.gameboard != null)
+							if(g.gameboard.goals != null)
+									if(g.gameboard.goals.deck.isEmpty() == false)
+									{
+										s = ": " + g.gameboard.goals.deck.get(0).getTitle();
+										s2 = g.gameboard.goals.deck.get(0).getDescription();
+									}
+						
+					tabbedPane.addTab("The Goal" + s, null, goalsRow,
+			                  s2);
+					
+					tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
+			                  "Look at other people's holding pens.");
+					
+					tabbedPane.addTab("The Discard Pile", null, discardRow,
+			                  "Look at the current discard pile.");
+					
+					//Add all the items to the pane
+					uberpane.add(playerInfoRow);
+					uberpane.add(tabbedPane);
+					uberpane.add(handRow);
+					
+					if(message != null)
+						JOptionPane.showMessageDialog(overallFrame, message);
+					
+					overallFrame.pack();
+					overallFrame.setVisible(true);
+					overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}
+				else
+				{
+					JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+					JTextArea blob = new JTextArea("THIS IS THE AI.");
+					uberpane.add(playerInfoRow);
+					uberpane.add(blob);
+					
+					if(message != null)
+						JOptionPane.showMessageDialog(overallFrame, message);
+					
+					overallFrame.pack();
+					overallFrame.setVisible(true);
+					overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}
+				
+			}
+			else
+			{
+				message = "THE GAME HAS BEEN WON!!!!";
+				JOptionPane.showMessageDialog(overallFrame, message);
+				System.exit(0);
+			}
+		}//end else on whether player is null		
 		
 	}
 	
@@ -202,7 +213,7 @@ public class OverallRunner
 				JPanel plrshp = new JPanel();
 				Deck hp = plr.getHoldingPen();//Get the deck of all the discards from the board.
 				plrshp = listButtons(hp,null);
-				tabbedPane.addTab(plr.getName() + " (" + hp.count() + ")", null, plrshp, listTitlesString(hp,""," "));
+				tabbedPane.addTab(plr.getName() + " - " + hp.count(), null, plrshp, listTitlesString(hp,""," "));
 			}
 		}	
 		
@@ -501,18 +512,25 @@ public class OverallRunner
 		blob.setText(str);
 		blob.setEditable(false);
 		
-		JButton endTurn = endTurnButton(p);
+		JButton endTurn = new JButton("Nope");
 		JButton discard = new JButton("Nope");
-		if(!p.getName().contains("AI"))
+		if(!isAI(p))
+		{
 			discard = discardButton(p);
+			endTurn = endTurnButton(p);
+		}
+			
 		
 		JTextArea messages = new JTextArea();
 		messages.setText(message);
 		
 		plInfo.add(blob);
-		plInfo.add(endTurn);
-		if(!p.getName().contains("AI"))
+		if(!isAI(p))
+		{
+			plInfo.add(endTurn);
 			plInfo.add(discard);
+		}
+			
 		plInfo.add(messages);
 		return plInfo;
 	}
@@ -571,6 +589,13 @@ public class OverallRunner
 		{
 			//Redraw everything:
 			Player nextPlayer = getNextPlayer(currentPlayer);
+			if(!nextPlayer.getName().contains("AI") && !currentPlayer.getName().contains("AI"))
+			{
+				message = currentPlayer.getName() + " should walk away so that " + nextPlayer.getName() + " can come on.";
+				drawEverything(currentPlayer,g.gameboard);
+				hotSeatingTime();
+			}
+			
 			message = "Now it is " + nextPlayer.name + "'s turn.";
 			handleTurnChange(nextPlayer);
 			if(nextPlayer.getClass() != (new ArtificialIntelligence()).getClass())
@@ -584,6 +609,28 @@ public class OverallRunner
 			}
 			
 		}	
+	}
+
+	/**
+	 * Wait some time until the next person should arrive.
+	 */
+	private static void hotSeatingTime() {
+		try {
+			Thread.sleep(waitingTime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * This returns whether or not a player is an AI
+	 * @param p
+	 * @return
+	 */
+	private static boolean isAI(Player p){
+		return p.getName().contains("AI");
 	}
 
 	/**
