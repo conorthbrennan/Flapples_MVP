@@ -82,6 +82,7 @@ public class OverallRunner
 			return false;
 	}
 
+	
 	/**
 	 * This does the graphical interface.
 	 */
@@ -358,6 +359,11 @@ public class OverallRunner
 		return b;
 	}
 
+	/**
+	 * The innards of the actionListener in addCardListeners()
+	 * @param cd the Card
+	 * @param p the Player
+	 */
 	private static void cardChosen(Card cd, Player p) {
 		if(!discarding)
 		{
@@ -388,17 +394,39 @@ public class OverallRunner
 		}
 		else//you are discarding
 		{
-			//System.out.println(cd.location);
-			cd.location.removeCard(cd);					
-			g.gameboard.addCard(cd, g.gameboard.discard);
-			cd.location = g.gameboard.discard;
-			message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
-			discarding = false;
-			drawEverything(p,g.gameboard);
+			if (wantDiscard(cd))
+			{
+				//System.out.println(cd.location);
+				cd.location.removeCard(cd);					
+				g.gameboard.addCard(cd, g.gameboard.discard);
+				cd.location = g.gameboard.discard;
+				message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
+				discarding = false;
+				drawEverything(p,g.gameboard);
+			}
+			else
+			{
+				discarding = false;
+			}
 		}
 		
 	}
 
+	/**
+	 * This checks to see whether or not you actually want to discard that card
+	 * @return
+	 */
+	private static boolean wantDiscard(Card cd){
+		int n = JOptionPane.showConfirmDialog(overallFrame,
+				"Do you really want to discard " + cd.getTitle() + "?",
+						"are you sure?",
+						JOptionPane.YES_NO_OPTION);
+		if(n == JOptionPane.YES_OPTION)
+			return true;
+		else
+			return false;
+	}
+	
 	/**
 	 * This sets up the JPanel about the Player's Holding Pen. Each card is represented by its title.
 	 * @param p The Player
@@ -416,6 +444,7 @@ public class OverallRunner
 		}
 		else
 		{
+			
 			if(hp!= null)
 			{
 				//hpRow = listButtons(hp,Color.PINK);WRONG CUZ WRONG LISTENERS HERE
@@ -424,7 +453,8 @@ public class OverallRunner
 				{
 					JButton b = new JButton(cd.getTitle());
 					b.setText(cd.getTitle());
-					b.setIcon(new ImageIcon(cd.getPicture()));
+					Image newimg = cd.getPicture().getScaledInstance( 75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
+					b.setIcon(new ImageIcon(newimg));
 					b.setForeground(Color.red);
 					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
@@ -555,7 +585,6 @@ public class OverallRunner
 		
 		return discard;
 	}
-	
 
 	/**
 	 * Make the JButton that ends your turn
