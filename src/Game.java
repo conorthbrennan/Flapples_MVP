@@ -47,16 +47,36 @@ public class Game extends Canvas implements GameObject, Runnable, KeyListener
 	}
 	
 	public int askNumPlayers(){
-		Object[] possibilities = null;
-		String s = (String)JOptionPane.showInputDialog(
-				overallFrame,
-				"How many players?",
-				"Tell me the number of the players...",
-				JOptionPane.QUESTION_MESSAGE,
-				null,
-				possibilities,
-				"0");
-		return Integer.parseInt(s);
+		boolean numYet = false;
+		int num = -1;
+		while(!numYet)
+		{
+			Object[] possibilities = null;
+			String s = (String)JOptionPane.showInputDialog(
+					overallFrame,
+					"How many players?",
+					"Tell me the number of the players...",
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					possibilities,
+					"2");
+			if(s == null)//if you press x or cancel, then the whole thing will stop
+				System.exit(0);
+			
+			try{
+				num = Integer.parseInt(s);
+				numYet = true;
+			}
+			catch(NumberFormatException e)
+			{
+				JOptionPane.showMessageDialog(overallFrame,
+					    "You need to enter in a number.",
+					    "Wrong input!",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		}
+		
+		return num;
 	}
 
 	/** ***GOALIE***
