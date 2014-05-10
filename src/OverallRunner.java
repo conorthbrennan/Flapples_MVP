@@ -184,7 +184,7 @@ public class OverallRunner
 			}
 			else
 			{
-				message = "THE GAME HAS BEEN WON!!!!";
+				message = "The game has been won by " + p.getName() + "!!!!";
 				JOptionPane.showMessageDialog(overallFrame, message);
 				System.exit(0);
 			}
@@ -369,25 +369,28 @@ public class OverallRunner
 		{
 			if(canPlay(p))
 			{
-				if(!p.getName().contains("AI"))
-					message = "You played the " + cd.getTitle() + " card!";
-				//if it is an AI, this fixes itself later...... I think				
-				
-				cd.playCard(p, g.gameboard);
-				
-				p.numPlaysSoFar +=1;
-				
-				//if this is a rule, then change the rules.
-				if(cd.getClass().equals((new RuleCard()).getClass()))
+				if(verifyCard(cd))
 				{
-					replaceNumber((RuleCard) cd);
+					/*if(!p.getName().contains("AI"))
+						message = "You played the " + cd.getTitle() + " card!";
+					//if it is an AI, this fixes itself later...... I think		
+					 * This is no longer necessary since verifyCard happens		*/					
+					cd.playCard(p, g.gameboard);
+					
+					p.numPlaysSoFar +=1;
+					
+					//if this is a rule, then change the rules.
+					if(cd.getClass().equals((new RuleCard()).getClass()))
+					{
+						replaceNumber((RuleCard) cd);
+					}
+					
+					//REDRAW EVERYTHING!
+					drawEverything(p, g.gameboard);
+					
+					if(canEnd(p,false))
+						innardsEnd(p);
 				}
-				
-				//REDRAW EVERYTHING!
-				drawEverything(p, g.gameboard);
-				
-				if(canEnd(p,false))
-					innardsEnd(p);
 			}
 			else
 			{
@@ -420,8 +423,30 @@ public class OverallRunner
 	}
 
 	/**
+	 * Checks to see whether or not you actually want to play that card
+	 * @param cd the card you're about to play
+	 * @return whether you want to play it
+	 */
+	private static boolean verifyCard(Card cd) {
+		String s = "Do you really want to play " + cd.getTitle() + "?";
+		if(!cd.getTitle().equals(cd.getDescription()))
+		{
+			s += "\n Description: " + cd.getDescription();
+		}
+		int n = JOptionPane.showConfirmDialog(overallFrame,
+						s,
+						"are you sure?",
+						JOptionPane.YES_NO_OPTION);
+		if(n == JOptionPane.YES_OPTION)
+			return true;
+		else
+			return false;
+	}
+
+	/**
 	 * This checks to see whether or not you actually want to discard that card
-	 * @return
+	 * @param cd The card you're about to discard
+	 * @return whether you want to discard it
 	 */
 	private static boolean wantDiscard(Card cd){
 		int n = JOptionPane.showConfirmDialog(overallFrame,
