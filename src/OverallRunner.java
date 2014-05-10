@@ -369,7 +369,7 @@ public class OverallRunner
 		{
 			if(canPlay(p))
 			{
-				if(verifyCard(cd))
+				if(!isAI(p) && verifyCard(cd))
 				{
 					/*if(!p.getName().contains("AI"))
 						message = "You played the " + cd.getTitle() + " card!";
@@ -390,6 +390,24 @@ public class OverallRunner
 					
 					if(canEnd(p,false))
 						innardsEnd(p);
+				}
+				else if(isAI(p))
+				{
+					cd.playCard(p, g.gameboard);
+					
+					p.numPlaysSoFar +=1;
+					
+					//if this is a rule, then change the rules.
+					if(cd.getClass().equals((new RuleCard()).getClass()))
+					{
+						replaceNumber((RuleCard) cd);
+					}
+					
+					//REDRAW EVERYTHING!
+					drawEverything(p, g.gameboard);
+					
+					//if(canEnd(p,false))
+						//innardsEnd(p);
 				}
 			}
 			else
