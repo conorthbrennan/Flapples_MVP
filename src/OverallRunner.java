@@ -385,11 +385,15 @@ public class OverallRunner
 				
 				//REDRAW EVERYTHING!
 				drawEverything(p, g.gameboard);
+				
+				if(canEnd(p))
+					innardsEnd(p);
 			}
 			else
 			{
 				message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
 				drawEverything(p,g.gameboard);
+				innardsEnd(p);
 			}
 		}
 		else//you are discarding
