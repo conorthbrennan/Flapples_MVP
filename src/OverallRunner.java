@@ -295,18 +295,10 @@ public class OverallRunner
 			ArrayList<Card> cards = hand.deck;//Get list of cards from the deck given
 			for(Card cd: cards)//for each card
 			{
-				JButton b = new JButton(cd.getTitle());
-				b.setText(cd.getTitle());//no description because ToolTips
-				Image newimg = cd.getPicture().getScaledInstance( 75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
-				b.setIcon(new ImageIcon(newimg));
-				b.setHorizontalTextPosition(JButton.CENTER);
-				b.setVerticalTextPosition(JButton.BOTTOM);
+				//Let's leave the text as black, so you can read it here. Elsewhere, it will have the background's color.
+				JButton b = genericButton(cd,Color.black, colorCard(cd));
 				b = addCardListeners(b,cd,p);
-				b.setBackground(colorCard(cd));
-				//b.setForeground(colorCard(cd)); //Let's leave the text as black, so you can read it here. Elsewhere, it will have the background's color.
-				b.setOpaque(true);
 				handRow.add(b);
-				//handRow.add(b);
 			}
 		}
 		else{
@@ -393,21 +385,26 @@ public class OverallRunner
 				}
 				else if(isAI(p))
 				{
-					cd.playCard(p, g.gameboard);
-					
-					p.numPlaysSoFar +=1;
-					
-					//if this is a rule, then change the rules.
-					if(cd.getClass().equals((new RuleCard()).getClass()))
+					if(cd != null)
 					{
-						replaceNumber((RuleCard) cd);
+						cd.playCard(p, g.gameboard);
+						
+						p.numPlaysSoFar +=1;
+						
+						//if this is a rule, then change the rules.
+						if(cd.getClass().equals((new RuleCard()).getClass()))
+						{
+							replaceNumber((RuleCard) cd);
+						}
+						
+						//REDRAW EVERYTHING!
+						drawEverything(p, g.gameboard);
+					}
+					else
+					{
+						System.out.println("LOL. The AI gAve out A null cArd");
 					}
 					
-					//REDRAW EVERYTHING!
-					drawEverything(p, g.gameboard);
-					
-					//if(canEnd(p,false))
-						//innardsEnd(p);
 				}
 			}
 			else
@@ -501,11 +498,7 @@ public class OverallRunner
 				ArrayList<Card> cards = hp.deck;
 				for(Card cd: cards)
 				{
-					JButton b = new JButton(cd.getTitle());
-					b.setText(cd.getTitle());
-					Image newimg = cd.getPicture().getScaledInstance( 75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
-					b.setIcon(new ImageIcon(newimg));
-					b.setForeground(Color.red);
+					JButton b = genericButton(cd,Color.red, colorCard(cd));
 					b = addCardListeners(b,cd,p);
 					hpRow.add(b);
 				}
@@ -514,6 +507,30 @@ public class OverallRunner
 		}
 		
 		return hpRow;
+	}
+	
+	/**
+	 * This makes the generic JButton from the card and the two colors.
+	 * @param cd the Card
+	 * @param fore the text color
+	 * @param back the background color
+	 * @return the simple JButton with no listener
+	 */
+	private static JButton genericButton(Card cd, Color fore, Color back){
+		JButton cdButt = new JButton(cd.getTitle());
+		if(back == null)
+			back = colorCard(cd);
+		if(fore == null)
+			fore = back.darker();
+		cdButt.setForeground(fore);
+		cdButt.setBackground(back);
+		cdButt.setOpaque(true);
+		Image newimg = cd.getPicture().getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
+		cdButt.setIcon(new ImageIcon(newimg));
+		cdButt.setHorizontalTextPosition(JButton.CENTER);
+		cdButt.setVerticalTextPosition(JButton.BOTTOM);
+		cdButt.setToolTipText(cd.getDescription());
+		return cdButt;
 	}
 	
 	/**
@@ -769,26 +786,16 @@ public class OverallRunner
 	}
 	
 	/**
-	 * Gets all the titles from a Deck and makes a JScrollPane out of the JButtons
+	 * Gets all the titles from a Deck and makes a JPanel out of the JButtons
 	 * @param d the Deck you want the titles of
-	 * @param pink 
+	 * @param color the color of the button
 	 * @return the JPanel with all the buttons
 	 */
 	private static JPanel listButtons(Deck d, Color color){
 		JPanel pane = new JPanel();
 		
 		for(Card cd : d.deck){
-			JButton cdButt = new JButton(cd.getTitle());
-			if(color == null)
-				color = colorCard(cd);
-			cdButt.setForeground(color.darker());
-			cdButt.setBackground(color);
-			cdButt.setOpaque(true);
-			Image newimg = cd.getPicture().getScaledInstance(75, 75,  java.awt.Image.SCALE_SMOOTH ) ; 
-			cdButt.setIcon(new ImageIcon(newimg));
-			cdButt.setHorizontalTextPosition(JButton.CENTER);
-			cdButt.setVerticalTextPosition(JButton.BOTTOM);
-			cdButt.setToolTipText(cd.getDescription());
+			JButton cdButt = genericButton(cd,null,color);
 			cdButt = addDescriptionListener(cdButt,cd);
 			pane.add(cdButt);
 		}
