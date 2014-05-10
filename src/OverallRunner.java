@@ -386,7 +386,7 @@ public class OverallRunner
 				//REDRAW EVERYTHING!
 				drawEverything(p, g.gameboard);
 				
-				if(canEnd(p))
+				if(canEnd(p,false))
 					innardsEnd(p);
 			}
 			else
@@ -407,6 +407,9 @@ public class OverallRunner
 				message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
 				discarding = false;
 				drawEverything(p,g.gameboard);
+				
+				if(canEnd(p,false))
+					innardsEnd(p);
 			}
 			else
 			{
@@ -618,7 +621,7 @@ public class OverallRunner
 	 */
 	private static void innardsEnd(Player currentPlayer) {
 		
-		if(canEnd(currentPlayer))
+		if(canEnd(currentPlayer,true))
 		{
 			//Redraw everything:
 			Player nextPlayer = getNextPlayer(currentPlayer);
@@ -838,9 +841,10 @@ public class OverallRunner
 	/**
 	 * This determines whether or not you can end your turn
 	 * @param p The Player
+	 * @param loud Whether or not you want drawEverything to be called
 	 * @return whether you can end your turn
 	 */
-	private static boolean canEnd(Player p) {
+	private static boolean canEnd(Player p, boolean loud) {
 		int numPlaysNeeded = determineNumber(1);
 		int maxPoss = determineNumber(3);
 		int maxHand = determineNumber(4);
@@ -854,7 +858,8 @@ public class OverallRunner
 			{
 				//System.out.println("You haven't played enough cards.");
 				message = "You haven't played enough cards.";
-				drawEverything(p,g.gameboard);
+				if(loud)
+					drawEverything(p,g.gameboard);
 				return false;
 			}
 			else
@@ -863,14 +868,16 @@ public class OverallRunner
 				{
 					//System.out.println("You have too many cards in your hand.");
 					message = "You have too many cards in your hand.";
-					drawEverything(p,g.gameboard);
+					if(loud)
+						drawEverything(p,g.gameboard);
 					return false;
 				}
 				else
 				{
 					//you can't play anything
 					message = "End turn, because you have no hand.";
-					drawEverything(p,g.gameboard);
+					if(loud)
+						drawEverything(p,g.gameboard);
 					return true;
 				}
 				
@@ -883,7 +890,8 @@ public class OverallRunner
 			{
 				//System.out.println("You have too many cards in your hand.");
 				message = "You have too many cards in your hand.";
-				drawEverything(p,g.gameboard);
+				if(loud)
+					drawEverything(p,g.gameboard);
 				return false;
 			}
 			else
@@ -892,7 +900,8 @@ public class OverallRunner
 				{
 					//System.out.println("You have too many cards in your holding pen.");
 					message = "You have too many cards in your holding pen.";
-					drawEverything(p,g.gameboard);
+					if(loud)
+						drawEverything(p,g.gameboard);
 					return false;
 				}
 				else
