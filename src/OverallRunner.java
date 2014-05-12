@@ -904,7 +904,7 @@ public class OverallRunner
 	 */
 	private static JScrollPane listButtons(Deck d, Color color){
 		JPanel pane = new JPanel();
-		//pane.setLayout(new GridLayout(1, 3));
+		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
 		for(Card cd : d.deck){
 			JButton cdButt = genericButton(cd,null,color);
 			cdButt = addDescriptionListener(cdButt,cd);
