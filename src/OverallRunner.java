@@ -774,13 +774,15 @@ public class OverallRunner
 
 		for(int i = 0; i < determineNumber(1); i++)
 		{
-			//while you need to keep playing, choose cards
-			Card cd = AI.PickCardSwitch();
-			discarding = false;
-			cardChosen(cd,AI);
-			message = AI.getName() + " played " + cd.getTitle();
-			feed.add(message);
-			drawEverything(AI,g.gameboard);
+			if(AI.hand.count() > 0){
+				//while you need to keep playing, choose cards
+				Card cd = AI.PickCardSwitch();
+				discarding = false;
+				cardChosen(cd,AI);
+				message = AI.getName() + " played " + cd.getTitle();
+				feed.add(message);
+				drawEverything(AI,g.gameboard);
+			}
 		}
 
 		//possession limit
