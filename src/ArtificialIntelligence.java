@@ -189,7 +189,7 @@ public class ArtificialIntelligence extends Player{
 				game.gameboard.discard.addCard(card);//adds the card to the discard pile
 				System.out.println(name + " discarded from its holding pen " + card.getTitle() + " randomly.");
 			}//end while
-		}
+		}//end if
 	}//end discard
 	
 	/**
@@ -197,7 +197,7 @@ public class ArtificialIntelligence extends Player{
 	 * @param max - the current limit on possessions currently in play
 	 */
 	public void discardHand(int max){
-		if(holdingPen.count() > max){
+		if(hand.count() > max){
 			Deck goals = new Deck();//creates a new deck to hold all relevant goal cards
 			goals.deck.addAll(goalsHeld().deck);//adds the goals in hand to the deck
 			goals.deck.addAll(game.gameboard.goals.deck);//adds the goals on the board to the deck
@@ -219,7 +219,7 @@ public class ArtificialIntelligence extends Player{
 				hand.removeCard(card);//the card is discarded
 				game.gameboard.discard.addCard(card);//adds the card to the discard pile
 			}//end while
-		}
+		}//end if
 	}//end discard
 
 }//end Artificial Intelligence

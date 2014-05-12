@@ -6,8 +6,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -645,10 +649,12 @@ public class OverallRunner
 
 		JButton endTurn = new JButton("Nope");
 		JButton discard = new JButton("Nope");
+		JButton help = new JButton("nope");
 		if(!isAI(p))
 		{
 			discard = discardButton(p);
 			endTurn = endTurnButton(p);
+			help = helpButton(p);
 		}
 
 
@@ -660,6 +666,7 @@ public class OverallRunner
 		{
 			plInfo.add(endTurn);
 			plInfo.add(discard);
+			plInfo.add(help);
 		}
 
 		plInfo.add(messages);
@@ -708,6 +715,33 @@ public class OverallRunner
 		endTurn.addActionListener(alist);
 
 		return endTurn;
+	}
+	
+	private static JButton helpButton(final Player currentPlayer) {
+		JButton help = new JButton("help");
+		final BufferedImage helpImg;
+		try {
+			helpImg = ImageIO.read(new File("tut_01.png"));
+
+			ActionListener alist = new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(overallFrame,
+							null, 
+							null,
+							JOptionPane.PLAIN_MESSAGE, 
+							new ImageIcon(helpImg));
+				}
+			};
+
+			help.addActionListener(alist);
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return help;
 	}
 
 	/**
