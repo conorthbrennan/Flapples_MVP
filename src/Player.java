@@ -9,6 +9,14 @@ public class Player implements GameObject {
 	public Deck hand, holdingPen;
 	public int numPts = 0;
 	public int numPlaysSoFar = 0;
+	public boolean[] AlertsEnabled = {true,true,true,true,true};
+				/* to make life easier, alerts may be personally disabled!
+				 *	0 - card played
+				 *	1 - 
+				 *	2 - 
+				 *	3 - 
+				 *	4 - 
+				 */
 	
 	public Player(String n){
 		name = n;
