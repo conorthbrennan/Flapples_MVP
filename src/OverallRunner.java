@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 
 
@@ -38,8 +39,8 @@ public class OverallRunner
 	public static void main(String [] args)
 	{
 		g = new Game(overallFrame);
-		g.cheatable = willCheat();
-
+		//g.cheatable = willCheat();
+		setWaitingTime();
 		Board exampleBoard = g.gameboard;
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
 
@@ -83,6 +84,42 @@ public class OverallRunner
 		else
 			return false;
 	}
+	
+	/**
+	 * How long do you want to wait between turns?
+	 * @return how long to wait
+	 */
+	public static void setWaitingTime(){
+		boolean numYet = false;
+		int num = -1;
+		while(!numYet)
+		{
+			String s = (String)JOptionPane.showInputDialog(
+					overallFrame,
+					"Hot seating" ,
+					"How long do you wish to wait between different people's turns (in seconds)?",
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					null,
+					"1");
+			if(s == null)//if you press x or cancel, then the whole thing will stop
+				System.exit(0);
+			
+			try{
+				num = Integer.parseInt(s);
+				numYet = true;
+				waitingTime = num* 1000;
+			}
+			catch(NumberFormatException e)
+			{
+				JOptionPane.showMessageDialog(overallFrame,
+					    "You need to enter in a number.",
+					    "Wrong input!",
+					    JOptionPane.PLAIN_MESSAGE);
+			}
+		}
+
+	}
 
 
 	/**
@@ -121,10 +158,10 @@ public class OverallRunner
 					uberpane.setLayout(box);
 
 					JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
-					JPanel goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
-					JPanel rulesRow = setUpRulesRow();//This will hold the rules in the third row.
-					JPanel discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
-					JPanel holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
+					JScrollPane goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
+					JScrollPane rulesRow = setUpRulesRow();//This will hold the rules in the third row.
+					JScrollPane discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
+					JScrollPane holdingPenRow = setUpHoldingPenRow(p);//This will be the player's holding pen in the fifth row.
 					JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
 					JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
 					JPanel gameFeed = setUpGameFeed();//This will show output from game events.
@@ -233,7 +270,7 @@ public class OverallRunner
 		{
 			if(!plr.equals(p))
 			{
-				JPanel plrshp = new JPanel();
+				JScrollPane plrshp = new JScrollPane();
 				Deck hp = plr.getHoldingPen();//Get the deck of all the discards from the board.
 				plrshp = listButtons(hp,null);
 				tabbedPane.addTab(plr.getName() + " - " + hp.count(), null, plrshp, listTitlesString(hp,""," "));
@@ -513,12 +550,12 @@ public class OverallRunner
 	 * @param p The Player
 	 * @return the JPanel with the JTextArea of the cards' titles.
 	 */
-	private static JPanel setUpHoldingPenRow(Player p) {
-		JPanel hpRow = new JPanel();
+	private static JScrollPane setUpHoldingPenRow(Player p) {
+		JScrollPane hpRow = new JScrollPane();
 		Deck hp = p.getHoldingPen();//Get the deck of the holding pen from the player.
 
-		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
-		hpRow.setLayout(grid);
+		//GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
+		//hpRow.setLayout(grid);
 		if(!discarding)
 		{
 			hpRow = listButtons(hp,null);
@@ -572,8 +609,8 @@ public class OverallRunner
 	 * @param b The Board
 	 * @return The JPanel with the JTextArea of cards' titles
 	 */
-	private static JPanel setUpDiscardPileRow() {
-		JPanel discardRow = new JPanel();
+	private static JScrollPane setUpDiscardPileRow() {
+		JScrollPane discardRow = new JScrollPane();
 		Deck discards = g.gameboard.getDiscards();//Get the deck of all the discards from the board.
 		discardRow = listButtons(discards,null);
 		return discardRow;
@@ -584,8 +621,8 @@ public class OverallRunner
 	 * @param b The Board
 	 * @return The JPanel with the JTextArea of cards' titles.
 	 */
-	private static JPanel setUpRulesRow() {
-		JPanel rulesRow = new JPanel();
+	private static JScrollPane setUpRulesRow() {
+		JScrollPane rulesRow = new JScrollPane();
 		//Get the deck of all the rules from the board.
 		rulesRow = listButtons(g.gameboard.getRules(),null);
 		return rulesRow;
@@ -598,8 +635,8 @@ public class OverallRunner
 	 * @param b The Board
 	 * @return The JPanel with JTextArea which has the titles of all its cards
 	 */
-	private static JPanel setUpGoalsRow() {
-		JPanel goalsRow = new JPanel();
+	private static JScrollPane setUpGoalsRow() {
+		JScrollPane goalsRow = new JScrollPane();
 		Deck goals = g.gameboard.getGoals();//Get the deck of all the goals from the board.
 		goalsRow = listButtons(goals,null);
 		return goalsRow;
@@ -829,16 +866,17 @@ public class OverallRunner
 	 * @param color the color of the button
 	 * @return the JPanel with all the buttons
 	 */
-	private static JPanel listButtons(Deck d, Color color){
+	private static JScrollPane listButtons(Deck d, Color color){
 		JPanel pane = new JPanel();
-
+		//pane.setLayout(new GridLayout(1, 3));
 		for(Card cd : d.deck){
 			JButton cdButt = genericButton(cd,null,color);
 			cdButt = addDescriptionListener(cdButt,cd);
 			pane.add(cdButt);
 		}
-
-		return pane;
+		JScrollPane scroll = new JScrollPane(pane);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		return scroll;
 	}
 
 
