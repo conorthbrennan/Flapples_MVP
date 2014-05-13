@@ -100,8 +100,8 @@ public class OverallRunner
 		{
 			String s = (String)JOptionPane.showInputDialog(
 					overallFrame,
-					"Hot seating" ,
-					"How long do you wish to wait between different people's turns (in seconds)?",
+					"How long do you wish to wait between different people's turns (in seconds)?" ,
+					"Hot seating",
 					JOptionPane.QUESTION_MESSAGE,
 					null,
 					null,
