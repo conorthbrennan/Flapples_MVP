@@ -2,9 +2,8 @@ import java.util.ArrayList;
 
 
 public class ArtificialIntelligence extends Player{
-	int difficulty;//accepts an Integer from 0 - 3 with 0 being super easy and 3 being hard
+	int difficulty;//accepts an Integer from 0 - 2 with 0 being easy and 2 being hard
 	Game game;
-	Deck noPlay;
 
 	public ArtificialIntelligence(String n, int diff, Game g){
 		super(n);
@@ -22,37 +21,25 @@ public class ArtificialIntelligence extends Player{
 		//chooses which pick card method to use based on AI difficulty
 		switch(difficulty){
 		
-		case 0: picked = PickCardVeryEasy();
+		case 0: picked = PickCardEasy();
 				break;
 				
-		case 1: picked = PickCardEasy();
+		case 1: picked = PickCardNormal();
 				break;
 				
-		case 2: picked = PickCardNormal();
-				break;
-				
-		case 3: picked = PickCardHard();
+		case 2: picked = PickCardHard();
 				break;
 		}
-		
-		if(noPlay!= null)
-			hand.addCards((Card[]) noPlay.deck.toArray());
-		
-		/*for(Card cd : noPlay.deck){
-			hand.addCard(cd);
-			//noPlay.removeCard(cd);
-		}*/
-		//numPlaysSoFar += 1; This is done elsewhere
 		
 		return picked;
 	}
 	
-	public Card PickCardVeryEasy(){
+	public Card PickCardEasy(){
 		if(hand.count()!= 0)
 		{
 			int index = (int) (Math.random() * hand.count());
 			Card picked = hand.getDeck().get(index);
-			System.out.println(picked.getTitle() + " was played at random");
+			System.out.println(picked.getTitle() + " was played");
 			return picked;
 		}
 		System.out.println("The AI has no hand.");
@@ -60,7 +47,7 @@ public class ArtificialIntelligence extends Player{
 		
 	}
 	
-	public Card PickCardEasy(){
+	public Card PickCardNormal(){
 		Deck goals = game.gameboard.goals;
 		//Let's see if any of the cards in your hand fit the goals played
 		Card theCard = null;
@@ -79,14 +66,14 @@ public class ArtificialIntelligence extends Player{
 		}
 		
 		if(fit){
-			System.out.println(theCard.getTitle() + " was played because this card best fits the goal");
+			System.out.println(theCard.getTitle() + " was played");
 			return theCard;
 		}
 		else
-			return PickCardVeryEasy();
+			return PickCardEasy();
 	}
 	
-	public Card PickCardNormal(){
+	public Card PickCardHard(){
 		//for every Goal card in your hand, see if playing it would make you win.
 		//if so, play that.
 		Card theCard = null;
@@ -104,43 +91,11 @@ public class ArtificialIntelligence extends Player{
 		}
 		
 		if(fit){
-			System.out.println(theCard.getTitle() + " was played because this card fits the cards in my pen");
+			System.out.println(theCard.getTitle() + " was played");
 			return theCard;
 		}
 		else
-			return PickCardEasy();
-	}
-	
-	public Card PickCardHard(){
-		ArrayList<Player> players = game.gameboard.players;
-		//removes this AI from the list of players so it will allow itself to win
-		Deck goals = goalsHeld();
-		Card theCard = null;
-		Player AI = null;
-		for (int p = 0; p < players.size(); p++) {
-			if(players.get(p).getName().equals(name)){
-				AI = players.get(p);
-				players.remove(p);
-			}
-		}
-		for (int i = 0; i < players.size(); i++) {
-			for (int j = 0; j < players.get(i).holdingPen.count(); j++) {
-				for (int k = 0; k < goals.count(); k++) {
-					boolean fit = false;
-					Card penCard =players.get(i).holdingPen.deck.get(j);
-					Goal goal = (Goal) goals.deck.get(k);
-					if(goal.doesItFit(penCard)){
-						theCard = hand.search(goal.getID());
-						noPlay.addCard(theCard);
-						hand.removeCard(theCard);
-					}
-				}
-			}	
-		}
-		
-		players.add(AI);//puts the AI back into the list of players
-		
-		return PickCardNormal();
+			return PickCardNormal();
 	}
 	
 	/**
@@ -178,7 +133,7 @@ public class ArtificialIntelligence extends Player{
 					if(!goal.doesItFit(card)){//sees if the card fits the goal
 						holdingPen.removeCard(card);//if not the card is discarded
 						game.gameboard.discard.addCard(card);//adds the card to the discard pile
-						System.out.println(name + " discarded from its holding pen " + card.getTitle() + " specifically because this card does not fit the goal or its goals in hand.");
+						System.out.println(name + " discarded from its holding pen " + card.getTitle());
 					}//end if
 				}//end for
 			}//end for
@@ -187,7 +142,7 @@ public class ArtificialIntelligence extends Player{
 				Card card = holdingPen.getDeck().get(index);//finds the card that corresponds to the number
 				holdingPen.removeCard(card);//the card is discarded
 				game.gameboard.discard.addCard(card);//adds the card to the discard pile
-				System.out.println(name + " discarded from its holding pen " + card.getTitle() + " randomly.");
+				System.out.println(name + " discarded from its holding pen " + card.getTitle());
 			}//end while
 		}//end if
 	}//end discard
@@ -208,14 +163,14 @@ public class ArtificialIntelligence extends Player{
 					if(!goal.doesItFit(card) && hand.count() > max){//sees if the card fits the goal
 						hand.removeCard(card);//if not the card is discarded
 						game.gameboard.discard.addCard(card);//adds the card to the discard pile
-						System.out.println(name + " discarded from its hand " + card.getTitle() + " specifically because this card does not fit the goal or its goals in hand.");
+						System.out.println(name + " discarded from its hand " + card.getTitle());
 					}//end if
 				}//end for
 			}//end for
 			while(hand.count() > max){//if there are no cards left that aren't necessary discard cards randomly
 				int index = (int) (Math.random() * hand.count());//gets a random number
 				Card card = hand.getDeck().get(index);//finds the card that corresponds to the number
-				System.out.println(name + " discarded from its hand " + card.getTitle() + " randomly.");
+				System.out.println(name + " discarded from its hand " + card.getTitle());
 				hand.removeCard(card);//the card is discarded
 				game.gameboard.discard.addCard(card);//adds the card to the discard pile
 			}//end while
