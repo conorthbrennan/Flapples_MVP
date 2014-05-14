@@ -51,7 +51,7 @@ public class Board {
 	public static String askPlayerName(int n, JFrame overallFrame){
 
 		Object[] possibilities = null;//{"ham", "spam", "yam"};
-		String d = "What is player " + n + " 's name?\nFor an AI, type AI and a hardness level from 0-3.\nAI level defaults to the lowest if you don't give a number in its name.\nPlease list a human player before an AI.\nEx: AI3, blaAIbla2,0AI";
+		String d = "What is player " + n + " 's name?\nFor an AI, type AI and a hardness level from 0-2.\nAI level defaults to the lowest if you don't give a number in its name.\nPlease list a human player before an AI.\nEx: AI1, blaAIbla2,0AI";
 		String s = (String)JOptionPane.showInputDialog(
 				overallFrame,
 				d,
