@@ -249,7 +249,7 @@ public class OverallRunner
 		JTextArea textArea = new JTextArea(6, 40);
 		JScrollPane scrollPane = new JScrollPane(textArea); 
 		textArea.setEditable(false);
-		for (int i=Math.max(feed.size()-7,0);i<feed.size();i++)
+		for (int i=0;i<feed.size();i++)
 			textArea.append("\n"+feed.get(i));
 		gFeed.add(scrollPane);
 		return gFeed;
