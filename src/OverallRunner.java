@@ -100,8 +100,8 @@ public class OverallRunner
 		{
 			String s = (String)JOptionPane.showInputDialog(
 					overallFrame,
-					"Hot seating" ,
-					"How long do you wish to wait between different people's turns (in seconds)?",
+					"How long do you wish to wait between different people's turns (in seconds)?" ,
+					"Hot seating",
 					JOptionPane.QUESTION_MESSAGE,
 					null,
 					null,
@@ -172,6 +172,9 @@ public class OverallRunner
 
 					JTabbedPane tabbedPane = new JTabbedPane();
 
+					tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
+							"Look at your holding pen.");
+					
 					String s= "";
 					String s2 = "";
 					if(g != null)// && g.gameboard != null && g.gameboard.goals != null && g.gameboard.goals.deck != null && g.gameboard.goals.deck.get(0) != null)
@@ -182,16 +185,13 @@ public class OverallRunner
 									s = ": " + g.gameboard.goals.deck.get(0).getTitle();
 									s2 = g.gameboard.goals.deck.get(0).getDescription();
 								}
-
+					
 					tabbedPane.addTab("The Goal" + s, null, goalsRow,
 							s2);
 
 					tabbedPane.addTab("The Rules", null, rulesRow,
 							"Look at the current rules.");
 					
-					tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
-							"Look at your holding pen.");
-
 					tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
 							"Look at other people's holding pens.");
 
@@ -904,7 +904,7 @@ public class OverallRunner
 	 */
 	private static JScrollPane listButtons(Deck d, Color color){
 		JPanel pane = new JPanel();
-		//pane.setLayout(new GridLayout(1, 3));
+		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
 		for(Card cd : d.deck){
 			JButton cdButt = genericButton(cd,null,color);
 			cdButt = addDescriptionListener(cdButt,cd);

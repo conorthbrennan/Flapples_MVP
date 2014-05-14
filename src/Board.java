@@ -29,8 +29,6 @@ public class Board {
 					players.add(new ArtificialIntelligence(n,2,game));
 				else if(n.contains("3"))
 					players.add(new ArtificialIntelligence(n,3,game));
-				else if(n.contains("4"))
-					players.add(new ArtificialIntelligence(n,4,game));
 				else if(n.contains("0"))
 					players.add(new ArtificialIntelligence(n,0,game));
 				else
@@ -53,9 +51,10 @@ public class Board {
 	public static String askPlayerName(int n, JFrame overallFrame){
 
 		Object[] possibilities = null;//{"ham", "spam", "yam"};
+		String d = "What is player " + n + " 's name?\nFor an AI, type AI and a hardness level from 0-3.\nAI level defaults to the lowest if you don't give a number in its name.\nPlease list a human player before an AI.\nEx: AI3, blaAIbla2,0AI";
 		String s = (String)JOptionPane.showInputDialog(
 				overallFrame,
-				"What is player " + n + " 's name?" ,
+				d,
 				"WHAT'S YO NAME?",
 				JOptionPane.QUESTION_MESSAGE,
 				null,
