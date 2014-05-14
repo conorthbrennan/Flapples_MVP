@@ -172,6 +172,9 @@ public class OverallRunner
 
 					JTabbedPane tabbedPane = new JTabbedPane();
 
+					tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
+							"Look at your holding pen.");
+					
 					String s= "";
 					String s2 = "";
 					if(g != null)// && g.gameboard != null && g.gameboard.goals != null && g.gameboard.goals.deck != null && g.gameboard.goals.deck.get(0) != null)
@@ -182,16 +185,13 @@ public class OverallRunner
 									s = ": " + g.gameboard.goals.deck.get(0).getTitle();
 									s2 = g.gameboard.goals.deck.get(0).getDescription();
 								}
-
+					
 					tabbedPane.addTab("The Goal" + s, null, goalsRow,
 							s2);
 
 					tabbedPane.addTab("The Rules", null, rulesRow,
 							"Look at the current rules.");
 					
-					tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
-							"Look at your holding pen.");
-
 					tabbedPane.addTab("The Others' Holding Pens", null, otherHPsRow,
 							"Look at other people's holding pens.");
 
