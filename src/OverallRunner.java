@@ -569,14 +569,15 @@ public class OverallRunner
 
 			if(hp!= null)
 			{
-				//hpRow = listButtons(hp,Color.PINK);WRONG CUZ WRONG LISTENERS HERE
-				ArrayList<Card> cards = hp.deck;
-				for(Card cd: cards)
-				{
-					JButton b = genericButton(cd,Color.red, colorCard(cd));
-					b = addCardListeners(b,cd,p);
-					hpRow.add(b);
+				JPanel pane = new JPanel();
+				pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
+				for(Card cd : hp.deck){
+					JButton cdButt = genericButton(cd,Color.red,colorCard(cd));
+					cdButt = addCardListeners(cdButt,cd,p);
+					pane.add(cdButt);
 				}
+				hpRow = new JScrollPane(pane);
+				hpRow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 			}
 		}
