@@ -8,35 +8,36 @@ import javax.imageio.ImageIO;
 
 public class MainDeck extends Deck{
 
+	/**
+	 * the constructor for the main deck
+	 * @param creator
+	 */
 	public MainDeck(GameObject creator) {
 		super(creator);
-		this.deck = putInCards(creator);
-	}
+		this.deck = putInCards(creator);//creates all the cards for the deck
+	}//end constructor
 
 	/**
 	 * creates the deck
 	 * @param args
 	 */
 	public ArrayList<Card> putInCards(GameObject creator) {
-		BufferedImage posImg;
 		BufferedImage goalImg;
 		BufferedImage ruleImg;
 		try {
-			posImg = ImageIO.read(new File("exampleCardIcon.png"));
-
-			goalImg = ImageIO.read(new File("16947.png"));
-			ruleImg = ImageIO.read(new File("obey.png"));
+			goalImg = ImageIO.read(new File("16947.png"));//the image for goals
+			ruleImg = ImageIO.read(new File("obey.png"));//the image for rules
 			ArrayList<String> categories = new ArrayList<String>();
-			ArrayList<BufferedImage> ico = new ArrayList<BufferedImage>();
+			ArrayList<BufferedImage> ico = new ArrayList<BufferedImage>();//the list of icons
 			
-			Game g = creator.getGame();
+			Game g = creator.getGame();//sets the game
 		
 
-			ico.add(ImageIO.read(new File("pics/lemon.png")));	// in construction
+			ico.add(ImageIO.read(new File("pics/lemon.png")));	//the picture
 			categories.add("fruit");
 			categories.add("yellow");
-			Possession lemons = new Possession("lemons", ico.get(ico.size()-1), "lemons", 0, this, categories);
-			addCard(lemons);
+			Possession lemons = new Possession("lemons", ico.get(ico.size()-1), "lemons", 0, this, categories);//makes the card
+			addCard(lemons);//adds it to the deck
 			categories.clear();
 		
 			ico.add(ImageIO.read(new File("pics/cantaloupe.png")));
@@ -430,8 +431,8 @@ public class MainDeck extends Deck{
 		 	winCards.add(apples);//the possessions needed for each goal
 		 	winCards.add(bananas);
 		 	Goal iLikeToOot = new Goal(g, "I like to oot oot opples and baynaynays", goalImg, "apples and bananas", 56, this, (ArrayList<Possession>) winCards.clone());//makes the goal card
-		 	addCard(iLikeToOot);
-		 	winCards.clear();
+		 	addCard(iLikeToOot);//adds the card to the deck
+		 	winCards.clear();//clears the cards needed to win from each card
 		
 		 	winCards.add(starfruits);
 		 	winCards.add(passionfruits);
@@ -667,6 +668,6 @@ public class MainDeck extends Deck{
 			e.printStackTrace();
 		}//end catch
 		return deck;
-	}
+	}//end putInCard()
 
 }

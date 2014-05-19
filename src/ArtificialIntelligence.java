@@ -3,49 +3,65 @@ import java.util.ArrayList;
 
 public class ArtificialIntelligence extends Player{
 	int difficulty;//accepts an Integer from 0 - 2 with 0 being easy and 2 being hard
-	Game game;
+	Game game;//the game that this is in
 
+	/**
+	 * the actual constructor
+	 * @param n - the name
+	 * @param diff - the difficulty of the AI
+	 * @param g - the game
+	 */
 	public ArtificialIntelligence(String n, int diff, Game g){
-		super(n);
-		difficulty = diff;
-		game = g;
+		super(n);//calls the player constructor
+		difficulty = diff;//sets the difficulty of the AI
+		game = g;//sets the game object 
 	}
 
+	/**
+	 * the basic constructor
+	 */
 	public ArtificialIntelligence(){
-		super("Nobody");
+		super("Nobody");//makes a player
 	}
 	
+	/**
+	 * this uses the AI's difficulty to pick a caard to be played
+	 * @return the card to be played
+	 */
 	public Card PickCardSwitch(){
 		Card picked = null;//the card that is picked
 		
 		//chooses which pick card method to use based on AI difficulty
 		switch(difficulty){
 		
-		case 0: picked = PickCardEasy();
+		case 0: picked = PickCardEasy();//difficulty 0 = easy
 				break;
 				
-		case 1: picked = PickCardNormal();
+		case 1: picked = PickCardNormal();//difficulty 1 = normal
 				break;
 				
-		case 2: picked = PickCardHard();
+		case 2: picked = PickCardHard();//difficulty 2 = hard
 				break;
-		}
+		}//end switch
 		
-		return picked;
-	}
+		return picked;//return the card it picked
+	}// end PickCardSwitch()
 	
+	/**
+	 * the picking method for easy Ai
+	 * @return the card to be played
+	 */
 	public Card PickCardEasy(){
-		if(hand.count()!= 0)
-		{
-			int index = (int) (Math.random() * hand.count());
-			Card picked = hand.getDeck().get(index);
-			System.out.println(picked.getTitle() + " was played");
-			return picked;
-		}
+		if(hand.count()!= 0)//checks if the players hand is empty
+		{//if not empty then pick a random card
+			int index = (int) (Math.random() * hand.count());//takes a random number
+			Card picked = hand.getDeck().get(index);//take a card from your hand corresponding to that number
+			System.out.println(picked.getTitle() + " was played");//say it was played
+			return picked;//return the card it picked
+		}//end if
 		System.out.println("The AI has no hand.");
-		return null;
-		
-	}
+		return null;//play nothing
+	}//end PickCardEasy()
 	
 	public Card PickCardNormal(){
 		Deck goals = game.gameboard.goals;
@@ -71,7 +87,7 @@ public class ArtificialIntelligence extends Player{
 		}
 		else
 			return PickCardEasy();
-	}
+	}//end PickCardNormal()
 	
 	public Card PickCardHard(){
 		//for every Goal card in your hand, see if playing it would make you win.
