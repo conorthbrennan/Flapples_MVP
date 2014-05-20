@@ -48,7 +48,7 @@ public class ArtificialIntelligence extends Player{
 	}// end PickCardSwitch()
 	
 	/**
-	 * the picking method for easy Ai
+	 * the picking method for easy AI
 	 * @return the card to be played
 	 */
 	public Card PickCardEasy(){
@@ -63,42 +63,50 @@ public class ArtificialIntelligence extends Player{
 		return null;//play nothing
 	}//end PickCardEasy()
 	
+	/**
+	 * the picking method for normal AI
+	 * @return the card to be played
+	 */
 	public Card PickCardNormal(){
-		Deck goals = game.gameboard.goals;
+		Deck goals = game.gameboard.goals;//gets the goal currently in play
 		//Let's see if any of the cards in your hand fit the goals played
-		Card theCard = null;
-		boolean fit = false;
-		for(int i =0 ; i < goals.count(); i++)
+		Card theCard = null;//initializes the variable that will equal the card to be played
+		boolean fit = false;//initializes so that the program does not assume any cards fit the goal
+		for(int i =0 ; i < goals.count(); i++)//iterates through every goal
 		{
-			for(int j=0; j < hand.count();j++)
+			for(int j=0; j < hand.count();j++)//iterates through every card in hand
 			{
-				Card hdcd = hand.deck.get(j);
-				Goal gl = (Goal) goals.deck.get(i);
+				Card hdcd = hand.deck.get(j);//gets the hand card that the AI is looking at
+				Goal gl = (Goal) goals.deck.get(i);//get the goal card currently being looked at
 				//is this card one of the necessary keepers for the goal?
-				fit = gl.doesItFit(hdcd);
-				if(fit)
+				fit = gl.doesItFit(hdcd);//checks if the card is needed for the goal 
+				if(fit)//if yes then play that card
 					theCard = hdcd;
-			}
-		}
+			}//end for
+		}//end for
 		
-		if(fit){
-			System.out.println(theCard.getTitle() + " was played");
-			return theCard;
-		}
-		else
-			return PickCardEasy();
+		if(fit){//if a crd was found play it
+			System.out.println(theCard.getTitle() + " was played");//say which card was played
+			return theCard;//play this card
+		}//end if
+		else//if not pick a card randomly
+			return PickCardEasy();//pick a card as if one level lower
 	}//end PickCardNormal()
-	
+
+	/**
+	 * the picking method for normal AI
+	 * @return the card to be played
+	 */
 	public Card PickCardHard(){
 		//for every Goal card in your hand, see if playing it would make you win.
 		//if so, play that.
-		Card theCard = null;
-		boolean fit = false;
-		Deck goals = goalsHeld();
-		for (int i = 0; i < goals.count(); i++) {
-			for (int j = 0; j < holdingPen.count(); j++) {
-				Card penCard = holdingPen.deck.get(j);
-				Goal gl = (Goal) goals.deck.get(i);
+		Card theCard = null;//initializes the card
+		boolean fit = false;//initializes a variable so that the program will t assume any goals fit the pen
+		Deck goals = goalsHeld();//get all the goals in the hand
+		for (int i = 0; i < goals.count(); i++) {//look through all of them
+			for (int j = 0; j < holdingPen.count(); j++) {//look through every card in the holding pen
+				Card penCard = holdingPen.deck.get(j);//the holding pen card being looked at
+				Goal gl = (Goal) goals.deck.get(i);//the goal card being looked at
 				//is the card in the pen a requirement for this goal?
 				fit = gl.doesItFit(penCard);
 				if(fit)
@@ -112,26 +120,27 @@ public class ArtificialIntelligence extends Player{
 		}
 		else
 			return PickCardNormal();
-	}
+	}//end pickCardHard()
 	
 	/**
 	 * Returns a copy of all the goals in your hand.
 	 * @return the deck of goals from your hand
 	 */
 	public Deck goalsHeld(){
-		Deck goals = new Deck();
-		for (int i = 0; i < hand.count(); i++) {
-			Card hdcd = hand.deck.get(i);
-			boolean isGoal = false;
-			isGoal = hdcd.getClass().equals(new Goal().getClass());
-			if(isGoal){
-				Goal goal = (Goal)hdcd;
-				Goal clone = goal.clone();
-				goals.addCard(clone);
-			}
-		}
-		return goals;
-	}
+		Deck goals = new Deck();//create a deck to hold the goals
+		for (int i = 0; i < hand.count(); i++) //iterates through every card in hand
+		{
+			Card hdcd = hand.deck.get(i);// the card currently being looked at
+			boolean isGoal = false;//intializes a variable to check if a card is a goal
+			isGoal = hdcd.getClass().equals(new Goal().getClass());//checks if the card is a goal
+			if(isGoal){//if yes then the card is added to goals deck
+				Goal goal = (Goal)hdcd;//make a goal out of the card
+				Goal clone = goal.clone();//clones the card
+				goals.addCard(clone);//adds the clone to the goals deck
+			}//end if
+		}//end for
+		return goals;//returns the deck of goals
+	}//end goalsHeld()
 	
 	/**
 	 * this method chooses which cards to discard from the board when necessary
