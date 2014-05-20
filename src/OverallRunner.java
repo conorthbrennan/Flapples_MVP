@@ -3,7 +3,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -29,49 +28,48 @@ import javax.swing.UIManager;
 
 public class OverallRunner
 {
-	private static JFrame overallFrame;
+	private static JFrame overallFrame;//The JFrame that the whole GUI is based off of
 	private static int plIndex;//the index in the list of players of the current player
-	private static Game g;
-	private static boolean discarding;
-	private static String message;
-	private static ArrayList<String> feed = new ArrayList<String>();
-	private static Color goalColor = Color.orange;
-	private static Color ruleColor = Color.blue;
-	private static Color possColor = Color.green;
-	private static int waitingTime = 1000;
+	private static Game g;//the game this is based off of
+	private static boolean discarding;//whether or not the current player is discarding
+	private static String message;//what message will show up on the pop-ups and the game feed
+	private static ArrayList<String> feed = new ArrayList<String>();//The list of strings the game feed has
+	private static Color goalColor = Color.orange;//the color of the goal cards
+	private static Color ruleColor = Color.blue;//the color of the rule cards
+	private static Color possColor = Color.green;//the color of the possession cards
+	private static int waitingTime = 1000;//the waiting time between players
 
 	public static void main(String [] args)
 	{
-		g = new Game(overallFrame);
-		//g.cheatable = willCheat();
-		setWaitingTime();
-		Board exampleBoard = g.gameboard;
+		g = new Game(overallFrame);//Make a new game
+		setWaitingTime();//asks the players how long they wish to wait for hotseating
+		Board exampleBoard = g.gameboard;//make the board
 		//When making the board, all the decks get initialized (including the shuffled drawpile and players' hands and hps)
 
 		ArrayList<Player> plrs = exampleBoard.players;
 
 		//Give each player three cards.
-		for(int i = 0; i < 3; i++)
-			for(Player pl : plrs)
+		for(int i = 0; i < 3; i++)//three times
+			for(Player pl : plrs)//for every player
 			{
-				exampleBoard.drawPile.drawCard(pl.getHand(), 1);
+				exampleBoard.drawPile.drawCard(pl.getHand(), 1);//move a card from the drawpile to the player's hand
 			}
 
 		//Make sure to initialize the original frame
 		overallFrame = new JFrame("Flapples");
-		plIndex =0;
+		plIndex =0;//the number of the person who is currently going is set to 0
 
 		//Make sure the first player draws the right number of cards:
 		handleTurnChange(plrs.get(0));
-		drawEverything(plrs.get(0),exampleBoard);
+		drawEverything(plrs.get(0),exampleBoard);//draws the initial screen
 		//As the end turn button gets pressed, the turns commence.
 
 	}
 
-	/**
+/*	*//**
 	 * Will this game allowing cheating?
 	 * @return whether or not you entered the secret code
-	 */
+	 *//*
 	private static boolean willCheat() {
 
 		Object[] possibilities = null;//{"ham", "spam", "yam"};
@@ -87,7 +85,7 @@ public class OverallRunner
 			return true;
 		else
 			return false;
-	}
+	}*/
 	
 	/**
 	 * How long do you want to wait between turns?
@@ -96,7 +94,7 @@ public class OverallRunner
 	public static void setWaitingTime(){
 		boolean numYet = false;
 		int num = -1;
-		while(!numYet)
+		while(!numYet)//while you haven't gotten proper input yet
 		{
 			String s = (String)JOptionPane.showInputDialog(
 					overallFrame,
@@ -105,17 +103,18 @@ public class OverallRunner
 					JOptionPane.QUESTION_MESSAGE,
 					null,
 					null,
-					"1");
+					"1");//ask the user for hotseating
 			if(s == null)//if you press x or cancel, then the whole thing will stop
 				System.exit(0);
 			
 			try{
 				num = Integer.parseInt(s);
-				numYet = true;
-				waitingTime = num* 1000;
+				numYet = true;//stop going through the while loop
+				waitingTime = num* 1000;//set the waiting time to the input
 			}
 			catch(NumberFormatException e)
 			{
+				//the user did not enter a number when he/she should have
 				JOptionPane.showMessageDialog(overallFrame,
 					    "You need to enter in a number.",
 					    "Wrong input!",
@@ -127,7 +126,9 @@ public class OverallRunner
 
 
 	/**
-	 * This does the graphical interface.
+	 * This does the graphical interface for a particular situation.
+	 * @param p the Player who the screen is being drawn for
+	 * @param b the Board at that time
 	 */
 	private static void drawEverything(Player p, Board b) {
 
@@ -144,7 +145,7 @@ public class OverallRunner
 		uberpane.removeAll();
 
 		if(p == null)
-		{
+		{//if the player is null, then
 			//let's draw a black screen.
 			JPanel jp = new JPanel();
 			jp.setBackground(Color.black);
@@ -152,16 +153,17 @@ public class OverallRunner
 		}
 		else
 		{
+			//the player is not null
 			if(!g.evaluateGoalMatching())
-			{
-				if(!p.getName().contains("AI"))
-				{
-					//System.out.println("NO COMPY HERE");
-					//FlowLayout flow = new FlowLayout(FlowLayout.RIGHT,200,20);//alignment,hgap,vgap		
+			{//Has the game been won yet?
+				if(!isAI(p))
+				{//The player isn't an ai
+					//Set the layout to be a boxlayout that goes from top to bottom		
 					BoxLayout box = new BoxLayout(uberpane,BoxLayout.PAGE_AXIS);//top to bottom	
 					uberpane.setLayout(box);
-
+					
 					JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
+					//The Scroll Panes are for displays that involve many cards that would have to be scrolled through.
 					JScrollPane goalsRow = setUpGoalsRow();//This will hold the goals in the second row.
 					JScrollPane rulesRow = setUpRulesRow();//This will hold the rules in the third row.
 					JScrollPane discardRow = setUpDiscardPileRow();//This will hold the discard pile in the fourth row.
@@ -169,9 +171,11 @@ public class OverallRunner
 					JPanel handRow = setUpHandRow(p);//This will hold the player's hand.
 					JPanel otherHPsRow = setUpOtherHPsRow(p);//This will show the other players' holding pens.
 					JPanel gameFeed = setUpGameFeed();//This will show output from game events.
-
+					
+					//Make the tabbed pane for the goals, rules, discard pile, game feed, and other players' holding pens.
 					JTabbedPane tabbedPane = new JTabbedPane();
-
+					
+					//add holdingPenRow to the tabbed pane
 					tabbedPane.addTab("Your Holding Pen", null, holdingPenRow,
 							"Look at your holding pen.");
 					
@@ -182,13 +186,19 @@ public class OverallRunner
 							if(g.gameboard.goals != null)
 								if(g.gameboard.goals.deck.isEmpty() == false)
 								{
+									//if there is a goal in the deck,
+									//then put the title of it in s 
+									//and the description of it in s2
 									s = ": " + g.gameboard.goals.deck.get(0).getTitle();
 									s2 = g.gameboard.goals.deck.get(0).getDescription();
 								}
 					
+					//The Goal tab will have the title including the title of the current goal.
+					//If you hover over it, the text will say the description of the goal.
 					tabbedPane.addTab("The Goal" + s, null, goalsRow,
 							s2);
 
+					//add the rest of these rows to the tabs in the tabbed pane
 					tabbedPane.addTab("The Rules", null, rulesRow,
 							"Look at the current rules.");
 					
@@ -201,12 +211,12 @@ public class OverallRunner
 					tabbedPane.addTab("GAME FEED", null, gameFeed,
 							"See what's just happened in the game.");
 
-					//Add all the items to the pane
+					//Add all the items to the  overall pane
 					uberpane.add(playerInfoRow);
 					uberpane.add(tabbedPane);
 					uberpane.add(handRow);
 
-					if(message != null)
+					if(message != null)//if the message isn't nothing, display it
 						JOptionPane.showMessageDialog(overallFrame, message);
 
 					overallFrame.pack();
@@ -214,13 +224,14 @@ public class OverallRunner
 					overallFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				}
 				else
-				{
+				{//This player is an ai
+					//Show a display where it says the ai's information and a textbox saying it's the ai.
 					JPanel playerInfoRow = setUpPlayerInfoRow(p);//This will hold the player's name at the top of the screen.
 					JTextArea blob = new JTextArea("THIS IS THE AI.");
 					uberpane.add(playerInfoRow);
 					uberpane.add(blob);
 
-					if(message != null)
+					if(message != null)//if the message isn't nothing, display it
 						JOptionPane.showMessageDialog(overallFrame, message);
 
 					overallFrame.pack();
@@ -230,7 +241,8 @@ public class OverallRunner
 
 			}
 			else
-			{
+			{//the game has been won
+				//show that information
 				message = "The game has been won by " + p.getName() + "!!!!";
 				feed.add(message);
 				JOptionPane.showMessageDialog(overallFrame, message);
@@ -247,10 +259,10 @@ public class OverallRunner
 	private static JPanel setUpGameFeed() {
 		JPanel gFeed = new JPanel();
 		JTextArea textArea = new JTextArea(6, 40);
-		JScrollPane scrollPane = new JScrollPane(textArea); 
+		JScrollPane scrollPane = new JScrollPane(textArea);//makes a scroll pane out of the text area 
 		textArea.setEditable(false);
 		for (int i=0;i<feed.size();i++)
-			textArea.append("\n"+feed.get(i));
+			textArea.append("\n"+feed.get(i));//put the message info in the text area
 		gFeed.add(scrollPane);
 		return gFeed;
 	}
@@ -264,19 +276,22 @@ public class OverallRunner
 	 */
 	private static JPanel setUpOtherHPsRow(Player p) {
 		JPanel HPsRow = new JPanel();
-
-		GridLayout grid = new GridLayout(1,g.numPlrs);//1 row with x cards
+		//Set the layout of the otherHPsRow to be a grid with 1 row with x cards
+		GridLayout grid = new GridLayout(1,g.numPlrs);
 		HPsRow.setLayout(grid);
 
+		//Make a tabbed pane where each tab is a different player
 		JTabbedPane tabbedPane = new JTabbedPane();
 		ArrayList<Player> plrs = g.gameboard.players;
 		for(Player plr: plrs)//for each player
 		{
-			if(!plr.equals(p))
+			if(!plr.equals(p))//if you aren't the current player,
 			{
 				JScrollPane plrshp = new JScrollPane();
-				Deck hp = plr.getHoldingPen();//Get the deck of all the discards from the board.
-				plrshp = listButtons(hp,null);
+				Deck hp = plr.getHoldingPen();//Get the holding pen of the other player
+				plrshp = listButtons(hp,null);//make the scroll pane the result of listButtons
+				//add the tab where the title includes the player's name and number of cards in hand
+				//the hover text will include the names of every card in that holding pen
 				tabbedPane.addTab(plr.getName() + " - " + hp.count(), null, plrshp, listTitlesString(hp,""," "));
 			}
 		}	
@@ -285,13 +300,13 @@ public class OverallRunner
 		return HPsRow;
 	}
 
-
+	//This is NO longer necessary
 	/**
 	 * This adds an action listener to the JButton that will pop up another window
 	 * That window will have a list of the cards of the that person's holding pen.
 	 * @param b
 	 * @return the JButton that will pop up with the holding pen info.
-	 */
+	 *//*
 	private static JButton addPopUpHPsListeners(JButton b, final Player owner) {
 		ActionListener alist = new ActionListener(){
 			@Override
@@ -314,19 +329,19 @@ public class OverallRunner
 
 		b.addActionListener(alist);
 		return b;
-	}
+	}*/
 
-
+	
 	/**
 	 * Of a particular deck, list all the cards' titles in a string
 	 * @param d the Deck
-	 * @param str the String you want it to be placed into
-	 * @param spacing whether you want a " " or a "\n"
-	 * @return the String of all the cards' titles
+	 * @param str the String you want all the cards' titles added to into
+	 * @param spacing whether you want a space or a new line in between titles
+	 * @return the String of all the cards' titles (plus what was originally in the string)
 	 */
 	private static String listTitlesString(Deck d, String str, String spacing){
 		if(d != null && d.deck != null)
-		{
+		{//if there are cards in the deck
 			ArrayList<Card> cards = d.deck;//Get list of cards from the deck given
 			for(Card cd: cards)//for each card
 			{
@@ -347,9 +362,9 @@ public class OverallRunner
 	 */
 	private static JPanel setUpHandRow(Player p) {
 		JPanel handRow = new JPanel();
-		//THIS SHALL BE A GRID OF BUTTONS
-
-		GridLayout grid = new GridLayout(0,4);//any number of rows with 3 cards
+		
+		//The hand row's layout is a x-by-4 grid.
+		GridLayout grid = new GridLayout(0,4);//any number of rows with 4 cards
 		handRow.setLayout(grid);
 
 		Deck hand = p.getHand();
@@ -358,13 +373,15 @@ public class OverallRunner
 			ArrayList<Card> cards = hand.deck;//Get list of cards from the deck given
 			for(Card cd: cards)//for each card
 			{
-				//Let's leave the text as black, so you can read it here. Elsewhere, it will have the background's color.
+				//Get the button associated with this card. The color will be determined based on the type of card it is.
+				//Let's leave the text as black, so you can read it in the hand. Elsewhere, it will have the background's color.
 				JButton b = genericButton(cd,Color.black, colorCard(cd));
-				b = addCardListeners(b,cd,p);
+				b = addCardListeners(b,cd,p);//add the action listeners to the buttons
 				handRow.add(b);
 			}
 		}
 		else{
+			//if the hand has no cards
 			JTextArea blob = new JTextArea();
 			blob.setText("The hand is null");
 			handRow.add(blob);
@@ -380,13 +397,13 @@ public class OverallRunner
 	 */
 	public static Color colorCard(Card cd){
 		if(cd.getClass().equals(new RuleCard().getClass()))
-			return ruleColor;
+			return ruleColor;//rules are blue
 		else if(cd.getClass().equals(new Possession().getClass()))
-			return possColor;
+			return possColor;//possessions are green
 		else if(cd.getClass().equals(new Goal().getClass()))
 			return goalColor;//Goals are orange
 		else
-			return Color.black;//Other are black
+			return Color.black;//There should not be any other card type.
 	}
 
 
@@ -405,34 +422,34 @@ public class OverallRunner
 		ActionListener alist = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardChosen(cd,p);
+				cardChosen(cd,p);//this card has been chosen
 			}
 		};
 
 		b.addActionListener(alist);
+		//The buttons of this card in your hand will have hover text of its description.
 		b.setToolTipText(cd.getDescription());
 		return b;
 	}
 
 	/**
-	 * The innards of the actionListener in addCardListeners()
+	 * Determining what to do with a card once it has been chosen.
+	 * It could be played or discarded.
 	 * @param cd the Card
 	 * @param p the Player
 	 */
 	private static void cardChosen(Card cd, Player p) {
 		if(!discarding)
-		{
+		{//if the player isn't discarding
 			if(canPlay(p))
-			{
+			{//if it isn't against the rules to play this card
 				if(!isAI(p) && verifyCard(cd, p))
-				{
-					/*if(!p.getName().contains("AI"))
-						message = "You played the " + cd.getTitle() + " card!";
-					//if it is an AI, this fixes itself later...... I think		
-					 * This is no longer necessary since verifyCard happens		*/					
-					cd.playCard(p, g.gameboard);
+				{//if you aren't an ai and the user has verified that he/she wants to play this card
+								
+					cd.playCard(p, g.gameboard);//play the card
 
-					p.numPlaysSoFar +=1;
+					p.numPlaysSoFar +=1;//increment the player's counter for number of plays
+					//add this event to the feed:
 					feed.add(p.name+" played '"+ cd.title +"'. (play #"+p.numPlaysSoFar+")");
 					
 					//if this is a rule, then change the rules.
@@ -444,16 +461,16 @@ public class OverallRunner
 					//REDRAW EVERYTHING!
 					drawEverything(p, g.gameboard);
 
-					if(canEnd(p,false))
-						innardsEnd(p);
+					if(canEnd(p,false))//whether or not the player's turn can end (no announcement of checking this)
+						innardsEnd(p);//if able to, end the player's turn
 				}
 				else if(isAI(p))
-				{
+				{//if the player is an ai
 					if(cd != null)
 					{
-						cd.playCard(p, g.gameboard);
+						cd.playCard(p, g.gameboard);//play the card
 
-						p.numPlaysSoFar +=1;
+						p.numPlaysSoFar +=1;//increment its number of plays so far
 
 						//if this is a rule, then change the rules.
 						if(cd.getClass().equals((new RuleCard()).getClass()))
@@ -465,40 +482,37 @@ public class OverallRunner
 						drawEverything(p, g.gameboard);
 					}
 					else
-					{
-						System.out.println("LOL. The AI gAve out A null cArd");
-					}
+						System.out.println("LOL. This should never occur.");
+					
 
 				}
 			}
 			else
-			{
+			{//you can't play this card
 				message = "You can't play that card, because you have surpassed the number of plays per turn allowed. Press 'End Turn'.";
 				feed.add("@"+p.name+": "+ message);
 				drawEverything(p,g.gameboard);
-				innardsEnd(p);
+				innardsEnd(p);//ends the turn
 			}
 		}
 		else//you are discarding
-		{
+		{//this only ever occurs with a player, not ais (it is handled in doAIStuff)
 			if (wantDiscard(cd))
-			{
-				//System.out.println(cd.location);
-				cd.location.removeCard(cd);					
-				g.gameboard.addCard(cd, g.gameboard.discard);
-				cd.location = g.gameboard.discard;
+			{//does the user truly want to discard this card?
+				cd.location.removeCard(cd);//remove the card from its original location					
+				g.gameboard.addCard(cd, g.gameboard.discard);//add the card to the discard pile
+				cd.location = g.gameboard.discard;//set the card's location to the discard pile
 				message = "You discarded " + cd.getTitle() + "! Click 'Discard' again to discard a different card.";
 				feed.add(p.name +" discarded "+ cd.getTitle());
 				discarding = false;
 				drawEverything(p,g.gameboard);
 
-				if(canEnd(p,false))
-					innardsEnd(p);
+				if(canEnd(p,false))//check if the turn should end (no announcements)
+					innardsEnd(p);//end the turn
 			}
-			else
-			{
+			else//if the user didn't want to discard something then don't
 				discarding = false;
-			}
+			
 		}
 
 	}
