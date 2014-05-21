@@ -461,7 +461,7 @@ public class OverallRunner
 					//REDRAW EVERYTHING!
 					drawEverything(p, g.gameboard);
 
-					if(canEnd(p,false))//whether or not the player's turn can end (no announcement of checking this)
+					if(canEnd(p,false))//whether or not the player's turn can end (no redrawing so no message)
 						innardsEnd(p);//if able to, end the player's turn
 				}
 				else if(isAI(p))
@@ -507,7 +507,7 @@ public class OverallRunner
 				discarding = false;
 				drawEverything(p,g.gameboard);
 
-				if(canEnd(p,false))//check if the turn should end (no announcements)
+				if(canEnd(p,false))//check if the turn should end (no redrawing so no message)
 					innardsEnd(p);//end the turn
 			}
 			else//if the user didn't want to discard something then don't
@@ -823,7 +823,7 @@ public class OverallRunner
 	private static void innardsEnd(Player currentPlayer) {
 
 		if(canEnd(currentPlayer,true))
-		{//This determines whether or not the turn can end, and will pop up a message about it
+		{//This determines whether or not the turn can end, and it will pop up with new messages
 			
 			Player nextPlayer = getNextPlayer(currentPlayer);
 			if(!isAI(nextPlayer) && !isAI(currentPlayer))
@@ -840,7 +840,6 @@ public class OverallRunner
 			handleTurnChange(nextPlayer);//handles drawing cards
 			if(!isAI(nextPlayer))
 				drawEverything(nextPlayer,g.gameboard);
-			
 			else
 			{
 				ArtificialIntelligence AI = (ArtificialIntelligence) nextPlayer;
@@ -1010,12 +1009,14 @@ public class OverallRunner
 		Deck dRules = g.gameboard.rules;
 		ArrayList<Card> rules = dRules.deck;
 		for(Card cd : rules)
-		{
+		{//for each rule:
 			RuleCard rl = (RuleCard) cd;
+			//if the rule's type is the same as the one in question, then return the associated limit/number
 			if(rl.type == numType)
 				return rl.theNumber;
 		}
 
+		//The Defaults if there are no rules pertaining to that type of rule yet.
 		switch(numType){
 		case 1://play
 			return 1;//Default: Play 1
@@ -1044,14 +1045,10 @@ public class OverallRunner
 		int maxPoss = determineNumber(3);
 		int maxHand = determineNumber(4);
 
-		//		if(p.getName().contains("AI"))
-		//			return true;
-
 		if(p.numPlaysSoFar < numPlaysNeeded)
-		{
+		{//if you haven't played enough cards
 			if(p.hand.count() != 0)
-			{
-				//System.out.println("You haven't played enough cards.");
+			{//if you have a hand
 				message = "You haven't played enough cards.";
 				feed.add("@"+p.name+": "+message);
 				if(loud)
@@ -1060,33 +1057,20 @@ public class OverallRunner
 			}
 			else
 			{
-				if(p.hand.count() > maxHand)
-				{
-					//System.out.println("You have too many cards in your hand.");
-					message = "You have too many cards in your hand.";
-					feed.add("@"+p.name+": "+message);
-					if(loud)
-						drawEverything(p,g.gameboard);
-					return false;
-				}
-				else
-				{
-					//you can't play anything
-					message = "End turn, because you have no hand.";
-					feed.add("@"+p.name+": "+message);
-					if(loud)
-						drawEverything(p,g.gameboard);
-					return true;
-				}
-
+				//you have no hand
+				//you can't play anything
+				message = "End turn, because you have no hand.";
+				feed.add("@"+p.name+": "+message);
+				if(loud)
+					drawEverything(p,g.gameboard);
+				return true;
 			}
 
 		}
 		else
-		{
+		{//you have played enough cards
 			if(p.hand.count() > maxHand)
-			{
-				//System.out.println("You have too many cards in your hand.");
+			{//if you have too many cards in hand
 				message = "You have too many cards in your hand.";
 				feed.add("@"+p.name+": "+message);
 				if(loud)
@@ -1094,10 +1078,9 @@ public class OverallRunner
 				return false;
 			}
 			else
-			{
+			{//the number of cards you have in your hand is under the limit
 				if(p.holdingPen.count()>maxPoss)
-				{
-					//System.out.println("You have too many cards in your holding pen.");
+				{//if you have too many cards in your holding pen
 					message = "You have too many cards in your holding pen.";
 					feed.add("@"+p.name+": "+message);
 					if(loud)
@@ -1105,7 +1088,7 @@ public class OverallRunner
 					return false;
 				}
 				else
-				{
+				{//you have nothing stopping you from ending this turn!
 					return true;
 				}
 			}
@@ -1114,7 +1097,8 @@ public class OverallRunner
 
 
 	/**
-	 * This replaces the current rules with the new rule, if necessary
+	 * This resolves old and new rule conflicts. (If there are any conflicts)
+	 * This method is only ever called in cardChosen after the new rule has been played.
 	 * @param newRule the new rule to replace the old
 	 */
 	private static void replaceNumber(RuleCard newRule) {
@@ -1123,20 +1107,24 @@ public class OverallRunner
 		{
 			Deck dRules = g.gameboard.rules;
 			if(dRules.count() != 0)
-			{
+			{//if there are rules,
 				ArrayList<Card> rules = dRules.deck;
 				for(int i = 0; i < dRules.count(); i++)
 				{
+					//Look through every rule card
 					RuleCard rl = (RuleCard) rules.get(i);
 
 					if(newRule != rl)
 					{
+						//see if the distinct cards are of the same type:
 						if(rl.type == newRule.type)
 						{
 							//remove the old rule from the rules
 							dRules.removeCard(rl);
 							g.gameboard.discard.addCard(rl);
 							rl.location = g.gameboard.discard;
+							//Because this method is only called after the rule has been played, 
+							//we do not need to put in the new rule
 						}
 					}
 				}//end going through all the rules
