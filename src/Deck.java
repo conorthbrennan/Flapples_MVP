@@ -17,10 +17,16 @@ public class Deck implements GameObject {
 		owner = creator;
 	}
 	
+	/**
+	 * blank constructor for Deck
+	 */
 	public Deck(){
 		
 	}
 	
+	/**
+	 * returns the game the deck is in
+	 */
 	public Game getGame() {
 		if (owner instanceof Game)
 			return (Game)owner;
@@ -29,6 +35,10 @@ public class Deck implements GameObject {
 	}
 	
 
+	/**
+	 * returns the deck
+	 * @return
+	 */
 	public ArrayList<Card> getDeck(){	// intended to be used by sub-classes?
 		return deck;
 	}

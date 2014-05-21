@@ -31,21 +31,25 @@ public class RuleCard extends Card{
 		super(titl, pic, descrip, id, locate);
 		type = typ;
 		theNumber = metaNum;
-		
-	}
+	}//end constructor
 
+	/**
+	 * constructor for a non-existent rule card
+	 */
 	public RuleCard() {
 		//generic rule card
 		super();
-	}
+	}//end constructor
 	
 	@Override
+	/**
+	 * the method to play RuleCards from the hand
+	 */
 	public void playCard(Player pl, Board b) {
 		pl.getHand().removeCard(this);
 		b.getRules().addCard(this);
-		this.location = b.rules;
-		
-	}
+		this.location = b.rules;	
+	}//end PlayCard()
 	
 
 }

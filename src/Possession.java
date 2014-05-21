@@ -7,18 +7,23 @@ import java.util.ArrayList;
  *
  */
 public class Possession extends Card {
-	// --- ALSO MAYBE SOME KIND OF EXTRA IDENTIFYING DATA-CONTENT.
+	//ALSO MAYBE SOME KIND OF EXTRA IDENTIFYING DATA-CONTENT.
 	ArrayList<String> categories = new ArrayList<String>();
 
 	@Override
+	/**
+	 * plays the possession from hand
+	 * @param pl - the player playing the card
+	 * @param b - the board that the card is being played to
+	 */
 	public void playCard(Player pl, Board b) {
-		Deck hand = pl.getHand();
-		Deck holdingPen = pl.getHoldingPen();
+		Deck hand = pl.getHand();//get the players hand
+		Deck holdingPen = pl.getHoldingPen();//get the player's holding pen
 		//Move the card from the hand to the holding pen.
 		hand.removeCard(this);
 		holdingPen.addCard(this);
-		this.location = pl.holdingPen;
-	}
+		this.location = pl.holdingPen;//sets the location of the card to the player's holding pen
+	}//end playCard()
 	
 	/**
 	 * 
@@ -31,10 +36,13 @@ public class Possession extends Card {
 	public Possession(String titl, BufferedImage pic, String descrip, int id, Deck locate, ArrayList<String> cats){
 		super(titl, pic, descrip, id, locate);
 		categories = cats;
-	}
+	}//end constructor
 
+	/**
+	 * blank constructor
+	 */
 	public Possession() {
-		//the blank one
-	}
+		
+	}//end constructor
 
 }
